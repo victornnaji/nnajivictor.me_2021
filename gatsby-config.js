@@ -1,8 +1,13 @@
+const config = require('./src/config.ts');
+
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Default Starter`,
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
-    author: `@gatsbyjs`,
+    title: config.siteTitle,
+    description: config.siteDescription,
+    author: config.twitterHandle,
+    siteUrl: config.siteUrl,
+    name: config.name,
+    job:  config.siteJob,
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
