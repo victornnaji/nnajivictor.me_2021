@@ -1,16 +1,14 @@
 import * as React from "react";
 import {LoadingContextInterface} from './hooks.types';
 
-export const LoadingContext = React.createContext<LoadingContextInterface | null>(null);
+export const LoadingContext = React.createContext<LoadingContextInterface | true>(true);
 
 const LoadingProvider: React.FC = props => {
-  const [isLoading, setIsLoading] = React.useState(null);
+  const [isLoading, setIsLoading] = React.useState(true);
+  const value = [isLoading, setIsLoading] as LoadingContextInterface;
   return (
     <LoadingContext.Provider
-      value={{
-        isLoading,
-        setIsLoading,
-      }}
+      value={value}
       {...props}
      />
   );

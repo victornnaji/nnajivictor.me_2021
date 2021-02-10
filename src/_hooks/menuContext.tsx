@@ -1,16 +1,13 @@
 import * as React from "react";
 import {MenuContextInterface} from './hooks.types';
 
-export const MenuContext = React.createContext<MenuContextInterface | null>(null);
+export const MenuContext = React.createContext<MenuContextInterface | false>(false);
 
 const MenuProvider: React.FC = props => {
-  const [isOpen, setIsOpen] = React.useState(null);
+  const [isOpen, setIsOpen] = React.useState(false);
   return (
     <MenuContext.Provider
-      value={{
-        isOpen,
-        setIsOpen,
-      }}
+      value={[isOpen,setIsOpen]}
       {...props}
      />
   );

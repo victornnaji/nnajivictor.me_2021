@@ -1,13 +1,16 @@
 export type SetValue = (value: any) => void;
-export interface LoadingContextInterface {
-  isLoading: any;
-  setIsLoading: SetValue;
-}
-export interface MenuContextInterface {
-  isOpen: any;
-  setIsOpen: SetValue;
-}
-export interface AnimatingContextInterface {
-  animating: any;
-  setAnimating: SetValue;
-}
+
+export type LoadingContextInterface = [
+  isLoading: Boolean,
+  setIsLoading: SetValue
+];
+
+export type MenuContextInterface = [
+  isOpen: Boolean,
+  setIsOpen: SetValue,
+]
+
+export type AnimatingContextInterface = [
+  animating: Boolean,
+  setAnimating: SetValue,
+]

@@ -1,7 +1,16 @@
-/**
- * Implement Gatsby's SSR (Server Side Rendering) APIs in this file.
- *
- * See: https://www.gatsbyjs.com/docs/ssr-apis/
- */
+import '@src/styles/global.css'
+import React from 'react';
+import { AnimatingProvider, LoadingProvider, MenuProvider } from "@src/_hooks"
+import Layout from '@src/components/Layout';
 
-// You can delete this file if you're not using it
+export const wrapRootElement = ({ element }) => (
+  <LoadingProvider>
+    <AnimatingProvider>
+      <MenuProvider>{element}</MenuProvider>
+    </AnimatingProvider>
+  </LoadingProvider>
+)
+
+export const wrapPageElement = ({ element, props }) => {
+  return <Layout {...props}>{element}</Layout>
+}
