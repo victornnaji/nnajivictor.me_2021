@@ -85,3 +85,7 @@ body.dark{
     display: grid;
     grid-gap: 0px;
 }
+
+.tl-edges{
+    grid-column: 2/12;
+}

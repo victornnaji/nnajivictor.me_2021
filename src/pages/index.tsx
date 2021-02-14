@@ -1,13 +1,47 @@
 import React from 'react';
-import {PageProps} from 'gatsby';
+import { graphql  } from 'gatsby';
+import Hero from '@src/sections/Hero';
+import { SiteSiteMetadata } from '__generated__/graphql-types';
 
-const IndexPage: React.FC<PageProps> = () => {
-    
+interface IndexPageQuery {
+    data : {
+        hero : {
+            edges : [
+                {
+                    node : {
+                        siteMetadata: SiteSiteMetadata
+                    }
+                }
+            ]
+        }
+    },
+}
+
+const IndexPage : React.FC<IndexPageQuery> = ({data}) => {
     return (
         <>
-
+         <Hero data={data.hero}/>
         </>
     )
 }
+
+export const pageQuery = graphql`
+    query IndexPageQueryQuery{
+        hero : allSite {
+            edges{
+                node{
+                    siteMetadata{
+                        job
+                        name
+                    }
+                }
+            }
+        }
+    }
+`
+
+
+
+
 
 export default IndexPage;

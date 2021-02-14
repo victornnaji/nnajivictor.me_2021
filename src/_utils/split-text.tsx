@@ -1,21 +1,10 @@
 import React from 'react';
 
-type SplitWordArg = {
-    text: string, 
-    style:string, 
-    key: any
-}
-
-export const SplitWord: React.FC<SplitWordArg> = ({text, style, key}) => {
+export const SplitWord = (text: string, style:string, key?:any ) => {
     return <p className={style} style={{display: 'block', textAlign: 'start', position: 'relative'}} key={key}>{text}</p>
 }
 
-type SplitCharArg = {
-    text: string,
-    style: string,
-}
-
-export const SplitChar: React.FC<SplitCharArg> = ({text, style}) => {
+export const SplitChar = (text: string, style: string) => {
     return (
       <>
         {text.split("").map((char: string, index: number) => (
