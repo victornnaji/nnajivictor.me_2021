@@ -1,15 +1,55 @@
 import React from 'react'
+import { useStaticQuery, graphql } from "gatsby"
 import { useAnimating, useMenu, useSafeDispatch } from '@src/_hooks';
 import styled from 'styled-components'
 import {gsap} from 'gsap';
 import {theme, media} from '@src/styles'
-// import Social from './Social';
 import MenuImage from './MenuImage';
 import { AnimatingContextInterface, MenuContextInterface } from '@src/_hooks/hooks.types';
 import { SwipeLinks } from './Links';
 import { testMenu } from '@src/_utils';
 
+type primaryMenuType = {
+  label: string,
+  path: string,
+}
+
+type secondaryMenuType = {
+  label: string,
+  path: string,
+  SecondaryExcerpt: {
+    excerpt: string,
+  }
+}
+
 const Menu = () => {
+  const data = useStaticQuery(graphql`
+    {
+      allWpMenu {
+        edges {
+          node {
+            slug
+            menuItems {
+              nodes {
+                path
+                label
+                SecondaryExcerpt {
+                  excerpt
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  `)
+
+    const menus = data.allWpMenu.edges.map((x: any) => x.node);
+    const {menuItems: primary_menu} = menus[0];
+    const {menuItems: secondary_menu} = menus[1];
+
+    console.log(secondary_menu.nodes);
+
 
     const [open] = useMenu() as MenuContextInterface;
     const [, setAnimating] = useAnimating() as AnimatingContextInterface;
@@ -99,7 +139,7 @@ const Menu = () => {
         // Individual Animations
         const mainlink_title = gsap.utils.toArray('.mainmenu .mainlink__title');
         const mainlink_social = gsap.utils.toArray('.mainlink_social .main_link_social-item');
-        const secondary_item = gsap.utils.toArray('.secondaryMenu .secondar-link__content');
+        const secondary_item = gsap.utils.toArray('.secondaryMenu .secondary-link__content');
         const imgMenuLoader = '.img-menu .inner';
         const imgMenu_img_mask = '.img-menu__content .img-menu__image--mask';
         const imgMenu_img = '.img-menu__content img';
@@ -178,7 +218,7 @@ const Menu = () => {
         }
     }, [memoisedToggle, open]);
 
-    const {mainMenu, secondaryMenu} = testMenu;
+    const {secondaryMenu} = testMenu;
 
     return (
         <StyledMenu role="navigation" className="menu" ref={menuRef}>
@@ -186,7 +226,7 @@ const Menu = () => {
             <MenuItem className="menu__item menu__item--1" data-direction="bt">
                 <div className="menu__item-inner">
                     <div className="mainmenu">
-                        {mainMenu.map((main, i) => (
+                        {primary_menu.nodes.map((main: primaryMenuType, i:number) => (
                             <div className="mainlink__inner" key={main.label+i}>
                                 <p className="mainlink__title">
                                     <SwipeLinks to={main.path} className="mainmenu__item" activeClassName="active">
@@ -222,16 +262,16 @@ const Menu = () => {
             <MenuItem className="menu__item menu__item--3" data-direction={window.screen.width > 768 ? "bt" : "tb"}>
                 <div className="menu__item-inner">
                     <div className="secondaryMenu">
-                        {secondaryMenu.map((item : any, i :number) => (
-                            <div className="secondary-link__inner" key={item+i}>
-                                <div className="secondar-link__content">
+                        {secondary_menu.nodes.map((item : secondaryMenuType, i :number) => (
+                            <div className="secondary-link__inner" key={item+`${i}`}>
+                                <div className="secondary-link__content">
                                     <div className="sec-item-link">
                                         <SwipeLinks to={item.path} className="secondarymenu__item" activeClassName="active">
                                             {item.label}
                                         </SwipeLinks>
                                     </div>
                                     <div className="secondarymenu__tag">
-                                        {item.tagline}
+                                        {item.SecondaryExcerpt.excerpt}
                                     </div>
                                 </div>
                             </div>
@@ -423,7 +463,7 @@ const MenuItem = styled.div`
       .secondary-link__inner {
         overflow: hidden;
 
-        .secondar-link__content{
+        .secondary-link__content{
             font-weight: 900;
             margin: 1.25em 0;
             padding-left: 0.25em;
@@ -431,6 +471,8 @@ const MenuItem = styled.div`
             text-align: left;
             ${media.tablet`padding-left: 0; margin: 1em 0;`}
             position: relative;
+            ${media.tablet`text-align: center;`};
+            
 
             &::before{
                 content: '';
@@ -470,6 +512,7 @@ const MenuItem = styled.div`
                 transition: transform 0.3s;
                 margin-right: 1.5rem;
                 opacity: .85;
+                ${media.tablet`margin-right: 0`};
             }
 
             .secondarymenu__tag{
