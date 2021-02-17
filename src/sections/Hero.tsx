@@ -94,7 +94,8 @@ const StyledHero = styled.section`
     box-sizing: border-box;
     padding-bottom: 10rem;
     ${media.phablet`padding-top: 10rem; height:75vh`};
-    ${media.phone`padding-bottom: 2rem; height:70vh`}
+    ${media.phone`padding-bottom: 2rem; height:70vh`};
+    position: relative;
 
     .intro__content{
         z-index: 3;

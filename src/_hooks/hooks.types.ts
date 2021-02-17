@@ -14,3 +14,8 @@ export type AnimatingContextInterface = [
   animating: Boolean,
   setAnimating: SetValue,
 ]
+
+export type useMediaQueryProps = {
+  query: string,
+  cb: SetValue;
+}

@@ -48,9 +48,6 @@ const Menu = () => {
     const {menuItems: primary_menu} = menus[0];
     const {menuItems: secondary_menu} = menus[1];
 
-    console.log(secondary_menu.nodes);
-
-
     const [open] = useMenu() as MenuContextInterface;
     const [, setAnimating] = useAnimating() as AnimatingContextInterface;
     const menuRef = React.useRef<HTMLInputElement>(null);
@@ -383,7 +380,8 @@ const MenuItem = styled.div`
         padding: 0 2rem;
         position: relative;
         transition: color 0.3s;
-        font-family: ${theme.fonts.Cinzel};
+        font-family: ${theme.fonts.Lato};
+        text-transform: capitalize;
         margin: 0.4rem 0;
         ${media.tablet`
                 position: relative;
