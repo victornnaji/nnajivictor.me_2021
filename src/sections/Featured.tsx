@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { media, theme } from '@src/styles'
 import { SplitWord } from '@src/_utils/split-text'
 import {gsap} from 'gsap';
+import { SwipeLinks } from '@src/components/Links'
 
 
 const Featured = () => {
@@ -30,98 +31,6 @@ const Featured = () => {
   `)
 
     const featured = data.featured.edges;
-
-    React.useEffect(() => {
-        if(window.screen.width < 900){
-        const slides = gsap.utils.toArray('.slide');
-        slides.forEach((slide: any, i:number) => {
-            let tl = gsap.timeline({
-              scrollTrigger: {
-                trigger: slide,
-                start: "10% 50%",
-                scrub: 1,
-                markers: false // position of trigger meets the scroller position
-              }
-            });
-        
-            tl.from(slide.querySelectorAll(".col__content-title"), {
-              ease: "power4",
-              y: "+=5vh",
-              duration: 2.5
-            })
-              .from(
-                slide.querySelectorAll(".line__inner"),
-                {
-                  y: 200,
-                  duration: 2,
-                  ease: "power4",
-                  stagger: 0.1
-                },
-                0
-              )
-              .from(
-                slide.querySelectorAll(".col__content-txt"),
-                {
-                  x: 100,
-                  y: 50,
-                  opacity: 0,
-                  duration: 2,
-                  ease: "power4"
-                },
-                0.4
-              )
-              .from(
-                slide.querySelectorAll(".slide-link"),
-                {
-                  x: -100,
-                  y: 100,
-                  opacity: 0,
-                  duration: 2,
-                  ease: "power4"
-                },
-                0.3
-              )
-              .from(
-                slide.querySelectorAll(".slide__scroll-link"),
-                {
-                  y: 200,
-                  duration: 3,
-                  ease: "power4"
-                },
-                0.4
-              )
-              .to(
-                slide.querySelectorAll(".slide__scroll-line"),
-                {
-                  scaleY: 0.6,
-                  transformOrigin: "bottom left",
-                  duration: 2.5,
-                  ease: "elastic(1,0.5)"
-                },
-                1.4
-              );
-          });
-          slides.forEach((slide: any, i) => {
-            let imageWrappers = slide.querySelectorAll(".col__image-wrap");
-        
-            gsap.fromTo(
-              imageWrappers,
-              {
-                y: "-40vh"
-              },
-              {
-                y: "30vh",
-                scrollTrigger: {
-                  trigger: slide,
-                  scrub: true,
-                  start: "top bottom", 
-                },
-                ease: "none"
-              }
-            );
-          });
-        }
-    }, [])
     return (
         <>
            <Heading content={'Featured'}>Featured Projects</Heading>
@@ -139,10 +48,10 @@ const Featured = () => {
                                    </h3>
                                    <div className="col__content-wrap">
                                        <p className="col__content-txt" dangerouslySetInnerHTML={{ __html: excerpt }} />
-                                       <Link to={`/case-studies/${slug}`} className="slide-link">
+                                       <SwipeLinks to={`/case-studies/${slug}`} className="slide-link">
                                            <span className="slide-link__circ"></span>
                                            <span className="slide-link__line"></span>
-                                       </Link>
+                                       </SwipeLinks>
                                    </div>
                                </div>
                                <Link to={`/case-studies/${slug}`} className="slide__scroll-link">
@@ -174,7 +83,8 @@ const StyledFeatured = styled.section`
     height: 100vh;
     overflow: hidden;
 
-    ${media.phablet` display: block;position: relative; height: 70vh;`};
+    ${media.tablet` display: block;position: relative;`};
+    ${media.phone`height: 70vh`}
 
     .col {
     flex-basis: 50%;
@@ -204,7 +114,7 @@ const StyledFeatured = styled.section`
     height: 100%;
     padding: 6vw 6vw 10vw;
     background: var(--tertiary-color);
-    ${media.phablet`background: var(--tertiary-color-light); width: 90%;`}
+    ${media.phablet`background: var(--tertiary-color); width: 90%;`}
   }
 
   &:nth-of-type(odd){

@@ -4,6 +4,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { SiteSiteMetadata } from '__generated__/graphql-types';
 import { gsap } from "gsap";
+import ScrollDown from '@src/assets/ScrollDown';
 
 type Props = {
     data: {
@@ -48,6 +49,10 @@ const Hero : React.FC<Props> = ({data}) => {
         .to(".hero__line", {
             scaleX: 1,
         }, 0.65)
+        .to('.scrolldown', {
+            opacity: 1,
+            scaleX: 1,
+        }, 0.65)
 
     }, []);
 
@@ -69,8 +74,8 @@ const Hero : React.FC<Props> = ({data}) => {
             </div>
             <div className="decor__circle"></div> 
             <hr className="hero__line"/>
-            <StyledScrollDown>
-                
+            <StyledScrollDown className="scrolldown" href="#slide--1">
+                <ScrollDown />
             </StyledScrollDown>
         </StyledHero>
     )
@@ -79,13 +84,20 @@ const Hero : React.FC<Props> = ({data}) => {
 const StyledScrollDown = styled.a`
     position: absolute;
     bottom: 0;
-    left: 0;
+    right: 0;
     padding: 1.875rem;
-    color: red;
     opacity: 0;
     transition: opacity .6s cubic-bezier(.215,.61,.355,1);
     -webkit-animation: scrollIndicator 4s infinite;
     animation: scrollIndicator 4s infinite;
+    ${media.tablet`display: none`};
+    svg{
+        height: 50px;
+        width: 50px;
+        path, line{
+            stroke: var(--primary-color);
+        }
+    }
 `;
 
 const StyledHero = styled.section`

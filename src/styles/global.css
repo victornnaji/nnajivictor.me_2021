@@ -89,3 +89,5 @@ body.dark{
 .tl-edges{
     grid-column: 2/12;
 }
+
+@keyframes scrollIndicator{0%{transform:translateZ(0)}20%{transform:translate3d(0,-50%,0)}40%{transform:translateZ(0)}}

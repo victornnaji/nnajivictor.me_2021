@@ -1,8 +1,8 @@
 import React from 'react';
 import { GlobalStyles } from '@src/styles';
 import { SkipToContent } from '@src/styles/components';
-import { useLoader} from '@src/_hooks';
-import { LoadingContextInterface } from '@src/_hooks/hooks.types';
+import { useLoader, useMenu} from '@src/_hooks';
+import { LoadingContextInterface, MenuContextInterface } from '@src/_hooks/hooks.types';
 import Loading from './Loading';
 import Banner from './Banner';
 import Header from './Header';
@@ -20,7 +20,7 @@ const Layout = ({ location, children }: LayoutProps)  => {
     const isHome = location.pathname === '/';
     const isBlog = /(\/blog)\/?(.*)?/g.test(location.pathname);
     const [isLoading] = useLoader() as LoadingContextInterface;
-
+    const [open] = useMenu() as MenuContextInterface;
     
     return (
         <>
@@ -29,12 +29,25 @@ const Layout = ({ location, children }: LayoutProps)  => {
             {isLoading ? (
                 <Loading />
             ) :  (
-                <ASScrollContainer isBlog={isBlog}>
-                    <Banner />
-                    <Header />
-                    <MemoMenu />
-                    {children}
-                </ASScrollContainer>
+                <>
+                {isBlog ? (
+                    <div className="layout-container">
+                        <Banner />
+                        <Header />
+                        <MemoMenu />
+                        {children}
+                    </div>
+                ) : (
+                    <>
+                    <ASScrollContainer isOpen={open}>
+                        <Banner />
+                        <Header />
+                        <MemoMenu />
+                        {children}
+                    </ASScrollContainer>
+                    </>
+                )}
+                </>
             )}
         </>
     )

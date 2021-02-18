@@ -16,8 +16,6 @@ const useMediaQuery = () => {
         };
       }, []);
 
-      console.log(isMobile);
-
       return isMobile;
 }
 

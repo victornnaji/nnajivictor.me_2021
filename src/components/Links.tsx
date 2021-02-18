@@ -4,7 +4,7 @@ import {  useMenu } from '@src/_hooks';
 import {  MenuContextInterface} from '@src/_hooks/hooks.types';
 
 interface LinkInterface {
-    children: string;
+    children: React.ReactChild | any;
     to: string;
     className?: string;
     activeClassName?: string;

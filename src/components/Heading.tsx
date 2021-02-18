@@ -20,7 +20,7 @@ const Heading: React.FC<FeaturedProps> = ({content, children}) => {
         gsap.to(
           '.heading__inner',
           {
-            y: "3vh",
+            y: "1vh",
             scrollTrigger: {
               trigger: '.header__container',
               scrub: true,

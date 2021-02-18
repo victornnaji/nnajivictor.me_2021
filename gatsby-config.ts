@@ -41,11 +41,6 @@ module.exports = {
         url:
           process.env.WPGRAPHQL_URL ||
           `http://localhost:10013/graphql`,
-          // debug: {
-          //   graphql: {
-          //     showQueryOnError: true,
-          //   },
-          // },
       },
     },
     // {
