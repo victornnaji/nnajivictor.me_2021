@@ -9,32 +9,29 @@ import { SplitWord } from '@src/_utils/split-text';
 interface HeadingProps {
     content: string
 }
-const Heading: React.FC<FeaturedProps> = ({content, children}) => {
-    const ref = React.useRef(null);
+const Heading: React.FC<FeaturedProps> = ({content, children, className}) => {
     React.useEffect(() => {
-        gsap.from('.heading__inner .intro__line', {
-            opacity: 0,
-            delay: 1.5,
-            y: '-3vh',
-        });
-        gsap.to(
-          '.heading__inner',
-          {
-            y: "1vh",
-            scrollTrigger: {
-              trigger: '.header__container',
-              scrub: true,
-              start: "top bottom",
-            },
-            ease: "none"
-          }
-        );
-      },[ref]);
+        const headings = gsap.utils.toArray('.header__container');
+        headings.forEach((heading: any, i: number) => {          
+          gsap.to(
+            heading.querySelectorAll('.heading__inner'),
+            {
+              y: "1.5vh",
+              scrollTrigger: {
+                trigger: heading,
+                scrub: true,
+                start: "top bottom",
+              },
+              ease: "none"
+            }
+          );
+        })
+      },[]);
 
-      const x = SplitWord(children as string, 'intro__line');
+    const x = SplitWord(children as string, 'intro__line');
 
     return (
-        <StyledHeading content={content} ref={ref} className="header__container">
+        <StyledHeading content={content} className={`header__container ${className}`}>
             <span className="heading__inner">{x}</span>
         </StyledHeading>
     )
@@ -57,10 +54,6 @@ const StyledHeading = styled.h3`
   .heading__inner{
     display: block;
     overflow: hidden;
-
-    .intro__line{
-        opacity: 1;
-    }
   }
 
   &:after {

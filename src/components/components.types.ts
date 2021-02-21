@@ -1,4 +1,5 @@
 export type FeaturedProps = {
     content: string,
-    children: React.ReactChild
+    children: React.ReactChild,
+    className? : string,
 }

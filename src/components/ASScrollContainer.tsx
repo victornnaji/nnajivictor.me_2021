@@ -18,7 +18,8 @@ const ASScrollContainer : React.FC<ASScrollProps> = ({children, isOpen}) => {
 
   React.useEffect(() => {
     asscroll.current = new ASScroll({
-      customScrollbar: true
+      customScrollbar: true,
+      // disableRaf: true
     });
 
     asscroll.current.scrollTo(0);
@@ -35,30 +36,32 @@ const ASScrollContainer : React.FC<ASScrollProps> = ({children, isOpen}) => {
 
     asscroll.current.on("raf", ScrollTrigger.update);
     ScrollTrigger.addEventListener("refresh", () => asscroll.current.onResize());
+    // gsap.ticker.add(asscroll.current.onRaf)
 
     if (isMobile) {
       gsap.to(
         ['.heading__inner', '.name-container',
-          '.intro__occupation', '.slide',
-          '.col__content-title', '.line__inner', '.col__content-txt', '.slide-link', '.slide__scroll-link'],
+          '.intro__occupation', '.slide', '.intro__name'],
         { clearProps: 'all' }
       );
     }
     else {
-      //Section heading
-      gsap.set('.heading__inner', { y: '-3vh' })
-      gsap.to(
-        '.heading__inner',
-        {
-          y: "3vh",
-          scrollTrigger: {
-            trigger: '.header__container',
-            scrub: true,
-            start: "top bottom",
-          },
-          ease: "none"
-        }
-      );
+      //Section heading  
+      const headings = gsap.utils.toArray('.header__container');
+      headings.forEach((heading: any, i: number) => {
+        gsap.to(
+          heading.querySelectorAll('.heading__inner'),
+          {
+            y: "1.5vh",
+            scrollTrigger: {
+              trigger: heading,
+              scrub: true,
+              start: "top bottom",
+            },
+            ease: "none"
+          }
+        );
+      })
 
 
       //intro header
@@ -182,7 +185,7 @@ const ASScrollContainer : React.FC<ASScrollProps> = ({children, isOpen}) => {
     }, [isMobile]);
 
     React.useEffect(() => {
-      isOpen ?   asscroll.current.disable() :   asscroll.current.enable();
+      isOpen ?   asscroll.current.disable() :  asscroll.current.enable();
     }, [isOpen])
 
     return (

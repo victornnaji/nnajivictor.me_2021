@@ -30,10 +30,90 @@ const Featured = () => {
     }
   `)
 
+  React.useEffect(() => {
+    gsap.from('.animatedHeading .intro__line', {
+      opacity: 0,
+      delay: 1.6,
+  });
+
+  if(window.screen.width < 900){
+    // sliders
+  const slides = gsap.utils.toArray('.slide');
+  slides.forEach((slide: any, i) => {
+    // gsap.set([slide.querySelectorAll(".col__content-title"), slide.querySelectorAll(".col__content-txt"),], { autoAlpha: 0, opacity: 0})
+    let tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: slide,
+        start: "10% 50%",
+        scrub: 1,
+        markers: false // position of trigger meets the scroller position
+      }
+    });
+
+    tl.from(slide.querySelectorAll(".col__content-title"), {
+      ease: "power4",
+      y: "+=5vh",
+      duration: 2.5,
+    })
+      .from(
+        slide.querySelectorAll(".line__inner"),
+        {
+          y: 200,
+          duration: 2,
+          ease: "power4",
+          stagger: 0.1
+        },
+        0
+      )
+      .from(
+        slide.querySelectorAll(".col__content-txt"),
+        {
+          x: 100,
+          y: 50,
+          opacity: 0,
+          duration: 2,
+          ease: "power4"
+        },
+        0.4
+      )
+      .from(
+        slide.querySelectorAll(".slide-link"),
+        {
+          x: -100,
+          y: 100,
+          opacity: 0,
+          duration: 2,
+          ease: "power4"
+        },
+        0.3
+      )
+      .from(
+        slide.querySelectorAll(".slide__scroll-link"),
+        {
+          y: 200,
+          duration: 3,
+          ease: "power4"
+        },
+        0.4
+      )
+      .to(
+        slide.querySelectorAll(".slide__scroll-line"),
+        {
+          scaleY: 0.6,
+          transformOrigin: "bottom left",
+          duration: 2.5,
+          ease: "elastic(1,0.5)"
+        },
+        1.4
+      );
+  });
+  }
+  }, [])
+
     const featured = data.featured.edges;
     return (
-        <>
-           <Heading content={'Featured'}>Featured Projects</Heading>
+        <FeaturedContainer>
+           <Heading content={'Featured'} className="animatedHeading">Featured Projects</Heading>
            {
                featured.map((featuredProject: any, i: number) => {
                    const {id, title, excerpt, slug, CaseStudiesGraphql} = featuredProject.node
@@ -72,11 +152,15 @@ const Featured = () => {
                    )
                })
            }
-        </>
+        </FeaturedContainer>
     )
 }
 
-
+const FeaturedContainer = styled.div`
+    .intro__line{
+          opacity: 1;
+     }
+`;
 const StyledFeatured = styled.section`
     display: flex;
     align-items: stretch;

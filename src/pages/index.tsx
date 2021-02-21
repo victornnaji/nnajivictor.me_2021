@@ -3,6 +3,7 @@ import { graphql  } from 'gatsby';
 import Hero from '@src/sections/Hero';
 import { SiteSiteMetadata } from '__generated__/graphql-types';
 import Featured from '@src/sections/Featured';
+import Projects from '@src/sections/Projects';
 
 interface IndexPageQuery {
     data : {
@@ -23,6 +24,7 @@ const IndexPage : React.FC<IndexPageQuery> = ({data}) => {
         <>
          <Hero data={data.hero}/>
          <Featured />
+         <Projects />
         </>
     )
 }

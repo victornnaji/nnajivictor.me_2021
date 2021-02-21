@@ -7,36 +7,43 @@ import {theme, media} from '@src/styles'
 import MenuImage from './MenuImage';
 import { AnimatingContextInterface, MenuContextInterface } from '@src/_hooks/hooks.types';
 import { SwipeLinks } from './Links';
-import { testMenu } from '@src/_utils';
 
 type primaryMenuType = {
-  label: string,
-  path: string,
+  node:{
+    label: string,
+    path: string,
+  }
 }
 
 type secondaryMenuType = {
-  label: string,
-  path: string,
-  SecondaryExcerpt: {
-    excerpt: string,
+  node:{
+    path: string,
+    label: string,
+    SecondaryExcerpt: {
+      excerpt: string,
+    }
+
   }
 }
 
 const Menu = () => {
   const data = useStaticQuery(graphql`
     {
-      allWpMenu {
+      primary: allWpMenuItem(filter: {locations: {eq: PRIMARY}}, sort: {order: ASC, fields: label}){
         edges {
           node {
-            slug
-            menuItems {
-              nodes {
-                path
-                label
-                SecondaryExcerpt {
-                  excerpt
-                }
-              }
+            path
+            label
+          }
+        }
+      }
+      secondary: allWpMenuItem(filter: {locations: {eq: SECONDARY}}) {
+        edges {
+          node {
+            path
+            label
+            SecondaryExcerpt {
+              excerpt
             }
           }
         }
@@ -44,9 +51,14 @@ const Menu = () => {
     }
   `)
 
-    const menus = data.allWpMenu.edges.map((x: any) => x.node);
-    const {menuItems: primary_menu} = menus[0];
-    const {menuItems: secondary_menu} = menus[1];
+    // const menus = data.allWpMenu.edges.map((x: any) => x.node);
+    // const {menuItems: primary_menu} = menus[1];
+    // const {menuItems: secondary_menu} = menus[0];
+
+    const secondary_menu = data.secondary.edges;
+    const primary_menu = data.primary.edges;
+
+    console.log(secondary_menu[0]);
 
     const [open] = useMenu() as MenuContextInterface;
     const [, setAnimating] = useAnimating() as AnimatingContextInterface;
@@ -215,19 +227,17 @@ const Menu = () => {
         }
     }, [memoisedToggle, open]);
 
-    const {secondaryMenu} = testMenu;
-
     return (
         <StyledMenu role="navigation" className="menu" ref={menuRef}>
             {/* Menu Item 1 */}
             <MenuItem className="menu__item menu__item--1" data-direction="bt">
                 <div className="menu__item-inner">
                     <div className="mainmenu">
-                        {primary_menu.nodes.map((main: primaryMenuType, i:number) => (
-                            <div className="mainlink__inner" key={main.label+i}>
+                        {primary_menu.map((main: primaryMenuType, i:number) => (
+                            <div className="mainlink__inner" key={main.node.label+i}>
                                 <p className="mainlink__title">
-                                    <SwipeLinks to={main.path} className="mainmenu__item" activeClassName="active">
-                                        {main.label}
+                                    <SwipeLinks to={main.node.path} className="mainmenu__item" activeClassName="active">
+                                        {main.node.label}
                                     </SwipeLinks>
                                 </p>
                             </div>
@@ -259,16 +269,16 @@ const Menu = () => {
             <MenuItem className="menu__item menu__item--3" data-direction={window.screen.width > 768 ? "bt" : "tb"}>
                 <div className="menu__item-inner">
                     <div className="secondaryMenu">
-                        {secondary_menu.nodes.map((item : secondaryMenuType, i :number) => (
+                        {secondary_menu.map((item : secondaryMenuType, i :number) => (
                             <div className="secondary-link__inner" key={item+`${i}`}>
                                 <div className="secondary-link__content">
                                     <div className="sec-item-link">
-                                        <SwipeLinks to={item.path} className="secondarymenu__item" activeClassName="active">
-                                            {item.label}
+                                        <SwipeLinks to={item.node.path} className="secondarymenu__item" activeClassName="active">
+                                            {item.node.label}
                                         </SwipeLinks>
                                     </div>
                                     <div className="secondarymenu__tag">
-                                        {item.SecondaryExcerpt.excerpt}
+                                        {item.node.SecondaryExcerpt.excerpt}
                                     </div>
                                 </div>
                             </div>
