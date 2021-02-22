@@ -28,17 +28,17 @@ const Heading: React.FC<FeaturedProps> = ({content, children, className}) => {
         })
       },[]);
 
-    const x = SplitWord(children as string, 'intro__line');
+    const text = SplitWord(children as string, 'intro__line');
 
     return (
         <StyledHeading content={content} className={`header__container ${className}`}>
-            <span className="heading__inner">{x}</span>
+            <span className="heading__inner">{text}</span>
         </StyledHeading>
     )
 }
 
 const StyledHeading = styled.h3`
-  margin: 12rem 0;
+  margin: 10rem 0;
   position: relative;
   display: flex;
   align-items: center;
@@ -48,7 +48,7 @@ const StyledHeading = styled.h3`
   font-weight: 800;
   font-family: ${theme.fonts.Inter};
   ${media.tablet`font-size: 3rem;`};
-  ${media.phone`margin: 10rem 0`};
+  ${media.phone`margin: 6rem 0`};
   perspective: 300px;
 
   .heading__inner{

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useStaticQuery, graphql } from "gatsby"
+import { useStaticQuery, graphql} from "gatsby"
 import { useAnimating, useMenu, useSafeDispatch } from '@src/_hooks';
 import styled from 'styled-components'
 import {gsap} from 'gsap';
@@ -51,14 +51,8 @@ const Menu = () => {
     }
   `)
 
-    // const menus = data.allWpMenu.edges.map((x: any) => x.node);
-    // const {menuItems: primary_menu} = menus[1];
-    // const {menuItems: secondary_menu} = menus[0];
-
     const secondary_menu = data.secondary.edges;
     const primary_menu = data.primary.edges;
-
-    console.log(secondary_menu[0]);
 
     const [open] = useMenu() as MenuContextInterface;
     const [, setAnimating] = useAnimating() as AnimatingContextInterface;

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useStaticQuery, graphql, Link } from "gatsby"
+import { useStaticQuery, graphql } from "gatsby"
 import Heading from '@src/components/Heading'
 import styled from 'styled-components'
 import { media, theme } from '@src/styles'
@@ -134,10 +134,10 @@ const Featured = () => {
                                        </SwipeLinks>
                                    </div>
                                </div>
-                               <Link to={`/case-studies/${slug}`} className="slide__scroll-link">
+                               <SwipeLinks to={`/case-studies/${slug}`} className="slide__scroll-link">
                                    <div className="slide__scroll-line"></div>
                                    <span className="slide__casestudy">View Case Study</span>
-                               </Link>
+                               </SwipeLinks>
                            </div>
                            <div className="col col--2">
                                <div className="col__image-wrap">

@@ -14,12 +14,11 @@ const ASScrollContainer : React.FC<ASScrollProps> = ({children, isOpen}) => {
   const asscroll = React.useRef<any>(null);
 
   const isMobile = useMediaQuery();
+  
   gsap.registerPlugin(ScrollTrigger);
-
   React.useEffect(() => {
     asscroll.current = new ASScroll({
       customScrollbar: true,
-      // disableRaf: true
     });
 
     asscroll.current.scrollTo(0);
@@ -36,12 +35,11 @@ const ASScrollContainer : React.FC<ASScrollProps> = ({children, isOpen}) => {
 
     asscroll.current.on("raf", ScrollTrigger.update);
     ScrollTrigger.addEventListener("refresh", () => asscroll.current.onResize());
-    // gsap.ticker.add(asscroll.current.onRaf)
 
     if (isMobile) {
       gsap.to(
         ['.heading__inner', '.name-container',
-          '.intro__occupation', '.slide', '.intro__name'],
+          '.intro__occupation', '.slide','.intro__name', '.name-container', '.intro__title .intro__occupation'],
         { clearProps: 'all' }
       );
     }
@@ -91,6 +89,48 @@ const ASScrollContainer : React.FC<ASScrollProps> = ({children, isOpen}) => {
           },
           0
         );
+
+      //projects
+      const projects = gsap.utils.toArray('.project-item-container');
+      projects.forEach((project: any, i) => {
+
+        const prj = gsap.timeline({
+          scrollTrigger:{
+            trigger: project,
+            start: "top bottom-=10%",
+            id: project,
+            scrub: true,
+          }
+        });
+
+        prj.to(".project-item-container", {
+          css:{className:'+=is-inView'},
+          stagger: 0.2,
+          ease: "power4",
+        })
+
+        let tl = gsap.timeline({
+          scrollTrigger:{
+            trigger: project,
+            start: "top bottom",
+            end: 'top center+=20px',
+            id: project,
+            scrub: true,
+          }
+        });
+
+        tl
+        .from(
+          project.querySelectorAll(".line__inner"),
+          {
+            y: 200,
+            duration: 2.5,
+            ease: "power4",
+            stagger: 0.2
+          },
+          0
+        )
+      })
 
       // sliders
       const slides = gsap.utils.toArray('.slide');

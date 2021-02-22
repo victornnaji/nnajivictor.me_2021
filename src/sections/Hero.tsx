@@ -74,7 +74,7 @@ const Hero : React.FC<Props> = ({data}) => {
             </div>
             <div className="decor__circle"></div> 
             <hr className="hero__line"/>
-            <StyledScrollDown className="scrolldown" href="#slide--1">
+            <StyledScrollDown className="scrolldown" href="#slide-1">
                 <ScrollDown />
             </StyledScrollDown>
         </StyledHero>

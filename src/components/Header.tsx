@@ -1,11 +1,11 @@
 import Logo from '@src/assets/Logo'
 import { media } from '@src/styles'
-import { Link } from 'gatsby'
 import React from 'react'
 import styled from 'styled-components'
 import {gsap} from 'gsap';
 import Toggle from './Toggle'
 import Hamburger from './Hamburger'
+import { SwipeLinks } from './Links'
 
 const Header : React.FC = () => {
     React.useEffect(() => {
@@ -43,9 +43,9 @@ const Header : React.FC = () => {
     return (
         <StyledHeader> 
             <StyledLogo className="brand">
-            <Link to="/" aria-label="home">
+            <SwipeLinks to="/" aria-label="home">
               <Logo />
-            </Link>
+            </SwipeLinks>
           </StyledLogo>
           <StyledToggle className="toggle--mask">
             <Toggle />
