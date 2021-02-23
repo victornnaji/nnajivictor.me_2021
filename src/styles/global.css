@@ -70,6 +70,7 @@ body.light{
     --link-color: #4433ff;
     --tertiary-color: #D1D1D1;
     --tertiary-color-moon: #dbdbdb;
+    --primary-dark: rgba(17, 17, 17, 0.7);
 }
 
 body.dark{
@@ -78,6 +79,7 @@ body.dark{
     --link-color: #64ffda;
     --tertiary-color: #112340;
     --tertiary-color-moon: #020c1b;
+    --primary-dark: rgba(230, 241, 255, 0.7);
 }
 
 a.link{
@@ -113,8 +115,15 @@ a.link:hover::before{
     grid-gap: 0px;
 }
 
-.tl-edges{
+section{
     grid-column: 2/12;
 }
 
 @keyframes scrollIndicator{0%{transform:translateZ(0)}20%{transform:translate3d(0,-50%,0)}40%{transform:translateZ(0)}}
+
+@keyframes bounceAlpha {
+    0% {opacity: 1; transform: translateX(0px) scale(1) rotate(-90deg); }
+    25%{opacity: 0; transform:translateX(12px) scale(0.9) rotate(-90deg);}
+    26%{opacity: 0; transform:translateX(-10px) scale(0.9) rotate(-90deg);}
+    55% {opacity: 1; transform: translateX(0px) scale(1) rotate(-90deg);}
+}

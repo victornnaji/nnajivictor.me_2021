@@ -1,26 +1,32 @@
 import React from 'react';
 import { GlobalStyles } from '@src/styles';
 import { SkipToContent } from '@src/styles/components';
-import { useLoader, useMenu} from '@src/_hooks';
-import { LoadingContextInterface, MenuContextInterface } from '@src/_hooks/hooks.types';
+import { useLoader, useMediaQuery} from '@src/_hooks';
+import { LoadingContextInterface} from '@src/_hooks/hooks.types';
 import Loading from './Loading';
 import Banner from './Banner';
 import Header from './Header';
-import Loadable from "@loadable/component";
 import MemoMenu from './Menu';
-
-const ASScrollContainer = Loadable(() => import('./ASScrollContainer'));
+import {gsap} from 'gsap';
 
 interface LayoutProps {
     children? : any,
-    location: Location,
+    location?: Location,
 }
 
-const Layout = ({ location, children }: LayoutProps)  => {
-    const isHome = location.pathname === '/';
-    const isBlog = /(\/blog)\/?(.*)?/g.test(location.pathname);
+const Layout = ({ children }: LayoutProps)  => {
     const [isLoading] = useLoader() as LoadingContextInterface;
-    const [open] = useMenu() as MenuContextInterface;
+    const isMobile = useMediaQuery();
+    
+    React.useEffect(() => {
+      if (isMobile) {
+          gsap.to(
+            ['.heading__inner', '.name-container',
+              '.intro__occupation', '.slide','.intro__name', '.name-container', '.intro__title .intro__occupation'],
+            { clearProps: 'all' }
+          );
+      }
+    }, [isMobile])
     
     return (
         <>
@@ -29,25 +35,12 @@ const Layout = ({ location, children }: LayoutProps)  => {
             {isLoading ? (
                 <Loading />
             ) :  (
-                <>
-                {isBlog ? (
-                    <div className="layout-container">
-                        <Banner />
-                        <Header />
-                        <MemoMenu />
-                        {children}
-                    </div>
-                ) : (
-                    <>
-                    <ASScrollContainer isOpen={open}>
-                        <Banner />
-                        <Header />
-                        <MemoMenu />
-                        {children}
-                    </ASScrollContainer>
-                    </>
-                )}
-                </>
+                <div className="layout__inner">
+                    <Banner />
+                    <Header />
+                    <MemoMenu />
+                    {children}
+                </div>
             )}
         </>
     )

@@ -52,7 +52,7 @@ const Hero : React.FC<Props> = ({data}) => {
         .to('.scrolldown', {
             opacity: 1,
             scaleX: 1,
-        }, 0.65)
+        }, 0.65);
 
     }, []);
 
@@ -106,7 +106,7 @@ const StyledHero = styled.section`
     box-sizing: border-box;
     padding-bottom: 10rem;
     ${media.phablet`padding-top: 10rem; height:75vh`};
-    ${media.phone`padding-bottom: 2rem; height:70vh`};
+    ${media.phone`padding-bottom: 2rem; height:70vh; padding-top: 0`};
     position: relative;
 
     .intro__content{
@@ -117,7 +117,8 @@ const StyledHero = styled.section`
         height: 100%;
         flex-direction: column;
         justify-content: center;
-        ${media.phablet`height: 100%`}
+        ${media.phablet`height: 100%`};
+        overflow: hidden;
     }
 
     .intro__title{
@@ -127,7 +128,7 @@ const StyledHero = styled.section`
 
     .intro__name{
         .intro__greetings{
-            font-size: 7.6rem;
+            font-size: 4.6rem;
             display: block;
             ${media.phablet`font-size: 5rem;`};
             ${media.phone`font-size: 3rem;`};

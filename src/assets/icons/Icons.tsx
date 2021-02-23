@@ -6,6 +6,7 @@ import {
     IconInstagram,
     IconLinkedin,
     IconTwitter,
+    IconFolder,
   } from '@src/assets/icons';
 
 type IconProp = {
@@ -23,6 +24,8 @@ const Icons = ({name} : IconProp) => {
             return <IconLinkedin />;
         case 'Twitter':
             return <IconTwitter />;
+        case 'Folder':
+            return <IconFolder />;
         default:
             return <IconExternal />;
     }

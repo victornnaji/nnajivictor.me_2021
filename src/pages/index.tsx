@@ -2,8 +2,11 @@ import React from 'react';
 import { graphql  } from 'gatsby';
 import Hero from '@src/sections/Hero';
 import { SiteSiteMetadata } from '__generated__/graphql-types';
-import Featured from '@src/sections/Featured';
-import Projects from '@src/sections/Projects';
+import Loadable from "@loadable/component";
+
+const Featured = Loadable(() => import('@src/sections/Featured'));
+const Projects = Loadable(() => import('@src/sections/Projects'));
+const Explore = Loadable(() => import('@src/sections/Explore'));
 
 interface IndexPageQuery {
     data : {
@@ -25,6 +28,7 @@ const IndexPage : React.FC<IndexPageQuery> = ({data}) => {
          <Hero data={data.hero}/>
          <Featured />
          <Projects />
+         <Explore />
         </>
     )
 }

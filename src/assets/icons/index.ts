@@ -4,3 +4,4 @@ export { default as IconInstagram } from './instagram';
 export { default as IconLinkedin } from './linkedin';
 export { default as IconTwitter } from './twitter';
 export { default as Icon } from './Icons';
+export { default as IconFolder } from './folder';

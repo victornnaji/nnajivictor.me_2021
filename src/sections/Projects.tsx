@@ -49,50 +49,49 @@ const Projects = () => {
   }
 
   React.useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
 
-    if(window.screen.width < 900){
-        gsap.registerPlugin(ScrollTrigger);
-           const projects = gsap.utils.toArray('.project-item-container');
-           projects.forEach((project: any, i) => {
-     
-             const prj = gsap.timeline({
-               scrollTrigger:{
-                 trigger: project,
-                 start: "bottom bottom",
-                 id: project,
-                 scrub: true,
-               }
-             });
-     
-             prj.to(".project-item-container", {
-               css:{className:'+=is-inView'},
-               stagger: 0.2,
-               ease: "power4",
-             })
-     
-             let tl = gsap.timeline({
-               scrollTrigger:{
-                 trigger: project,
-                 start: "top bottom",
-                 end: 'top center+=20px',
-                 id: project,
-                 scrub: true,
-               }
-             });
-     
-             tl
-             .from(
-               project.querySelectorAll(".line__inner"),
-               {
-                 y: 200,
-                 duration: 2.5,
-                 ease: "power4",
-                 stagger: 0.2
-               },
-               0
-             )
-           })
-    }
+    const projects = gsap.utils.toArray('.project-item-container');
+    projects.forEach((project: any, i) => {
+
+      const prj = gsap.timeline({
+        scrollTrigger:{
+          trigger: project,
+          start: "top bottom-=10%",
+          id: project,
+          scrub: true,
+        }
+      });
+
+      prj.to(".project-item-container", {
+        css:{className:'+=is-inView'},
+        stagger: 0.2,
+        ease: "power4",
+      })
+
+      let tl = gsap.timeline({
+        scrollTrigger:{
+          trigger: project,
+          start: "top bottom-=10%",
+          end: 'top center',
+          id: project,
+          scrub: true,
+        }
+      });
+
+      tl
+      .from(
+        project.querySelectorAll(".line__inner"),
+        {
+          y: 200,
+          duration: 2,
+          ease: "power4",
+          stagger: 0.1
+        },
+        0
+      )
+    })
+
   }, [])
 
     const projects = data.projects.edges;
@@ -117,8 +116,8 @@ const Projects = () => {
 
 const StyledProjects = styled.section`
     margin-top: 15rem;
-    ${media.phablet`margin-top: 12rem`}
-    margin-bottom: 200rem;
+    margin-bottom: 15rem;
+    ${media.phablet`margin-top: 12rem; margin-bottom: 10rem;`}
 
     .all-project__link{
         text-align: center;

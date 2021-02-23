@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { media, theme } from '@src/styles'
 import { SplitWord } from '@src/_utils/split-text'
 import {gsap} from 'gsap';
+import {ScrollTrigger} from 'gsap/ScrollTrigger';
 import { SwipeLinks } from '@src/components/Links'
 
 
@@ -31,16 +32,14 @@ const Featured = () => {
   `)
 
   React.useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
     gsap.from('.animatedHeading .intro__line', {
       opacity: 0,
       delay: 1.6,
   });
 
-  if(window.screen.width < 900){
-    // sliders
   const slides = gsap.utils.toArray('.slide');
   slides.forEach((slide: any, i) => {
-    // gsap.set([slide.querySelectorAll(".col__content-title"), slide.querySelectorAll(".col__content-txt"),], { autoAlpha: 0, opacity: 0})
     let tl = gsap.timeline({
       scrollTrigger: {
         trigger: slide,
@@ -53,7 +52,7 @@ const Featured = () => {
     tl.from(slide.querySelectorAll(".col__content-title"), {
       ease: "power4",
       y: "+=5vh",
-      duration: 2.5,
+      duration: 2.5
     })
       .from(
         slide.querySelectorAll(".line__inner"),
@@ -107,7 +106,25 @@ const Featured = () => {
         1.4
       );
   });
-  }
+  slides.forEach((slide: any, i) => {
+    let imageWrappers = slide.querySelectorAll(".col__image-wrap");
+
+    gsap.fromTo(
+      imageWrappers,
+      {
+        y: "-40vh"
+      },
+      {
+        y: "30vh",
+        scrollTrigger: {
+          trigger: slide,
+          scrub: true,
+          start: "top bottom",
+        },
+        ease: "none"
+      }
+    );
+  });
   }, [])
 
     const featured = data.featured.edges;
@@ -156,12 +173,12 @@ const Featured = () => {
     )
 }
 
-const FeaturedContainer = styled.div`
+const FeaturedContainer = styled.section`
     .intro__line{
           opacity: 1;
      }
 `;
-const StyledFeatured = styled.section`
+const StyledFeatured = styled.div`
     display: flex;
     align-items: stretch;
     height: 100vh;

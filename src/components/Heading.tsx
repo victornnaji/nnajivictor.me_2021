@@ -10,23 +10,23 @@ interface HeadingProps {
     content: string
 }
 const Heading: React.FC<FeaturedProps> = ({content, children, className}) => {
-    React.useEffect(() => {
-        const headings = gsap.utils.toArray('.header__container');
-        headings.forEach((heading: any, i: number) => {          
-          gsap.to(
-            heading.querySelectorAll('.heading__inner'),
-            {
-              y: "1.5vh",
-              scrollTrigger: {
-                trigger: heading,
-                scrub: true,
-                start: "top bottom",
-              },
-              ease: "none"
-            }
-          );
-        })
-      },[]);
+    // React.useEffect(() => {
+    //     const headings = gsap.utils.toArray('.header__container');
+    //     headings.forEach((heading: any, i: number) => {          
+    //       gsap.to(
+    //         heading.querySelectorAll('.heading__inner'),
+    //         {
+    //           y: "1.5vh",
+    //           scrollTrigger: {
+    //             trigger: heading,
+    //             scrub: true,
+    //             start: "top bottom",
+    //           },
+    //           ease: "none"
+    //         }
+    //       );
+    //     })
+    //   },[]);
 
     const text = SplitWord(children as string, 'intro__line');
 
