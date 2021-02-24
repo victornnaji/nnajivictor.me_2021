@@ -8,6 +8,7 @@ module.exports = {
     siteUrl: config.siteUrl,
     name: config.name,
     job:  config.siteJob,
+    ...config,
   },
   plugins: [
     `gatsby-plugin-react-helmet`,

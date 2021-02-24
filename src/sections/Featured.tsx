@@ -135,7 +135,7 @@ const Featured = () => {
                featured.map((featuredProject: any, i: number) => {
                    const {id, title, excerpt, slug, CaseStudiesGraphql} = featuredProject.node
                    return (
-                       <StyledFeatured className={`content-wrap slide slide--${i}`} id="slide-1" key={id}>
+                       <StyledFeatured className={`content-wrap slide slide--${i}`} id={`slide-${i}`} key={id}>
                            <div className="col col--1">
                                <div className="col__content">
                                    <h3 className="col__content-title">
@@ -191,7 +191,6 @@ const StyledFeatured = styled.div`
     flex-basis: 50%;
     width: 50%;
     ${media.tablet`display: block;width: 100%;height: 100%;`};
-    /* border-bottom: 1px solid var(--primary-color); */
   }
 
   .col--1 {
@@ -215,12 +214,13 @@ const StyledFeatured = styled.div`
     height: 100%;
     padding: 6vw 6vw 10vw;
     background: var(--tertiary-color);
-    ${media.phablet`background: var(--tertiary-color); width: 90%;`}
+    ${media.phablet`background: var(--tertiary-color-trans); width: 90%;`}
   }
 
   &:nth-of-type(odd){
     .col__content{
         background-color: var(--tertiary-color-moon);
+        ${media.phablet`background-color: var(--tertiary-color-moon-trans)`}
     }
   }
 

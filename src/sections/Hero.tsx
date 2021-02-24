@@ -74,7 +74,7 @@ const Hero : React.FC<Props> = ({data}) => {
             </div>
             <div className="decor__circle"></div> 
             <hr className="hero__line"/>
-            <StyledScrollDown className="scrolldown" href="#slide-1">
+            <StyledScrollDown className="scrolldown">
                 <ScrollDown />
             </StyledScrollDown>
         </StyledHero>
@@ -127,6 +127,7 @@ const StyledHero = styled.section`
     }
 
     .intro__name{
+        font-family: ${theme.fonts.Inter};
         .intro__greetings{
             font-size: 4.6rem;
             display: block;
@@ -139,7 +140,7 @@ const StyledHero = styled.section`
             font-size: 10vw;
             font-weight: 800;
             ${media.phablet`font-size: 9rem;`};
-            ${media.phone`font-size: 8rem`};
+            ${media.phone`font-size: 24vw;`};
             @media(max-width: 662.5px){
                 display: block
             }

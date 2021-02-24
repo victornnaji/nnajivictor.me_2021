@@ -7,6 +7,7 @@ import Loadable from "@loadable/component";
 const Featured = Loadable(() => import('@src/sections/Featured'));
 const Projects = Loadable(() => import('@src/sections/Projects'));
 const Explore = Loadable(() => import('@src/sections/Explore'));
+const Contact = Loadable(() => import('@src/sections/Contact'));
 
 interface IndexPageQuery {
     data : {
@@ -29,6 +30,7 @@ const IndexPage : React.FC<IndexPageQuery> = ({data}) => {
          <Featured />
          <Projects />
          <Explore />
+         <Contact />
         </>
     )
 }

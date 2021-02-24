@@ -21,6 +21,14 @@ const FontFaces = css`
     }
 
     @font-face {
+        font-family: 'Roslindale Display Condensed';
+        src: url('https://uploads-ssl.webflow.com/5ea69b4027484b2df2b45806/5eaaae1dfbbd8358eec5f26a_RoslindaleDisplayCondensed-Medium.woff2') format('woff2'), url('https://uploads-ssl.webflow.com/5ea69b4027484b2df2b45806/5eaaae08fbbd835abfc5f258_RoslindaleDisplayCondensed-Medium.woff') format('woff');
+        font-weight: 500;
+        font-style: normal;
+        font-display: auto;
+    }
+
+    @font-face {
         font-family: "Inter";
         font-style: normal;
         font-weight: 600;

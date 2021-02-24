@@ -1,6 +1,6 @@
 const theme = {
     fonts: {
-        Cinzel: 'Cinzel, serif',
+        Roslindale: 'Roslindale Display Condensed, serif',
         Inter: 'Inter, san-serif',
         Lato: 'Lato, sans-serif',
         Mono: 'mono45, Courier New, monospace',
