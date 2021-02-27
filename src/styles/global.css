@@ -119,8 +119,13 @@ a.link:hover::before{
     grid-gap: 0px;
 }
 
-section{
+section, .tl-edges{
     grid-column: 2/12;
+}
+
+.caseStudy .tl-edges{
+    grid-column: 1/-1 !important;
+    position: relative;
 }
 
 @keyframes scrollIndicator{0%{transform:translateZ(0)}20%{transform:translate3d(0,-50%,0)}40%{transform:translateZ(0)}}

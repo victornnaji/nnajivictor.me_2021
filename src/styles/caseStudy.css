@@ -1,0 +1,5 @@
+
+.tl-edges{
+    grid-column: 1/-1 !important;
+    position: relative;
+}

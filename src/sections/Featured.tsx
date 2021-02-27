@@ -145,13 +145,13 @@ const Featured = () => {
                                    </h3>
                                    <div className="col__content-wrap">
                                        <p className="col__content-txt" dangerouslySetInnerHTML={{ __html: excerpt }} />
-                                       <SwipeLinks to={`/case-studies/${slug}`} className="slide-link">
+                                       <SwipeLinks to={`/case-study/${slug}`} className="slide-link">
                                            <span className="slide-link__circ"></span>
                                            <span className="slide-link__line"></span>
                                        </SwipeLinks>
                                    </div>
                                </div>
-                               <SwipeLinks to={`/case-studies/${slug}`} className="slide__scroll-link">
+                               <SwipeLinks to={`/case-study/${slug}`} className="slide__scroll-link">
                                    <div className="slide__scroll-line"></div>
                                    <span className="slide__casestudy">View Case Study</span>
                                </SwipeLinks>

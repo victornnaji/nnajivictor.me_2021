@@ -8,25 +8,36 @@ import Banner from './Banner';
 import Header from './Header';
 import MemoMenu from './Menu';
 import {gsap} from 'gsap';
+import { Helmet } from 'react-helmet';
 
 interface LayoutProps {
     children? : any,
-    location?: Location,
+    location: Location,
 }
 
-const Layout = ({ children }: LayoutProps)  => {
+const Layout = ({ children, location }: LayoutProps)  => {
     const [isLoading] = useLoader() as LoadingContextInterface;
     const isMobile = useMediaQuery();
+
+    const isHome = location.pathname === '/';	
+    // const isBlog = /(\/blog)\/?(.*)?/g.test(location.pathname);
+    const isCaseStudy = /(\/case-study)\/?(.*)?/g.test(location.pathname);
     
+    
+    // if(isCaseStudy){
+    //    require("../styles/caseStudy.css");
+    //  }
     React.useEffect(() => {
-      if (isMobile) {
-          gsap.to(
-            ['.heading__inner', '.name-container',
-              '.intro__occupation', '.slide','.intro__name', '.name-container', '.intro__title .intro__occupation'],
-            { clearProps: 'all' }
-          );
+      if(isHome){
+        if (isMobile) {
+            gsap.to(
+              ['.heading__inner', '.name-container',
+                '.intro__occupation', '.slide','.intro__name', '.name-container', '.intro__title .intro__occupation'],
+              { clearProps: 'all' }
+            );
+        }
       }
-    }, [isMobile])
+    }, [isMobile, isHome])
     
     return (
         <>
@@ -36,6 +47,11 @@ const Layout = ({ children }: LayoutProps)  => {
                 <Loading />
             ) :  (
                 <div className="layout__inner">
+                    {isCaseStudy ? (
+                      <Helmet>
+                        <html className="caseStudy"  lang="en" />
+                      </Helmet>
+                    ) : null}
                     <Banner />
                     <Header />
                     <MemoMenu />

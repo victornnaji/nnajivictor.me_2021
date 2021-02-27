@@ -1,5 +1,5 @@
 declare module '@ashthornton/asscroll'
 declare module 'gatsby-plugin-dark-mode'
 declare module '@loadable/component'
-declare module 'gatsby-plugin-transition-link/AniLink'
+declare module 'gatsby-plugin-transition-link'
 declare module '*jpg'
