@@ -5,82 +5,11 @@ import { media, theme } from '@src/styles'
 import InlineNav, { LeftNav, RightNav } from '@src/components/InlineNav'
 import { graphql } from 'gatsby'
 import ScrollDown from '@src/assets/ScrollDown'
-
-interface PageProp {
-    caseStudy: {
-        CaseStudiesGraphql: {
-            challenges: string,
-            designProcess: string,
-            description: string,
-            clientDescription: {
-                clientName? : string,
-                dateLaunched? : string,
-                website?: string,
-                awards: Award[]
-            },
-            mainImage: {
-                altText: string,
-                localFile: ImageProps,
-            }, 
-            gallery: ImageProps[]
-        }
-    }
-}
-
-type Award = {
-    awardItem: string,
-}
-
-type ImageProps = {
-    altText: string,
-    localFile: {
-        childImageSharp:{
-            fluid: {
-                tracedSVG: string,
-            }
-        }
-    }
-}
-
-
-interface Props {
-    pageContext: {
-        next : {
-            node: {
-                slug: string;
-                CaseStudiesGraphql: {
-                    featuredImage: {
-                        altText: string;
-                        mediaItemUrl: string;
-                    };
-                };
-                excerpt?: string | undefined;
-                title: string;
-            },
-        },
-        prev : {
-            node: {
-                slug: string;
-                CaseStudiesGraphql: {
-                    featuredImage: {
-                        altText: string;
-                        mediaItemUrl: string;
-                    };
-                };
-                excerpt?: string | undefined;
-                title: string;
-            }
-        },
-        node: {
-            excerpt: string,
-            title: string,
-            slug: string,
-            CaseStudiesGraphql: { }
-        }
-    }, 
-    data : PageProp
-}
-
+import Img from "gatsby-image"
+import Heading from '@src/components/Heading'
+import { AwardProps, CaseStudyProps} from '@src/components/case-study'
+import ClientHeader from '@src/components/case-study/ClientHeader'
+import CaseStudyGallery from '@src/components/case-study/CaseStudyGallery'
 
 export const query = graphql`
   query getQuery($slug: String!){
@@ -99,22 +28,22 @@ export const query = graphql`
         }
         mainImage {
           altText
+          databaseId
           localFile {
             childImageSharp {
               fluid {
-                tracedSVG
-                src
+                ...GatsbyImageSharpFluid_tracedSVG
               }
             }
           }
         }
         gallery {
           altText
+          databaseId
           localFile {
             childImageSharp {
               fluid {
-                src
-                tracedSVG
+                ...GatsbyImageSharpFluid_tracedSVG
               }
             }
           }
@@ -125,14 +54,14 @@ export const query = graphql`
 `
 
 
-const caseStudy = ({data, pageContext: caseStudy} : Props) => {
-    console.log(data.caseStudy.CaseStudiesGraphql);
+const caseStudy = ({data, pageContext: caseStudy} : CaseStudyProps ) => {
+    // console.log(data.caseStudy.CaseStudiesGraphql);
 
     const {title} = caseStudy.node;
     const nextProps = caseStudy.next.node;
     const prevProps = caseStudy.prev.node;
-
-    const {description, clientDescription} = data.caseStudy.CaseStudiesGraphql;
+    const {description, clientDescription, mainImage, challenges, gallery} = data.caseStudy.CaseStudiesGraphql;
+    
     return (
         <CaseStudyPage>
             <StyledCaseStudy>
@@ -143,43 +72,24 @@ const caseStudy = ({data, pageContext: caseStudy} : Props) => {
                     <div className="case-study__header--text">
                         {SplitWord(description, "case-study__inner")}
                     </div>
-                    <div className="case-study__header--client-info">
-                        <div className="case-study__header--client-info__block">
-                            <div className="info-title">Client</div>
-                            {clientDescription.clientName ? (
-                                <div className="info-value">{clientDescription.clientName}</div>
-                                ) : (<span>--</span>)
-                            }
-                        </div>
-                        <div className="case-study__header--client-info__block">
-                            <div className="info-title">Date</div>
-                                {clientDescription.dateLaunched ? (
-                                    <div className="info-value">{clientDescription.dateLaunched}</div>
-                                ) : (<span>--</span>)
-                            }
-                        </div>
-                        <div className="case-study__header--client-info__block">
-                            <div className="info-title">Awards</div>
-                                {clientDescription.awards.length > 0 ? (
-                                        clientDescription.awards.map((award : Award, i : number) => (
-                                            <div className="info-value award-value" key={i}>{award.awardItem}</div>
-                                        ))
-                                    ) : (<span>--</span>)
-                                }
-                        </div>
-                        <div className="case-study__header--client-info__block">
-                            <div className="info-title">Website</div>
-                                {clientDescription.website ? (
-                                    <a href={`https://${clientDescription.website}`} className="info-value link">{clientDescription.website}</a>
-                                ) : (<span>--</span>)
-                            }
-                        </div>
-                    </div>
+                    <ClientHeader clientDescription={clientDescription}/>
                 </div>
                 <div className="case-study__scroll">
                     <span className="scroll-text">Scroll Down</span>
                     <span className="scrolldown"><ScrollDown /></span>
                 </div>
+                <div className="case-study__main-image">
+                    <Img fluid={mainImage.localFile.childImageSharp.fluid}
+                        alt={mainImage.altText}
+                    />
+                </div>
+                <div className="case-study__main-challenge">
+                    <Heading content="challenges">Challenges</Heading>
+                    <div className="challenges-content" dangerouslySetInnerHTML={{__html: challenges}}/>
+                </div>
+                {gallery.length > 0 && (
+                    <CaseStudyGallery gallery={gallery}/>
+                )}
             </StyledCaseStudy>
                 <InlineNav>
                     <LeftNav value={nextProps}/>
@@ -216,45 +126,6 @@ const StyledCaseStudy = styled.section`
             line-height: 25px;
             margin-bottom: 1.6rem;
         }
-        .case-study__header--client-info{
-            flex: 0 0 auto;
-            display: flex;
-            width: 100%;
-            align-items: flex-start;
-            flex-wrap: wrap;
-            margin-top: 4.5rem;
-            ${media.phablet`flex-direction: column`}
-
-            &__block{
-                margin-right: 10rem;
-                flex: 0 auto;
-
-                .info-title{
-                    font-size: 1.7rem;
-                    line-height: 24px;
-                    text-align: left;
-                    
-                }
-
-                .info-value{
-                    font-size: 18px;
-                    line-height: 24px;
-                    font-weight: 700;
-                    text-align: left;
-                    font-family: ${theme.fonts.Lato};
-                    text-decoration: none;
-                    color: currentColor;
-                    ${media.phablet`margin-bottom: 2rem; display: block;`}
-                }
-
-                .award-value{
-                    ${media.phablet`margin-bottom: .5rem; display: block; `}
-                    &:last-child{
-                        ${media.phablet`margin-bottom: 2rem; display: block; `}
-                    }
-                }
-            }
-        }
     }
 
     .case-study__scroll{
@@ -275,10 +146,37 @@ const StyledCaseStudy = styled.section`
 
             svg{
                 height: 1.5rem;
-                width: 1/5rem;
+                width: 1.5rem;
                 path, line{
                     stroke: var(--primary-color);
                 }
+            }
+        }
+    }
+
+    .case-study__main-image{
+        margin-top: 10rem;
+        ${media.phablet`margin-top: 5rem;`}
+    }
+
+    .case-study__main-challenge{
+        margin-top: 12rem;
+        ${media.phablet`margin-top: 8rem`};
+
+        &>h3{
+            &::before{
+                ${media.phablet`font-size: 8rem; top: -3.5rem`}
+            }
+        }
+        .challenges-content{
+            margin-top: -5rem;
+            column-count: 2;
+            font-size: 1.8rem;
+            ${media.tablet`margin-top: -5rem;`}
+            ${media.phablet`column-count: 1; font-size: 1.7rem;`};
+            ${media.phone`margin-top: -2rem;`}
+            p{
+                margin-bottom: 1.5rem;
             }
         }
     }

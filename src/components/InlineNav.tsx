@@ -76,18 +76,19 @@ const StyledInlineNav = styled.nav`
       position: absolute;
       top: 50%;
       padding: 0 100px;
-      background-color: var(--primary-dark);
+      background-color: var(--tertiary-color);
       -webkit-transition: -webkit-transform 0.3s;
       transition: transform 0.3s;
       height: 7rem;
       display: grid;
       align-content: center;
       justify-content: center;
+      border: 1px solid var(--primary-color);
 
       h3 {
         position: relative;
         margin: 0;
-        color: var(--bg);
+        color: var(--primary-color);
         white-space: nowrap;
         font-weight: 700;
         font-size: 2.2rem;
