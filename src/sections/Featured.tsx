@@ -7,6 +7,7 @@ import { SplitWord } from '@src/_utils/split-text'
 import {gsap} from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
 import { SwipeLinks } from '@src/components/Links'
+import CustomLink from '@src/components/CustomLink'
 
 
 const Featured = () => {

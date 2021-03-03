@@ -7,9 +7,10 @@ import { graphql } from 'gatsby'
 import ScrollDown from '@src/assets/ScrollDown'
 import Img from "gatsby-image"
 import Heading from '@src/components/Heading'
-import { AwardProps, CaseStudyProps} from '@src/components/case-study'
+import { CaseStudyProps} from '@src/components/case-study'
 import ClientHeader from '@src/components/case-study/ClientHeader'
 import CaseStudyGallery from '@src/components/case-study/CaseStudyGallery'
+import BottomNav from '@src/components/case-study/BottomNav'
 
 export const query = graphql`
   query getQuery($slug: String!){
@@ -55,13 +56,12 @@ export const query = graphql`
 
 
 const caseStudy = ({data, pageContext: caseStudy} : CaseStudyProps ) => {
-    // console.log(data.caseStudy.CaseStudiesGraphql);
 
     const {title} = caseStudy.node;
     const nextProps = caseStudy.next.node;
     const prevProps = caseStudy.prev.node;
-    const {description, clientDescription, mainImage, challenges, gallery} = data.caseStudy.CaseStudiesGraphql;
-    
+    const {description, clientDescription, mainImage, challenges, gallery, designProcess} = data.caseStudy.CaseStudiesGraphql;
+
     return (
         <CaseStudyPage>
             <StyledCaseStudy>
@@ -90,6 +90,11 @@ const caseStudy = ({data, pageContext: caseStudy} : CaseStudyProps ) => {
                 {gallery.length > 0 && (
                     <CaseStudyGallery gallery={gallery}/>
                 )}
+                <div className="case-study__design-process">
+                    <Heading content="Process">Design Process</Heading>
+                    <div className="design-process__content" dangerouslySetInnerHTML={{__html: designProcess}} />
+                </div>
+                <BottomNav prevProps={prevProps} nextProps={nextProps}/>
             </StyledCaseStudy>
                 <InlineNav>
                     <LeftNav value={nextProps}/>
@@ -163,17 +168,33 @@ const StyledCaseStudy = styled.section`
         margin-top: 12rem;
         ${media.phablet`margin-top: 8rem`};
 
-        &>h3{
-            &::before{
-                ${media.phablet`font-size: 8rem; top: -3.5rem`}
-            }
-        }
         .challenges-content{
             margin-top: -5rem;
             column-count: 2;
             font-size: 1.8rem;
             ${media.tablet`margin-top: -5rem;`}
             ${media.phablet`column-count: 1; font-size: 1.7rem;`};
+            ${media.phone`margin-top: -2rem;`}
+            p{
+                margin-bottom: 1.5rem;
+            }
+        }
+    }
+
+    .case-study__main-challenge, .case-study__design-process{
+        &>h3{
+            &::before{
+                ${media.phablet`font-size: 8rem; top: -3.5rem`}
+            }
+        }
+    }
+
+    .case-study__design-process{
+        .design-process__content{
+            margin-top: -5rem;
+            font-size: 1.8rem;
+            ${media.tablet`margin-top: -5rem;`}
+            ${media.phablet`font-size: 1.7rem;`};
             ${media.phone`margin-top: -2rem;`}
             p{
                 margin-bottom: 1.5rem;

@@ -1,9 +1,9 @@
-import { media, theme } from "@src/styles"
-import { Link } from "gatsby"
+import { media} from "@src/styles"
 import React from "react"
 import styled from "styled-components"
+import CustomLink from "./CustomLink"
 
-const InlineNav = ({ children }: any) => {
+const InlineNav : React.FC = ({ children }) => {
   return <StyledInlineNav>{children}</StyledInlineNav>
 }
 
@@ -24,7 +24,7 @@ interface Props {
 
 export const LeftNav = ({value}: Props) => {
   return (
-    <a className="prev" href="/item1">
+    <CustomLink page={`/case-study/${value.slug}`} className="prev">
       <span className="icon-wrap">
         <svg className="icon" width="32" height="32" viewBox="0 0 64 64">
           <path
@@ -37,13 +37,13 @@ export const LeftNav = ({value}: Props) => {
         <h3>{value.title}</h3>
         <img src={value.CaseStudiesGraphql.featuredImage.mediaItemUrl} alt={value.CaseStudiesGraphql.featuredImage.altText} />
       </div>
-    </a>
+    </CustomLink>
   )
 }
 
 export const RightNav = ({value}: Props) => {
   return (
-    <a className="next" href="/item3">
+    <CustomLink page={`/case-study/${value.slug}`} className="next">
       <span className="icon-wrap">
         <svg className="icon" width="32" height="32" viewBox="0 0 64 64">
           <path
@@ -56,7 +56,7 @@ export const RightNav = ({value}: Props) => {
         <h3>{value.title}</h3>
         <img src={value.CaseStudiesGraphql.featuredImage.mediaItemUrl} alt={value.CaseStudiesGraphql.featuredImage.altText} />
       </div>
-    </a>
+    </CustomLink>
   )
 }
 

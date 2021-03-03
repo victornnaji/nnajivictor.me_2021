@@ -9,6 +9,7 @@ import Header from './Header';
 import MemoMenu from './Menu';
 import {gsap} from 'gsap';
 import { Helmet } from 'react-helmet';
+import PageLoading from './PageLoading';
 
 interface LayoutProps {
     children? : any,
@@ -23,10 +24,6 @@ const Layout = ({ children, location }: LayoutProps)  => {
     // const isBlog = /(\/blog)\/?(.*)?/g.test(location.pathname);
     const isCaseStudy = /(\/case-study)\/?(.*)?/g.test(location.pathname);
     
-    
-    // if(isCaseStudy){
-    //    require("../styles/caseStudy.css");
-    //  }
     React.useEffect(() => {
       if(isHome){
         if (isMobile) {
@@ -56,8 +53,10 @@ const Layout = ({ children, location }: LayoutProps)  => {
                     <Header />
                     <MemoMenu />
                     {children}
+                    <PageLoading /> 
                 </div>
-            )}
+              )
+            }
         </>
     )
 }
