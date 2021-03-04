@@ -25,7 +25,7 @@ const Contact = () => {
         let tl = gsap.timeline({
             scrollTrigger: {
               trigger: "#contact",
-              start: "10% 85%",
+              start: "30% 80%",
               end: 'top 20%',
               scrub: 1,
               markers: false // position of trigger meets the scroller position
@@ -36,7 +36,7 @@ const Contact = () => {
             inner,
             {
             y: 200,
-            duration: 2,
+            duration: 2.5,
             ease: "power4",
             stagger: 0.1
             },

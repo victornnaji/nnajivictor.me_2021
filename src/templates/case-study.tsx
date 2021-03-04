@@ -11,6 +11,7 @@ import { CaseStudyProps} from '@src/components/case-study'
 import ClientHeader from '@src/components/case-study/ClientHeader'
 import CaseStudyGallery from '@src/components/case-study/CaseStudyGallery'
 import BottomNav from '@src/components/case-study/BottomNav'
+import gsap from 'gsap'
 
 export const query = graphql`
   query getQuery($slug: String!){
@@ -52,16 +53,28 @@ export const query = graphql`
       }
     }
   }
-`
+`;
+
 
 
 const caseStudy = ({data, pageContext: caseStudy} : CaseStudyProps ) => {
+    React.useEffect(() => {
+        const tl = gsap.timeline();
+    
+        tl.from(['.case-study__inner', '.case-study__header--client-info__block', '.scroll-text', '.scrolldown', '.case-study__main-image .gatsby-image-wrapper'], {
+           y: 20,
+          duration: 1.5,
+          ease: "power4",
+          stagger: 0.05,
+          opacity: 0,
+        });
+    }, [])
 
     const {title} = caseStudy.node;
     const nextProps = caseStudy.next.node;
     const prevProps = caseStudy.prev.node;
     const {description, clientDescription, mainImage, challenges, gallery, designProcess} = data.caseStudy.CaseStudiesGraphql;
-
+    
     return (
         <CaseStudyPage>
             <StyledCaseStudy>
@@ -114,6 +127,10 @@ const CaseStudyPage = styled.section`
 const StyledCaseStudy = styled.section`
     grid-column: 2/-2;
     font-family: ${theme.fonts.Lato};
+
+    .case-study__header--heading, .case-study__header--text, .case-study__scroll, .case-study__main-image{
+        overflow: hidden;
+    }
     
     .case-study__header{
         margin-top: 5rem;

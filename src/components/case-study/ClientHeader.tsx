@@ -68,6 +68,7 @@ const StyledClientHeader = styled.div`
   flex-wrap: wrap;
   margin-top: 5rem;
   ${media.phablet`flex-direction: column`}
+  overflow: hidden;
 
   .case-study__header--client-info__block {
     margin-right: 10rem;

@@ -6,6 +6,7 @@ import {gsap} from 'gsap';
 import Toggle from './Toggle'
 import Hamburger from './Hamburger'
 import { SwipeLinks } from './Links'
+import CustomLink from './CustomLink';
 
 const Header : React.FC = () => {
     React.useEffect(() => {
@@ -43,9 +44,9 @@ const Header : React.FC = () => {
     return (
         <StyledHeader> 
             <StyledLogo className="brand">
-            <SwipeLinks to="/" aria-label="home">
+            <CustomLink page="/" aria-label="home">
               <Logo />
-            </SwipeLinks>
+            </CustomLink>
           </StyledLogo>
           <StyledToggle className="toggle--mask">
             <Toggle />

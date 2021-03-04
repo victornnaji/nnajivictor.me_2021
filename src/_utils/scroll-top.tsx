@@ -8,12 +8,12 @@ function scrollTop(elem : HTMLElement | string) {
       },
       ease: "power2.inOut"
     });
-    gsap.to(".footer__link-top-line", {
-      scaleY: 1,
-      transformOrigin: "bottom center",
-      duration: 0.6,
-      ease: "power4"
-    });
+    // gsap.to(".footer__link-top-line", {
+    //   scaleY: 1,
+    //   transformOrigin: "bottom center",
+    //   duration: 0.6,
+    //   ease: "power4"
+    // });
 }
 
 export default scrollTop;

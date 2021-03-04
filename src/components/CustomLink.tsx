@@ -6,7 +6,7 @@ import { LoadingContextInterface } from '@src/_hooks/hooks.types';
 
 interface Props {
   page: string,
-  className: string,
+  className?: string,
 }
 const CustomLink : React.FC<Props> = ({page, children, className}) => {
   const [,setLoading] = useLoader() as LoadingContextInterface;

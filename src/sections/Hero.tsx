@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { SiteSiteMetadata } from '__generated__/graphql-types';
 import { gsap } from "gsap";
 import ScrollDown from '@src/assets/ScrollDown';
+import { scrollTop } from '@src/_utils';
 
 type Props = {
     data: {
@@ -56,6 +57,11 @@ const Hero : React.FC<Props> = ({data}) => {
 
     }, []);
 
+    const handleScrollClick = (e: React.MouseEvent) => {
+        e.preventDefault();
+        scrollTop('.featured');
+    }
+
     return (
         <StyledHero className="intro slide--0" id="slide-0">
             <div className="intro__content">
@@ -74,7 +80,7 @@ const Hero : React.FC<Props> = ({data}) => {
             </div>
             <div className="decor__circle"></div> 
             <hr className="hero__line"/>
-            <StyledScrollDown className="scrolldown">
+            <StyledScrollDown className="scrolldown" onClick={handleScrollClick} role="button">
                 <ScrollDown />
             </StyledScrollDown>
         </StyledHero>
@@ -91,6 +97,7 @@ const StyledScrollDown = styled.a`
     -webkit-animation: scrollIndicator 4s infinite;
     animation: scrollIndicator 4s infinite;
     ${media.tablet`display: none`};
+    cursor: pointer;
     svg{
         height: 50px;
         width: 50px;

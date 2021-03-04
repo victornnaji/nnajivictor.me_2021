@@ -146,7 +146,7 @@ const Featured = () => {
 
     const featured = data.featured.edges;
     return (
-        <FeaturedContainer>
+        <FeaturedContainer className="featured">
            <Heading content={'Featured'} className="animatedHeading">Featured Projects</Heading>
            {
                featured.map((featuredProject: FeaturedProps, i: number) => {
