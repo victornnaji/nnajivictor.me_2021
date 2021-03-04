@@ -24,11 +24,9 @@ const CaseStudyGallery = ({gallery}: Props) => {
         media: ""
     });
 
-    const handleImageClick = (e: any, item : any) => {
+    const handleImageClick = (e: React.MouseEvent, item : FluidObject) => {
         e.preventDefault();
         setOpen(true);
-
-        console.log(item.src);
         setModalMedia(item);
     }
 

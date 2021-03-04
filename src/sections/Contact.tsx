@@ -42,10 +42,6 @@ const Contact = () => {
             },
             0
         )
-        // inners.map((inner: any) => {
-
-          
-        // })
 
         gsap.from(".footer__link", {
             scrollTrigger: {
@@ -95,7 +91,7 @@ const Contact = () => {
         }
     ];
 
-    function handleFooterClick(e: any){
+    function handleFooterClick(e: React.MouseEvent){
         e.preventDefault();
         scrollTop('#content');
     }
@@ -141,7 +137,7 @@ const Contact = () => {
                
                 <span className="line__inner-mask contact-column__social-media">
                     {
-                        socials.map((social : SocialProp, i : any) => {
+                        socials.map((social : SocialProp, i : number) => {
                             return (
                                 <a href={social.link} key={i} className="export-line__inner">
                                     <Icon name={social.name} />

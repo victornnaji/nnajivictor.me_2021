@@ -10,13 +10,9 @@ import MemoMenu from './Menu';
 import {gsap} from 'gsap';
 import { Helmet } from 'react-helmet';
 import PageLoading from './PageLoading';
+import { PageProps } from 'gatsby';
 
-interface LayoutProps {
-    children? : any,
-    location: Location,
-}
-
-const Layout = ({ children, location }: LayoutProps)  => {
+const Layout : React.FC<PageProps> = ({ children, location })  => {
     const [isLoading] = useLoader() as LoadingContextInterface;
     const isMobile = useMediaQuery();
 

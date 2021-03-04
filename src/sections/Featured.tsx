@@ -6,8 +6,8 @@ import { media, theme } from '@src/styles'
 import { SplitWord } from '@src/_utils/split-text'
 import {gsap} from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
-import { SwipeLinks } from '@src/components/Links'
 import CustomLink from '@src/components/CustomLink'
+import { string } from 'prop-types'
 
 
 const Featured = () => {
@@ -31,6 +31,22 @@ const Featured = () => {
       }
     }
   `)
+
+
+  interface FeaturedProps {
+      node: {
+        slug: string,
+        excerpt: string,
+        id: string,
+        title: string,
+        CaseStudiesGraphql : {
+          featuredImage: {
+            altText: string,
+            mediaItemUrl: string,
+          }
+        }
+      }
+  }
 
   React.useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -133,7 +149,7 @@ const Featured = () => {
         <FeaturedContainer>
            <Heading content={'Featured'} className="animatedHeading">Featured Projects</Heading>
            {
-               featured.map((featuredProject: any, i: number) => {
+               featured.map((featuredProject: FeaturedProps, i: number) => {
                    const {id, title, excerpt, slug, CaseStudiesGraphql} = featuredProject.node
                    return (
                        <StyledFeatured className={`content-wrap slide slide--${i}`} id={`slide-${i}`} key={id}>
@@ -146,16 +162,16 @@ const Featured = () => {
                                    </h3>
                                    <div className="col__content-wrap">
                                        <p className="col__content-txt" dangerouslySetInnerHTML={{ __html: excerpt }} />
-                                       <SwipeLinks to={`/case-study/${slug}`} className="slide-link">
+                                       <CustomLink page={`/case-study/${slug}`} className="slide-link">
                                            <span className="slide-link__circ"></span>
                                            <span className="slide-link__line"></span>
-                                       </SwipeLinks>
+                                       </CustomLink>
                                    </div>
                                </div>
-                               <SwipeLinks to={`/case-study/${slug}`} className="slide__scroll-link">
+                               <CustomLink page={`/case-study/${slug}`} className="slide__scroll-link">
                                    <div className="slide__scroll-line"></div>
                                    <span className="slide__casestudy">View Case Study</span>
-                               </SwipeLinks>
+                               </CustomLink>
                            </div>
                            <div className="col col--2">
                                <div className="col__image-wrap">

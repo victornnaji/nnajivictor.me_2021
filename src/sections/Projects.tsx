@@ -7,6 +7,7 @@ import SingleProject from '@src/components/SingleProject';
 import {gsap} from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
 import { SwipeLinks } from '@src/components/Links';
+import CustomLink from '@src/components/CustomLink';
 
 const Projects = () => {
 
@@ -108,7 +109,7 @@ const Projects = () => {
                 })
             }
             <div className="all-project__link">
-                <SwipeLinks to="/archives" className="link">View the Archive</SwipeLinks>
+                <CustomLink page="/archives" className="link">View the Archive</CustomLink>
             </div>
         </StyledProjects>
     )

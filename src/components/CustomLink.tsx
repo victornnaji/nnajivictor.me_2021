@@ -4,9 +4,13 @@ import gsap from 'gsap'
 import { useLoader } from '@src/_hooks';
 import { LoadingContextInterface } from '@src/_hooks/hooks.types';
 
-const CustomLink = ({page, children, className} : any) => {
+interface Props {
+  page: string,
+  className: string,
+}
+const CustomLink : React.FC<Props> = ({page, children, className}) => {
   const [,setLoading] = useLoader() as LoadingContextInterface;
-    function exitAnimation(exit : any){
+    function exitAnimation(){
 
       const mask = ".js-mask";
       const slices = gsap.utils.toArray(".js-mask__slice");
@@ -35,8 +39,13 @@ const CustomLink = ({page, children, className} : any) => {
     return (
         <TransitionLink to={page} 
           exit={{
-              trigger: ({exit} : any) => exitAnimation(exit),
+              trigger: () => exitAnimation(),
           }}
+          entry = {
+            {
+              delay: 1
+            }
+          }
           className={className}
         >
             {children}

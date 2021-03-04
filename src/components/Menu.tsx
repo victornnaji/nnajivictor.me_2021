@@ -81,7 +81,7 @@ const Menu = () => {
             }
           }; 
         
-        items.forEach( (el: any, pos) => {
+        items.forEach( (el: any, pos : number) => {
           const innerEl = el.querySelector('.menu__item-inner');
           const config = {x: '', y: ''};
           const configInner = {x: '', y: ''};
