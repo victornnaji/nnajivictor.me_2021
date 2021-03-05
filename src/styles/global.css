@@ -128,6 +128,10 @@ section, .tl-edges{
     position: relative;
 }
 
+.tl-edges{
+    overflow-x: visible;
+}
+
 @keyframes scrollIndicator{0%{transform:translateZ(0)}20%{transform:translate3d(0,-50%,0)}40%{transform:translateZ(0)}}
 
 @keyframes bounceAlpha {
@@ -135,4 +139,18 @@ section, .tl-edges{
     25%{opacity: 0; transform:translateX(12px) scale(0.9) rotate(-90deg);}
     26%{opacity: 0; transform:translateX(-10px) scale(0.9) rotate(-90deg);}
     55% {opacity: 1; transform: translateX(0px) scale(1) rotate(-90deg);}
+}
+
+@keyframes swing{
+    0%{transform:rotate(-3deg)}
+    10%{transform:rotate(2deg)}
+    20%{transform:rotate(-2deg)}
+    30%{transform:rotate(1deg)}
+    40%{transform:rotate(-1deg)}
+    50%{transform:rotate(.5deg)}
+    60%{transform:rotate(0deg)}
+    70%{transform:rotate(.4deg)}
+    80%{transform:rotate(.3deg)}
+    90%{transform:rotate(.4deg)}
+    to{transform:rotate(.3deg)}
 }

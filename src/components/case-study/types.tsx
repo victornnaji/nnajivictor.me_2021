@@ -1,4 +1,4 @@
-import { FluidObject } from "gatsby-image"
+import {IGatsbyImageData } from "gatsby-plugin-image";
 
 export interface PageProp {
     caseStudy: {
@@ -34,8 +34,8 @@ export type AwardProps = {
 
 export type ImageProps = {
     altText: string,
-    childImageSharp:{
-        fluid: FluidObject | FluidObject[]
+    childImageSharp: {
+        gatsbyImageData: IGatsbyImageData
     }
 }
 

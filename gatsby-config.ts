@@ -21,6 +21,7 @@ module.exports = {
     },
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
+    `gatsby-plugin-image`,
     'gatsby-plugin-dark-mode',
     `gatsby-plugin-transition-link`,
     {

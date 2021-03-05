@@ -5,7 +5,7 @@ import { media, theme } from '@src/styles'
 import InlineNav, { LeftNav, RightNav } from '@src/components/InlineNav'
 import { graphql } from 'gatsby'
 import ScrollDown from '@src/assets/ScrollDown'
-import Img from "gatsby-image"
+import { getImage, GatsbyImage } from "gatsby-plugin-image";
 import Heading from '@src/components/Heading'
 import { CaseStudyProps} from '@src/components/case-study'
 import ClientHeader from '@src/components/case-study/ClientHeader'
@@ -13,46 +13,41 @@ import CaseStudyGallery from '@src/components/case-study/CaseStudyGallery'
 import BottomNav from '@src/components/case-study/BottomNav'
 import gsap from 'gsap'
 
-export const query = graphql`
-  query getQuery($slug: String!){
-    caseStudy: wpCaseStudy(slug: {eq: $slug}) {
-      CaseStudiesGraphql {
-        challenges
-        description
-        designProcess
-        clientDescription {
-          clientName
-          dateLaunched
-          website
-          awards {
-            awardItem
+export const query = graphql`query getQuery($slug: String!) {
+  caseStudy: wpCaseStudy(slug: {eq: $slug}) {
+    CaseStudiesGraphql {
+      challenges
+      description
+      designProcess
+      clientDescription {
+        clientName
+        dateLaunched
+        website
+        awards {
+          awardItem
+        }
+      }
+      mainImage {
+        altText
+        databaseId
+        localFile {
+          childImageSharp {
+            gatsbyImageData(placeholder: BLURRED, layout: FLUID, formats: [AUTO,WEBP])
           }
         }
-        mainImage {
-          altText
-          databaseId
-          localFile {
-            childImageSharp {
-              fluid {
-                ...GatsbyImageSharpFluid_tracedSVG
-              }
-            }
-          }
-        }
-        gallery {
-          altText
-          databaseId
-          localFile {
-            childImageSharp {
-              fluid {
-                ...GatsbyImageSharpFluid_tracedSVG
-              }
-            }
+      }
+      gallery {
+        altText
+        databaseId
+        localFile {
+          childImageSharp {
+            gatsbyImageData(placeholder: TRACED_SVG, layout: CONSTRAINED, formats: [AUTO,WEBP])
           }
         }
       }
     }
   }
+}
 `;
 
 
@@ -74,7 +69,7 @@ const caseStudy = ({data, pageContext: caseStudy} : CaseStudyProps ) => {
     const nextProps = caseStudy.next.node;
     const prevProps = caseStudy.prev.node;
     const {description, clientDescription, mainImage, challenges, gallery, designProcess} = data.caseStudy.CaseStudiesGraphql;
-    
+    const image = getImage(mainImage.localFile.childImageSharp.gatsbyImageData);
     return (
         <CaseStudyPage>
             <StyledCaseStudy>
@@ -92,9 +87,9 @@ const caseStudy = ({data, pageContext: caseStudy} : CaseStudyProps ) => {
                     <span className="scrolldown"><ScrollDown /></span>
                 </div>
                 <div className="case-study__main-image">
-                    <Img fluid={mainImage.localFile.childImageSharp.fluid}
-                        alt={mainImage.altText}
-                    />
+                    <GatsbyImage
+                        image={image!}
+                        alt={mainImage.altText} />
                 </div>
                 <div className="case-study__main-challenge">
                     <Heading content="challenges">Challenges</Heading>
@@ -114,7 +109,7 @@ const caseStudy = ({data, pageContext: caseStudy} : CaseStudyProps ) => {
                     <RightNav value={prevProps}/>
                 </InlineNav>
         </CaseStudyPage>
-    )
+    );
 }
 
 const CaseStudyPage = styled.section`
@@ -178,7 +173,12 @@ const StyledCaseStudy = styled.section`
 
     .case-study__main-image{
         margin-top: 10rem;
-        ${media.phablet`margin-top: 5rem;`}
+        height: 60rem;
+
+        .gatsby-image-wrapper{
+            height: 100%;
+        }
+        ${media.phablet`margin-top: 5rem; height: 40rem;`}
     }
 
     .case-study__main-challenge{

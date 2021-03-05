@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import Image from '@src/assets/NnajiVictor.jpg';
+import Image from '@src/images/NnajiVictor.jpg';
 import { media, theme } from '@src/styles';
 import { SwipeLinks } from './Links';
 

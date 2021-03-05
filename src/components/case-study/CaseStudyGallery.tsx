@@ -1,6 +1,6 @@
 import React from 'react'
 import { GalleryProp } from './types'
-import Img, { FluidObject } from "gatsby-image"
+import { GatsbyImage } from "gatsby-plugin-image";
 import styled from 'styled-components'
 import { media } from '@src/styles'
 import Times from '@src/assets/Times'
@@ -11,20 +11,9 @@ interface Props {
 
 const CaseStudyGallery = ({gallery}: Props) => {
     const [open, setOpen] = React.useState(false);
-    const [modalMedia, setModalMedia] = React.useState<FluidObject>(
-    { 
-        aspectRatio: 0,
-        src: "",
-        srcSet: '',
-        sizes: "",
-        base64: "",
-        tracedSVG : "",
-        srcWebp: "",
-        srcSetWebp: "",
-        media: ""
-    });
+    const [modalMedia, setModalMedia] = React.useState<any>();
 
-    const handleImageClick = (e: React.MouseEvent, item : FluidObject) => {
+    const handleImageClick = (e: React.MouseEvent, item : GalleryProp) => {
         e.preventDefault();
         setOpen(true);
         setModalMedia(item);
@@ -33,23 +22,23 @@ const CaseStudyGallery = ({gallery}: Props) => {
     const size = gallery.length;
     const sizeSelect = ["one", "two", "three", "four", "five"];
     const modalRef = React.useRef(null);
-    return (
-        <>
-            <StyledGallery className={`case-study__gallery ${sizeSelect[size - 1]}`}>
-                {gallery.map((image: GalleryProp) => (
-                    <span key={image.databaseId} className="gallery-image" onClick={(e) => handleImageClick(e, image.localFile.childImageSharp.fluid)}>
-                        <Img fluid={image.localFile.childImageSharp.fluid} alt={image.altText}/>
-                    </span>
-                ))}
-            </StyledGallery>
-            {open && <Gallerymodal ref={modalRef}>
-                <span className="modal-button" onClick={() => setOpen(false)}><Times /></span>
-                <div className="modal-content">
-                  <Img fluid={modalMedia} />
-                </div>
-            </Gallerymodal>}
-        </>
-    )
+    return <>
+        <StyledGallery className={`case-study__gallery ${sizeSelect[size - 1]}`}>
+            {gallery.map((image: GalleryProp) => (
+                <span key={image.databaseId} className="gallery-image" onClick={(e) => handleImageClick(e, image)}>
+                    <GatsbyImage
+                        image={image.localFile.childImageSharp.gatsbyImageData}
+                        alt={image.altText} />
+                </span>
+            ))}
+        </StyledGallery>
+        {open && <Gallerymodal ref={modalRef} onClick={() => setOpen(false)}>
+            <span className="modal-button" onClick={() => setOpen(false)}><Times /></span>
+            <div className="modal-content">
+              <GatsbyImage image={modalMedia.localFile.childImageSharp.gatsbyImageData} alt={modalMedia.altText}/>
+            </div>
+        </Gallerymodal>}
+    </>;
 }
 
 const Gallerymodal = styled.div`
@@ -82,6 +71,13 @@ const Gallerymodal = styled.div`
     .modal-content{
         grid-column: 3/11;
         ${media.phablet`grid-column: 2/12;`}
+
+        .gatsby-image-wrapper{
+            width: 100%;
+            div{
+                max-width: 100% !important;
+            }
+        }
     }
 `
 
@@ -91,7 +87,8 @@ const StyledGallery = styled.div`
     margin-bottom: 10rem;
     grid-template-columns: 1fr repeat(2, 25%);
     grid-template-rows: repeat(2, 1fr);
-    ${media.phablet`grid-template-columns: 1fr; grid-template-rows: 1fr auto;`};
+    height: 70rem;
+    ${media.phablet`grid-template-columns: 1fr; grid-template-rows: 1fr auto;height: auto;`};
     grid-auto-rows: 16vw;
 
     &.one{
