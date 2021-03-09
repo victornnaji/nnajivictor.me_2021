@@ -32,7 +32,7 @@ const CaseStudyGallery = ({gallery}: Props) => {
                 </span>
             ))}
         </StyledGallery>
-        {open && <Gallerymodal ref={modalRef} onClick={() => setOpen(false)}>
+        {open && <Gallerymodal ref={modalRef} >
             <span className="modal-button" onClick={() => setOpen(false)}><Times /></span>
             <div className="modal-content">
               <GatsbyImage image={modalMedia.localFile.childImageSharp.gatsbyImageData} alt={modalMedia.altText}/>

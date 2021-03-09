@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import Image from '@src/images/NnajiVictor.jpg';
 import { media, theme } from '@src/styles';
-import { SwipeLinks } from './Links';
+import CustomLink from './CustomLink';
 
 const MenuImage = () => {
 
@@ -17,7 +17,7 @@ const MenuImage = () => {
                 <div className="inner">
                     <div className="img-menu__title">
                         <div className="img-menu__title--mask">
-                            <SwipeLinks to="/about">About</SwipeLinks>
+                            <CustomLink page="/about">About</CustomLink>
                         </div>
                     </div>
                     <div className="img-menu__image">

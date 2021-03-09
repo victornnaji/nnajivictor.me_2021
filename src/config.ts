@@ -38,4 +38,19 @@ module.exports = {
           url: 'https://twitter.com/nnajivictorr',
         },
       ],
+      skills: [
+        "HTML & (S)CSS / Tailwind",
+        "JavaScript",
+        "TypeScript", 
+        "React",
+        "Gatsby",
+        "Wordpress",
+        "PHP",
+        "GSAP",
+        "GIT",
+        "GraphQL",
+        "Netlify", 
+        "MSW", 
+        "Gulp",
+      ]
 }

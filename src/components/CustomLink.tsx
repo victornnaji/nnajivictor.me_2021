@@ -1,8 +1,8 @@
 import React from 'react'
 import TransitionLink from 'gatsby-plugin-transition-link'
 import gsap from 'gsap'
-import { useLoader } from '@src/_hooks';
-import { LoadingContextInterface } from '@src/_hooks/hooks.types';
+import { useLoader, useMenu } from '@src/_hooks';
+import { LoadingContextInterface, MenuContextInterface } from '@src/_hooks/hooks.types';
 
 interface Props {
   page: string,
@@ -10,8 +10,9 @@ interface Props {
 }
 const CustomLink : React.FC<Props> = ({page, children, className}) => {
   const [,setLoading] = useLoader() as LoadingContextInterface;
+  const [,setOpen] = useMenu() as MenuContextInterface;
     function exitAnimation(){
-
+      setOpen(false);
       const mask = ".js-mask";
       const slices = gsap.utils.toArray(".js-mask__slice");
       

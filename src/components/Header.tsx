@@ -5,7 +5,6 @@ import styled from 'styled-components'
 import {gsap} from 'gsap';
 import Toggle from './Toggle'
 import Hamburger from './Hamburger'
-import { SwipeLinks } from './Links'
 import CustomLink from './CustomLink';
 
 const Header : React.FC = () => {
