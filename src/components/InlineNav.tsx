@@ -1,6 +1,9 @@
 import { media} from "@src/styles"
+import { getImage } from "gatsby-plugin-image"
+import { GatsbyImage } from "gatsby-plugin-image";
 import React from "react"
 import styled from "styled-components"
+import { ImageProps } from "./case-study"
 import CustomLink from "./CustomLink"
 
 const InlineNav : React.FC = ({ children }) => {
@@ -12,8 +15,8 @@ interface Props {
         slug: string,
         CaseStudiesGraphql: {
             featuredImage:{
-                altText: string,
-                mediaItemUrl: string,
+              altText: string,
+              localFile: any,
             }
         },
         excerpt?: string,
@@ -23,6 +26,7 @@ interface Props {
 }
 
 export const LeftNav = ({value}: Props) => {
+  const image = getImage(value.CaseStudiesGraphql.featuredImage.localFile);
   return (
     <CustomLink page={`/case-study/${value.slug}`} className="prev">
       <span className="icon-wrap">
@@ -33,15 +37,16 @@ export const LeftNav = ({value}: Props) => {
           />
         </svg>
       </span>
-      <div>
+      <div className="inlinenav-content">
         <h3>{value.title}</h3>
-        <img src={value.CaseStudiesGraphql.featuredImage.mediaItemUrl} alt={value.CaseStudiesGraphql.featuredImage.altText} />
+        <div className="image-holder"><GatsbyImage image={image!} alt={value.CaseStudiesGraphql.featuredImage.altText}/></div>
       </div>
     </CustomLink>
   )
 }
 
 export const RightNav = ({value}: Props) => {
+  const image = getImage(value.CaseStudiesGraphql.featuredImage.localFile);
   return (
     <CustomLink page={`/case-study/${value.slug}`} className="next">
       <span className="icon-wrap">
@@ -52,9 +57,9 @@ export const RightNav = ({value}: Props) => {
           />
         </svg>
       </span>
-      <div>
+      <div className="inlinenav-content">
         <h3>{value.title}</h3>
-        <img src={value.CaseStudiesGraphql.featuredImage.mediaItemUrl} alt={value.CaseStudiesGraphql.featuredImage.altText} />
+        <div className="image-holder"><GatsbyImage image={image!} alt={value.CaseStudiesGraphql.featuredImage.altText}/></div>
       </div>
     </CustomLink>
   )
@@ -72,7 +77,7 @@ const StyledInlineNav = styled.nav`
     -webkit-transform: translateY(-50%);
     transform: translateY(-50%);
 
-    div {
+    .inlinenav-content {
       position: absolute;
       top: 50%;
       padding: 0 100px;
@@ -84,6 +89,7 @@ const StyledInlineNav = styled.nav`
       align-content: center;
       justify-content: center;
       border: 1px solid var(--primary-color);
+      overflow: hidden;
 
       h3 {
         position: relative;
@@ -94,17 +100,17 @@ const StyledInlineNav = styled.nav`
         font-size: 2.2rem;
         line-height: 1.5;
       }
-      img {
+      .image-holder {
         position: absolute;
         top: 0;
-        height: 100%;
+        width: 120px;
       }
     }
 
     &.prev {
       left: 0;
 
-      div {
+      .inlinenav-content {
         left: 0;
         padding-right: 120px;
         -webkit-transform: translateY(-50%) translateX(-100%);
@@ -115,14 +121,14 @@ const StyledInlineNav = styled.nav`
         }
       }
 
-      img {
+      .image-holder {
         right: 0;
       }
     }
 
     &.next {
       right: 0;
-      div {
+      .inlinenav-content {
         right: 0;
         padding-left: 120px;
         text-align: right;
@@ -134,7 +140,7 @@ const StyledInlineNav = styled.nav`
         }
       }
 
-      img {
+      .image-holder {
         left: 0;
       }
     }
@@ -161,7 +167,7 @@ const StyledInlineNav = styled.nav`
       fill: var(--bg);
     }
   }
-  a:hover div {
+  a:hover .inlinenav-content {
     -webkit-transform: translateY(-50%) translateX(0);
     transform: translateY(-50%) translateX(0);
   }

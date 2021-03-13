@@ -4,9 +4,114 @@ import styled from "styled-components"
 import { useStaticQuery, graphql } from "gatsby"
 import ScrollDown from "@src/assets/ScrollDown"
 import Inspirations from "@src/components/about/inspirations"
-import Embed from "@src/components/about/Embed"
+import Embed from "@src/components/about/Embed";
+import {gsap} from 'gsap';
+import {ScrollTrigger} from 'gsap/ScrollTrigger';
+import Resume from "@src/components/about/Resume"
 
 const About: React.FC = () => {
+
+  React.useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.from(['.about__hero--column .text-paragraph', '.skillsContainer'], {
+      opacity: 0,
+      x: 10,
+    })
+    gsap.from('.about__hero--column-image', {
+      opacity: 0,
+      x: -10,
+    });
+
+    gsap.from('.about__other-section .other-courses .title', {
+      scrollTrigger: {
+        trigger: '.about__other-section .other-courses .title',
+        start: "top 90%",
+        // markers: true,
+      },
+      ease: "power4",
+      y: "+=5vh",
+      duration: 2,
+      opacity: 0,
+    })
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".other-activities",
+        start: "top 90%",
+        // end: "top 40%",
+        scrub: 1,
+        // markers: true
+      }
+    })
+
+    tl.from(".other-activities .title", {
+      ease: "power4",
+      y: "+=5vh",
+      duration: 2
+    })
+    .from(
+      ".other-activities .title .line__inner",
+      {
+        y: 200,
+        duration: 2,
+        ease: "power4",
+        stagger: 0.1
+      },
+      0
+    )
+    .from(
+      ".other-activities .content",
+      {
+        x: 50,
+        y: 50,
+        opacity: 0,
+        duration: 2,
+        ease: "power4"
+      },
+      0.4
+  )
+    const tl_2 = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".spotify",
+        start: "top 90%",
+        // end: "top 40%",
+        scrub: 1,
+        // markers: true
+      }
+    })
+
+    tl_2.from(".spotify .title", {
+      ease: "power4",
+      y: "+=5vh",
+      duration: 2
+    })
+    .from(
+      ".spotify .title .line__inner",
+      {
+        y: 200,
+        duration: 2,
+        ease: "power4",
+        stagger: 0.1
+      },
+      0
+    )
+    .from(
+      ".spotify .content",
+      {
+        x: 50,
+        y: 50,
+        opacity: 0,
+        duration: 2,
+        ease: "power4"
+      },
+      0.4
+  )
+
+
+
+  }, [])
+
   const data = useStaticQuery(graphql`
     {
       image: allFile(filter: { absolutePath: { regex: "/images/" } }) {
@@ -65,7 +170,7 @@ const About: React.FC = () => {
           <h3 className="text-paragraph" style={{ fontWeight: 700 }}>
             Here are a few technologies I've been working with recently.
           </h3>
-          <SkillsContainer>
+          <SkillsContainer className="skillsContainer">
             {skills &&
               skills.map((skill: string, i: number) => (
                 <Skill key={i}>{skill}</Skill>
@@ -79,6 +184,7 @@ const About: React.FC = () => {
           </div>
         </div>
       </div>
+      <div className="Resume-section"><Resume /></div>
       <div className="about__other-section">
         <div className="other-courses">
           <div className="title">
@@ -90,7 +196,9 @@ const About: React.FC = () => {
         </div>
 
         <div className="other-activities">
-          <div className="title">Other Activities</div>
+          <div className="title">
+            <div className="line__inner">Other Activities</div>
+          </div>
           <div className="content">
           ...When i'm not coding, I love to play <span className="activity">Fifa</span>, I'm pretty very good at it. I also enjoy watching superhero movies espacially one from the
           &nbsp; <span className="activity">MCU</span>. I like checking out random things on <span className="activity">YouTube</span>. 
@@ -98,7 +206,6 @@ const About: React.FC = () => {
           </div>
         </div>
       </div>
-
       <div className="spotify">
         <Embed />
       </div>
@@ -225,6 +332,7 @@ const StyledAboutPage = styled.section`
       .title,.content{
         width: 50%;
         ${media.phablet`width: 100%;`}
+        overflow: hidden;
       }
 
       .content{

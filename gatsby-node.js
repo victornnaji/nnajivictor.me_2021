@@ -15,8 +15,12 @@ exports.createPages = async ({actions, graphql, reporter}) => {
               title
               CaseStudiesGraphql {
                 featuredImage {
-                  mediaItemUrl
                   altText
+                  localFile {
+                    childImageSharp {
+                      gatsbyImageData(placeholder: TRACED_SVG, layout: CONSTRAINED, formats: [AUTO,WEBP])
+                    }
+                  }
                 }
               }
             }

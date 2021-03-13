@@ -35,8 +35,8 @@ const Header : React.FC = () => {
             y: 0,
             autoAlpha: 1,
             opacity: 1,
-            ease: "ease",
-            stagger: 0.15,
+            ease: "ease.in",
+            stagger: 0.1,
           },"start+=0.25")
         
       }, [])

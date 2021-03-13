@@ -3,8 +3,9 @@ import styled from 'styled-components'
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import { useStaticQuery, graphql } from "gatsby"
 import { media } from '@src/styles';
-
-
+import {gsap} from 'gsap';
+import {ScrollTrigger} from 'gsap/ScrollTrigger';
+import { SplitWord } from '@src/_utils/split-text';
 
 interface InspirationProps {
     inspirationTitle: string;
@@ -41,8 +42,58 @@ const Inspirations = () => {
 
     const inspiration = data.inspiration.edges[0].node.AboutPage_Graphql.inspiration;
 
+    React.useEffect(() => {
+        gsap.registerPlugin(ScrollTrigger);
+        const slide_inspirations = gsap.utils.toArray('.inspiration');
+
+        slide_inspirations.forEach((slide: any, i) => {
+            let tl = gsap.timeline({
+              scrollTrigger: {
+                trigger: slide,
+                start: "top 90%",
+                // end: "top 40%",
+                scrub: 1,
+                markers: false
+              }
+            });
+
+            tl.from(slide.querySelectorAll(".inspiration-title"), {
+                ease: "power4",
+                y: "+=5vh",
+                duration: 2
+            })
+            .from(
+                slide.querySelectorAll(".line__inner"),
+                {
+                  y: 200,
+                  duration: 2,
+                  ease: "power4",
+                  stagger: 0.1
+                },
+                0
+            )
+            .from(
+                slide.querySelectorAll(".inspiration-text"),
+                {
+                  x: 50,
+                  y: 50,
+                  opacity: 0,
+                  duration: 2,
+                  ease: "power4"
+                },
+                0.4
+            )
+            .from(slide.querySelectorAll('.inspiration-photo'), {
+                opacity: 0,
+                x: -20,
+                duration: 2,
+                ease: "power4"
+            }, 0.2)
+        })
+    }, [])
+
     return (
-        <StyledInspiration>
+        <StyledInspiration className="styledInspiration">
             {inspiration.map((inspiration: InspirationProps, i: number) => {
                 const image = getImage(inspiration.inspirationImage.localFile.childImageSharp.gatsbyImageData)
                 return (
@@ -50,7 +101,7 @@ const Inspirations = () => {
                         <div className="inspiration-photo">
                             <GatsbyImage image={image!} alt={inspiration.inspirationImage.altText} />
                         </div>
-                        <div className="inspiration-title">{inspiration.inspirationTitle}</div>
+                        <div className="inspiration-title">{SplitWord(inspiration.inspirationTitle, "line__inner")}</div>
                         <div className="inspiration-text" dangerouslySetInnerHTML={{__html: inspiration.inspirationText}}/>
                     </div>
                 )
@@ -100,6 +151,7 @@ const StyledInspiration = styled.div`
         }
 
         .inspiration-title{
+            overflow: hidden;
             font-size: 3rem;
             font-weight: 700;
             align-self: center;
@@ -109,6 +161,7 @@ const StyledInspiration = styled.div`
 
         .inspiration-text{
             font-size: 1.5rem;
+            overflow: hidden;
             width: 50%;
             ${media.tablet`width: 90%;`}
             ${media.phablet`width: 80%; margin: 0 auto; margin-top: 1rem`}

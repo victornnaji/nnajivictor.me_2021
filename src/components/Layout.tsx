@@ -24,7 +24,7 @@ const Layout : React.FC<PageProps> = ({ children, location })  => {
       if(isHome){
         if (isMobile) {
             gsap.to(
-              ['.heading__inner', '.name-container',
+              [['.col__image-wrap'],'.heading__inner', '.name-container',
                 '.intro__occupation', '.slide','.intro__name', '.name-container', '.intro__title .intro__occupation'],
               { clearProps: 'all' }
             );

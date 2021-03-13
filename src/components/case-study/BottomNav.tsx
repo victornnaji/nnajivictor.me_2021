@@ -3,6 +3,7 @@ import { media } from "@src/styles"
 import React from "react"
 import styled from "styled-components"
 import CustomLink from "../CustomLink"
+import FilledButton, { FilledButtonText } from "../FilledButton"
 
 interface Props {
     prevProps : {
@@ -17,13 +18,11 @@ const BottomNav = ({ prevProps, nextProps }: Props) => {
     return (
       <StyledBottomNav>
           <div className="left-bottom-nav">
-              <CustomLink
-                  page={`/case-study/${prevProps.slug}`}
-                  className="link__case-study"
-              >
-                  <span className="filled-btn-text">Prev Case Study</span>
-                  <span className="filled-btn-overlay right"></span>
+            <FilledButton>
+              <CustomLink page={`/case-study/${prevProps.slug}`} >
+                  <FilledButtonText text="Prev Case Study" />
               </CustomLink>
+            </FilledButton>
           </div>
           <CustomLink className="center-bottom-nav" page={"/case-studies"}>
               <div className="grid-button">
@@ -32,13 +31,11 @@ const BottomNav = ({ prevProps, nextProps }: Props) => {
               <div className="case-study__tolltip" aria-label="back to case studies">Back to Case Studies</div>
           </CustomLink>
           <div className="right-bottom-nav">
-              <CustomLink
-                  page={`/case-study/${nextProps.slug}`}
-                  className="link__case-study"
-              >
-                  <span className="filled-btn-text">Next Case Study</span>
-                  <span className="filled-btn-overlay"></span>
+            <FilledButton>
+              <CustomLink page={`/case-study/${nextProps.slug}`} >
+                <FilledButtonText text="Next Case Study" />
               </CustomLink>
+            </FilledButton>
           </div>
       </StyledBottomNav>
   )
@@ -89,61 +86,6 @@ const StyledBottomNav = styled.div`
             transform: translate3d(0px, 0px, 0px);
             transition: transform 3.8s;
         }
-    }
-  }
-
-  .link__case-study {
-    border-style: solid;
-    border-width: 2px;
-    border-color: var(--primary-color);
-    background-color: transparent;
-    transition: color 200ms ease, background-color 200ms ease;
-    color: var(--primary-color);
-    font-weight: 400;
-    letter-spacing: 0.4px;
-    text-decoration: none;
-    text-transform: capitalize;
-    max-width: 100%;
-    position: relative;
-    height: 5rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 20rem;
-
-    .filled-btn-overlay {
-      background-color: var(--primary-color);
-      position: absolute;
-      left: 0px;
-      top: 0px;
-      bottom: 0px;
-      z-index: 0;
-      width: 0;
-      height: 100%;
-      will-change: width, height, color;
-      transition: all 0.3s;
-
-      &.right {
-        left: auto;
-        right: 0px;
-        transform-origin: right;
-      }
-    }
-
-    .filled-btn-text {
-      font-size: 1.5rem;
-      font-weight: 700;
-    }
-
-    &:hover {
-      .filled-btn-overlay {
-        width: 100%;
-      }
-
-      .filled-btn-text {
-        color: var(--bg);
-        z-index: 1;
-      }
     }
   }
 `

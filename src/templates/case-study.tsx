@@ -173,7 +173,7 @@ const StyledCaseStudy = styled.section`
 
     .case-study__main-image{
         margin-top: 10rem;
-        height: 60rem;
+        height: 100vh;
 
         .gatsby-image-wrapper{
             height: 100%;

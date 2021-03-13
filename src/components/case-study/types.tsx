@@ -46,8 +46,8 @@ export interface CaseStudyProps {
                 slug: string;
                 CaseStudiesGraphql: {
                     featuredImage: {
-                        altText: string;
-                        mediaItemUrl: string;
+                        altText: string,
+                        localFile: ImageProps,
                     };
                 };
                 excerpt?: string | undefined;
@@ -59,8 +59,8 @@ export interface CaseStudyProps {
                 slug: string;
                 CaseStudiesGraphql: {
                     featuredImage: {
-                        altText: string;
-                        mediaItemUrl: string;
+                        altText: string,
+                        localFile: ImageProps,
                     };
                 };
                 excerpt?: string | undefined;

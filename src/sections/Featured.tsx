@@ -7,7 +7,7 @@ import { SplitWord } from '@src/_utils/split-text'
 import {gsap} from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
 import CustomLink from '@src/components/CustomLink'
-
+import { GatsbyImage} from 'gatsby-plugin-image';
 
 const Featured = () => {
     const data = useStaticQuery(graphql`
@@ -22,7 +22,11 @@ const Featured = () => {
           CaseStudiesGraphql {
             featuredImage {
               altText
-              mediaItemUrl
+              localFile {
+                childImageSharp {
+                  gatsbyImageData(placeholder: BLURRED, layout: CONSTRAINED, formats: [AUTO,WEBP])
+                }
+              }
             }
           }
         }
@@ -41,7 +45,11 @@ const Featured = () => {
         CaseStudiesGraphql : {
           featuredImage: {
             altText: string,
-            mediaItemUrl: string,
+            localFile:{
+              childImageSharp:{
+                gatsbyImageData: any
+              }
+            },
           }
         }
       }
@@ -122,25 +130,30 @@ const Featured = () => {
         1.4
       );
   });
-  slides.forEach((slide: any, i) => {
-    let imageWrappers = slide.querySelectorAll(".col__image-wrap");
 
-    gsap.fromTo(
-      imageWrappers,
-      {
-        y: "-40vh"
-      },
-      {
-        y: "30vh",
-        scrollTrigger: {
-          trigger: slide,
-          scrub: true,
-          start: "top bottom",
+  // console.log(isMobile);
+  if(window.screen.width > 900){
+    slides.forEach((slide: any, i) => {
+      let imageWrappers = slide.querySelectorAll(".col__image-wrap");
+  
+      gsap.fromTo(
+        imageWrappers,
+        {
+          y: "-40vh"
         },
-        ease: "none"
-      }
-    );
-  });
+        {
+          y: "30vh",
+          scrollTrigger: {
+            trigger: slide,
+            scrub: true,
+            start: "top bottom",
+          },
+          ease: "none"
+        }
+      );
+    });
+  }
+  
   }, [])
 
     const featured = data.featured.edges;
@@ -149,7 +162,8 @@ const Featured = () => {
            <Heading content={'Featured'} className="animatedHeading">Featured Projects</Heading>
            {
                featured.map((featuredProject: FeaturedProps, i: number) => {
-                   const {id, title, excerpt, slug, CaseStudiesGraphql} = featuredProject.node
+                   const {id, title, excerpt, slug, CaseStudiesGraphql} = featuredProject.node;
+                   const Image = CaseStudiesGraphql.featuredImage.localFile.childImageSharp.gatsbyImageData;
                    return (
                        <StyledFeatured className={`content-wrap slide slide--${i}`} id={`slide-${i}`} key={id}>
                            <div className="col col--1">
@@ -174,11 +188,7 @@ const Featured = () => {
                            </div>
                            <div className="col col--2">
                                <div className="col__image-wrap">
-                                   <img
-                                       className="img img--1"
-                                       src={CaseStudiesGraphql.featuredImage.mediaItemUrl}
-                                       alt={CaseStudiesGraphql.featuredImage.altText}
-                                   />
+                                   <GatsbyImage className="img img--1" image={Image!} alt={CaseStudiesGraphql.featuredImage.altText} />
                                </div>
                            </div>
                        </StyledFeatured>
@@ -201,7 +211,7 @@ const StyledFeatured = styled.div`
     overflow: hidden;
 
     ${media.tablet` display: block;position: relative;`};
-    ${media.phone`height: 70vh`}
+    ${media.phone`height: 75vh`}
 
     .col {
     flex-basis: 50%;
@@ -356,15 +366,15 @@ const StyledFeatured = styled.div`
     transform: translateY(-50%);
     width: 100%;
     height: 160vh;
+    .img {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+      position: relative;
+      filter: brightness(0.7)
+    }
   }
 
-  .img {
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-    position: relative;
-    filter: brightness(0.7)
-  }
 `
 
 export default Featured

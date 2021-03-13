@@ -23,7 +23,9 @@ const Embed = () => {
   const spotify = data.inspiration.edges[0].node.AboutPage_Graphql.spotifyEmbed
     return (
         <SpotifyEmbed>
-            <div className="title">Songs I built this portfolio with...</div>
+            <div className="title">
+              <div className="line__inner">Songs I built this portfolio with...</div>
+            </div>
             <div className="content" dangerouslySetInnerHTML={{__html: spotify}}/>
         </SpotifyEmbed>
     )

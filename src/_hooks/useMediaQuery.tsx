@@ -14,7 +14,7 @@ const useMediaQuery = () => {
         return () => {
           mq.removeEventListener('change', mqChange);
         };
-      }, []);
+      }, [mqChange]);
 
       return isMobile;
 }
