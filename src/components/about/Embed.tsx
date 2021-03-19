@@ -47,6 +47,7 @@ const SpotifyEmbed = styled.div`
     .content{
         iframe{
             width: 100%;
+            height: 60rem;
         }
     }
 `;

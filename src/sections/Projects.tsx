@@ -6,8 +6,25 @@ import { useStaticQuery, graphql} from "gatsby"
 import SingleProject from '@src/components/SingleProject';
 import {gsap} from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
-import { SwipeLinks } from '@src/components/Links';
 import CustomLink from '@src/components/CustomLink';
+
+export interface ProjectData {
+  node : {
+    ProjectsGraphql : {
+        github?: string | null,
+        link?: string | null,
+        techsUsed: Tech[],
+        title: string,
+        year: string,
+    },
+    databaseId : string,
+  }
+}
+
+export interface Tech {
+  tech: string
+}
+
 
 const Projects = () => {
 
@@ -32,22 +49,6 @@ const Projects = () => {
     }
   `);
 
-  interface ProjectData {
-      node : {
-        ProjectsGraphql : {
-            github?: string | null,
-            link?: string | null,
-            techsUsed: Tech[],
-            title: string,
-            year: string,
-        },
-        databaseId : string,
-      }
-  }
-
-  interface Tech {
-      tech: string
-  }
 
   React.useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -115,7 +116,7 @@ const Projects = () => {
     )
 }
 
-const StyledProjects = styled.section`
+export const StyledProjects = styled.section`
     margin-top: 15rem;
     margin-bottom: 15rem;
     ${media.phablet`margin-top: 12rem; margin-bottom: 10rem;`}

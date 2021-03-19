@@ -3,7 +3,6 @@ import { getImage } from "gatsby-plugin-image"
 import { GatsbyImage } from "gatsby-plugin-image";
 import React from "react"
 import styled from "styled-components"
-import { ImageProps } from "./case-study"
 import CustomLink from "./CustomLink"
 
 const InlineNav : React.FC = ({ children }) => {

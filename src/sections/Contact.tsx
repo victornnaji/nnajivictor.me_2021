@@ -9,6 +9,7 @@ import {gsap} from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
 import {ScrollToPlugin} from 'gsap/ScrollToPlugin';
 import { scrollTop } from '@src/_utils';
+import CustomLink from '@src/components/CustomLink';
 
 interface SocialProp {
     name : string,
@@ -162,7 +163,7 @@ const Contact = () => {
         </StyledContact>
         <ContactFooter>
             <footer className="footer" id="slide-7">
-                <p className="footer__link">nnaji Victor</p>
+                <CustomLink page="/about" className="footer__link">nnaji Victor</CustomLink>
                 <a className="footer__link-top" style={{cursor: "pointer"}} role="button" onClick={handleFooterClick} onMouseOver={handleFooterOver} onMouseOut={handleFooterOut}>Top<span className="footer__link-top-line"></span></a>
                 <p className="footer__copyright">Designed & Built by Nnaji Victor.</p>
             </footer>

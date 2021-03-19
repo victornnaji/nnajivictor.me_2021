@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import { useStaticQuery, graphql } from "gatsby"
 import { media, theme } from '@src/styles'
 import FilledButton, {FilledButtonText} from '../FilledButton'
+import {gsap} from 'gsap';
+import {ScrollTrigger} from 'gsap/ScrollTrigger';
 
 
 const Resume = () => {
@@ -33,6 +35,30 @@ const Resume = () => {
     }
   `)
 
+  React.useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    const slide_resume = gsap.utils.toArray('.gsap-resume-scroll');
+
+    slide_resume.forEach((slide: any, i: number) => {
+      let tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: slide,
+          start: "top 90%",
+          end: 'top center',
+          scrub: 1,
+          markers: false
+        }
+      });
+
+      tl.from(slide, {
+        opacity: 0,
+        y: 50,
+      })
+    })
+
+  }, [])
+
   interface ResumeProps {
       company: string,
       role: string,
@@ -41,13 +67,13 @@ const Resume = () => {
     const {resume, education, cv} = data.resume.edges[0].node.AboutPage_Graphql;
     
     return (
-        <StyledResume>
-            <div className="resume-title">Resume</div>
+        <StyledResume className="styledResume">
+            <div className="resume-title gsap-resume-scroll">Resume</div>
             <div className="resume-content">
                 <div className="work">
-                    <div className="title">Work Experience</div>
+                    <div className="title gsap-resume-scroll">Work Experience</div>
                       {resume.map((work: ResumeProps, i: number) => (
-                        <div className="content" key={i}>
+                        <div className="content gsap-resume-scroll" key={i}>
                           <div className="content-main__title">{work.company}</div>
                           <div className="content-sub__title">{work.role}</div>
                           <div className="content-sub__title">{work.yearsSpent}</div>
@@ -55,15 +81,15 @@ const Resume = () => {
                     ))}
                 </div>
                 <div className="education">
-                    <div className="title">Education</div>
-                    <div className="content">
+                    <div className="title gsap-resume-scroll">Education</div>
+                    <div className="content gsap-resume-scroll">
                         <div className="content-main__title">{education.school}</div>
                         <div className="content-sub__title">{education.degree}</div>
                         <div className="content-sub__title">{education.year}</div>
                     </div>
                 </div>
             </div>
-            <div className="download-resume">
+            <div className="download-resume gsap-resume-scroll">
               <FilledButton>
                 <a href={cv.mediaItemUrl} target="_blank" rel="nofollow noopener noreferrer">
                     <FilledButtonText text="Download Resume" />
