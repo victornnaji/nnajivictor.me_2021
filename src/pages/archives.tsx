@@ -1,8 +1,12 @@
 import Heading from '@src/components/Heading'
-import { media } from '@src/styles'
+import { media, theme } from '@src/styles'
 import React from 'react'
 import styled from 'styled-components'
 import { useStaticQuery, graphql} from "gatsby"
+import SingleProject from '@src/components/SingleProject'
+import {ProjectData} from '@src/sections/Projects'
+import {gsap} from 'gsap';
+import {ScrollTrigger} from 'gsap/ScrollTrigger';
 
 
 const Archives = () => {
@@ -30,15 +34,48 @@ const Archives = () => {
 
     const projects = data.archives.edges;
 
+    React.useEffect(() => {
+      gsap.registerPlugin(ScrollTrigger);
+      const projects = gsap.utils.toArray('.project-item-container');
+      projects.forEach((project: any) => {
+        let tl = gsap.timeline({
+          scrollTrigger:{
+            trigger: project,
+            start: "top bottom-=5%",
+            end: 'top center+=10%',
+            id: project,
+            scrub: true,
+          }
+        });
+  
+        tl
+        .from(
+          project.querySelectorAll(".line__inner"),
+          {
+            y: 200,
+            duration: 2,
+            ease: "power4",
+          },
+          0
+        )
+      })
+    }, [])
+
 
     return (
         <StyledArchive>
             <Heading content="Archives">Archives</Heading>
             <div className="archive__sub-heading">Lists of all the projects I have worked on</div>
             <StyledTableContainer>
-                <StyledTable>
-
-                </StyledTable>
+            {
+                projects.map((project: ProjectData) => {
+                    return (
+                        <div className="project-item-container" key={project.node.databaseId}>
+                            <SingleProject data={project.node.ProjectsGraphql}/>
+                        </div>
+                    )
+                })
+            }
             </StyledTableContainer>
         </StyledArchive>
     )
@@ -56,27 +93,22 @@ const StyledArchive = styled.section`
         margin-top: -6rem;
         font-size: 1.8rem;
         ${media.phablet` margin-top: -8rem; font-size: 1.6rem`}
-        ${media.phone` margin-top: -4rem;`}
+        ${media.phone` margin-top: -4rem;`};
+        color: var(--link-color);
+        font-family: ${theme.fonts.Mono};
     }
 `;
 
 const StyledTableContainer = styled.div`
   margin-top: 5rem;
+  margin-bottom: 15rem;
   ${media.tablet`
     margin-top: 3rem;
+    margin-bottom: 10rem;
   `};
 `;
 
-const StyledTable = styled.table`
-    width: 100%;
-    border-collapse: collapse;
 
-    .hide-on-mobile {
-        ${media.tablet`
-        display: none;
-        `};
-    }
-`
 
 
 

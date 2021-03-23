@@ -95,6 +95,10 @@ const StyledClientHeader = styled.div`
       text-decoration: none;
       color: currentColor;
       ${media.phablet`margin-bottom: 2rem; display: block;`}
+
+      &.link{
+        color: var(--link-color);
+      }
     }
 
     .award-value {

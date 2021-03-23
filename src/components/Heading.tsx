@@ -2,7 +2,6 @@ import { media, theme } from '@src/styles';
 import React from 'react'
 import styled from 'styled-components'
 import { FeaturedProps } from './components.types'
-import {gsap} from 'gsap';
 import { SplitWord } from '@src/_utils/split-text';
 
 
