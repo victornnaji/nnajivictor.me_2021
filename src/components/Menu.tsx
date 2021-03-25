@@ -6,7 +6,7 @@ import {gsap} from 'gsap';
 import {theme, media} from '@src/styles'
 import MenuImage from './MenuImage';
 import { AnimatingContextInterface, MenuContextInterface } from '@src/_hooks/hooks.types';
-import { SwipeLinks } from './Links';
+import CustomLink from './CustomLink';
 
 type primaryMenuType = {
   node:{
@@ -230,9 +230,9 @@ const Menu = () => {
                         {primary_menu.map((main: primaryMenuType, i:number) => (
                             <div className="mainlink__inner" key={main.node.label+i}>
                                 <p className="mainlink__title">
-                                    <SwipeLinks to={main.node.path} className="mainmenu__item" activeClassName="active">
+                                    <CustomLink page={main.node.path} className="mainmenu__item" activeClassName="active">
                                         {main.node.label}
-                                    </SwipeLinks>
+                                    </CustomLink>
                                 </p>
                             </div>
                         ))}
@@ -267,9 +267,9 @@ const Menu = () => {
                             <div className="secondary-link__inner" key={item+`${i}`}>
                                 <div className="secondary-link__content">
                                     <div className="sec-item-link">
-                                        <SwipeLinks to={item.node.path} className="secondarymenu__item" activeClassName="active">
+                                        <CustomLink page={item.node.path} className="secondarymenu__item" activeClassName="active">
                                             {item.node.label}
-                                        </SwipeLinks>
+                                        </CustomLink>
                                     </div>
                                     <div className="secondarymenu__tag">
                                         {item.node.SecondaryExcerpt.excerpt}

@@ -7,8 +7,9 @@ import { LoadingContextInterface, MenuContextInterface } from '@src/_hooks/hooks
 interface Props {
   page: string,
   className?: string,
+  activeClassName?: string,
 }
-const CustomLink : React.FC<Props> = ({page, children, className}) => {
+const CustomLink : React.FC<Props> = ({page, children, className, activeClassName}) => {
   const [,setLoading] = useLoader() as LoadingContextInterface;
   const [,setOpen] = useMenu() as MenuContextInterface;
     function exitAnimation(){
@@ -48,6 +49,7 @@ const CustomLink : React.FC<Props> = ({page, children, className}) => {
             }
           }
           className={className}
+          activeClassName={activeClassName}
         >
             {children}
         </TransitionLink>

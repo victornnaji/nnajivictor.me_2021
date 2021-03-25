@@ -9,10 +9,29 @@ import {ScrollTrigger} from 'gsap/ScrollTrigger';
 import CustomLink from '@src/components/CustomLink'
 import { GatsbyImage} from 'gatsby-plugin-image';
 
+export interface FeaturedProps {
+  node: {
+    slug: string,
+    excerpt: string,
+    id: string,
+    title: string,
+    CaseStudiesGraphql : {
+      featuredImage: {
+        altText: string,
+        localFile:{
+          childImageSharp:{
+            gatsbyImageData: any
+          }
+        },
+      }
+    }
+  }
+}
+
 const Featured = () => {
     const data = useStaticQuery(graphql`
     {
-      featured: allWpCaseStudy {
+      featured: allWpCaseStudy(limit: 5) {
         edges {
         node {
           slug
@@ -34,26 +53,6 @@ const Featured = () => {
       }
     }
   `)
-
-
-  interface FeaturedProps {
-      node: {
-        slug: string,
-        excerpt: string,
-        id: string,
-        title: string,
-        CaseStudiesGraphql : {
-          featuredImage: {
-            altText: string,
-            localFile:{
-              childImageSharp:{
-                gatsbyImageData: any
-              }
-            },
-          }
-        }
-      }
-  }
 
   React.useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
