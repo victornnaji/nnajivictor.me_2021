@@ -40,7 +40,7 @@ const CaseStudies = () => {
     return (
         <StyledCaseStudies>
             <Heading content="Case Studies">All Case Studies</Heading>
-            <div className="case-study__subheading">List of all detailed projects (personal/for clients)</div>
+            <div className="case-study__subheading">List of all detailed projects (personal / for clients)</div>
             <div className="case-studies__content">
                 {
                     caseStudies.map((caseStudy: FeaturedProps, i: number) =>{
