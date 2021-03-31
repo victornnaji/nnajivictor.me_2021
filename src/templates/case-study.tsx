@@ -13,45 +13,6 @@ import CaseStudyGallery from '@src/components/case-study/CaseStudyGallery'
 import BottomNav from '@src/components/case-study/BottomNav'
 import gsap from 'gsap'
 
-export const query = graphql`query getQuery($slug: String!) {
-  caseStudy: wpCaseStudy(slug: {eq: $slug}) {
-    CaseStudiesGraphql {
-      challenges
-      description
-      designProcess
-      clientDescription {
-        clientName
-        dateLaunched
-        website
-        awards {
-          awardItem
-        }
-      }
-      mainImage {
-        altText
-        databaseId
-        localFile {
-          childImageSharp {
-            gatsbyImageData(placeholder: BLURRED, layout: FLUID, formats: [AUTO,WEBP])
-          }
-        }
-      }
-      gallery {
-        altText
-        databaseId
-        localFile {
-          childImageSharp {
-            gatsbyImageData(placeholder: TRACED_SVG, layout: CONSTRAINED, formats: [AUTO,WEBP])
-          }
-        }
-      }
-    }
-  }
-}
-`;
-
-
-
 const caseStudy = ({data, pageContext: caseStudy} : CaseStudyProps ) => {
     React.useEffect(() => {
         const tl = gsap.timeline();
@@ -220,6 +181,43 @@ const StyledCaseStudy = styled.section`
     }
 
 `;
+
+export const query = graphql`query caseStudyQuery($slug: String!) {
+    caseStudy: wpCaseStudy(slug: {eq: $slug}) {
+      CaseStudiesGraphql {
+        challenges
+        description
+        designProcess
+        clientDescription {
+          clientName
+          dateLaunched
+          website
+          awards {
+            awardItem
+          }
+        }
+        mainImage {
+          altText
+          databaseId
+          localFile {
+            childImageSharp {
+              gatsbyImageData(placeholder: BLURRED, layout: FLUID, formats: [AUTO,WEBP])
+            }
+          }
+        }
+        gallery {
+          altText
+          databaseId
+          localFile {
+            childImageSharp {
+              gatsbyImageData(placeholder: TRACED_SVG, layout: CONSTRAINED, formats: [AUTO,WEBP])
+            }
+          }
+        }
+      }
+    }
+  }
+  `;
 
 
 export default caseStudy;

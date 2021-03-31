@@ -1,8 +1,8 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import styled from 'styled-components';
 
 
-const PageLoading: React.FC = ({children}) => {
+const PageLoading = () => {
     
     return (
       <StyledPageLoader className="overall">

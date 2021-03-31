@@ -1,12 +1,13 @@
 const path = require('path');
 
+
 exports.createPages = async ({actions, graphql, reporter}) => {
     const { createPage } = actions;
-    const caseStudiesTemplate = path.resolve('src/templates/case-studies.tsx');
+    const postTemplate = path.resolve('src/templates/post.tsx');
     const caseStudyTemplate = path.resolve('src/templates/case-study.tsx');
 
     const result = await graphql(`
-      {
+      query getAllQueries{
         caseStudies: allWpCaseStudy(sort: {order: DESC, fields: date}) {
           edges {
             node {
@@ -23,6 +24,17 @@ exports.createPages = async ({actions, graphql, reporter}) => {
                   }
                 }
               }
+            }
+          }
+        }
+
+        posts: allWpPost(sort: {order: DESC, fields: date}) {
+          edges {
+            node {
+              databaseId
+              slug
+              title
+              excerpt
             }
           }
         }
@@ -52,6 +64,25 @@ exports.createPages = async ({actions, graphql, reporter}) => {
         },
       })
     })
+
+    const posts = result.data.posts.edges;
+    posts.forEach(({node}, index) => {
+      const next = posts[index === posts.length - 1 ? 0 : index + 1];
+      const prev = posts[index === 0 ? posts.length - 1 : index - 1];
+      createPage({
+        path: `blog/${node.slug}`,
+        component: postTemplate,
+        context: {
+          node,
+          next,
+          prev,
+          slug: node.slug,
+        },
+      })
+    })
+
+    console.log(posts);
+
     
 }
 

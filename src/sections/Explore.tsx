@@ -46,7 +46,7 @@ const Explore = () => {
     }, []);
 
     const exploreItems = [
-        {title: "Blog", link: '/blogs'},
+        {title: "Blog", link: '/blog'},
         {title: "Series", link: '/series'},
         {title: "Reviews", link: '/reviews'},
         {title: "Playground", link: '/playground'},

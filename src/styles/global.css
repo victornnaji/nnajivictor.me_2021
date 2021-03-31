@@ -91,7 +91,7 @@ a.link{
     text-decoration: none;
     display: inline-block;
     position: relative;
-    white-space: nowrap;
+    /* white-space: nowrap; */
     cursor: pointer;
 }
 a.link::before{

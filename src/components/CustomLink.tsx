@@ -28,6 +28,7 @@ const CustomLink : React.FC<Props> = ({page, children, className, activeClassNam
         .fromTo(slices, {
           xPercent: 0
         }, {
+          delay: 0.35,
           duration: 1.5,
           stagger: 0.095,
           xPercent: 100,
