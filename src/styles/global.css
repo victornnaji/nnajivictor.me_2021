@@ -73,6 +73,7 @@ body.light{
     --primary-dark: rgba(17, 17, 17, 0.7);
     --tertiary-color-moon-trans: rgba(219, 219, 219, 0.85);
     --tertiary-color-trans: rgba(209, 209, 209, 0.85);
+    --link-inverted: #64ffda;
 }
 
 body.dark{
@@ -84,6 +85,7 @@ body.dark{
     --primary-dark: rgba(230, 241, 255, 0.7);
     --tertiary-color-moon-trans: rgba(2, 12, 27, 0.85);
     --tertiary-color-trans: rgba(17, 35, 64, 0.85);
+    --link-inverted: #4433ff;
 }
 
 a.link{

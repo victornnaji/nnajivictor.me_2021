@@ -1,6 +1,13 @@
-import { theme } from "@src/styles"
+import { media, theme } from "@src/styles"
 import React from "react"
 import styled from "styled-components"
+import {InstantSearch} from 'react-instantsearch-dom';
+import algoliasearch from 'algoliasearch/lite';
+import { CustomSearchBox } from "./search/SearchBox";
+import Result from "./search/SearchResult";
+import { PoweredBy } from 'react-instantsearch-dom';
+import { Helmet } from "react-helmet";
+
 
 const BlogSearch = () => {
   const [searchClick, setSearchClick] = React.useState(false)
@@ -19,8 +26,16 @@ const BlogSearch = () => {
     }
   })
 
+  const searchClient = algoliasearch(
+    `${process.env.GATSBY_ALGOLIA_APP_ID}`,
+    `${process.env.GATSBY_ALGOLIA_SEARCH_KEY}`
+  );
+  
   return (
     <StyledSearch onKeyUp={handleKeyUp}>
+      <Helmet>
+       <body id={searchClick ? "stoic" : ""} />
+      </Helmet>
       <div className="search-wrap">
         <button
           id="btn-search"
@@ -34,11 +49,7 @@ const BlogSearch = () => {
         </button>
       </div>
 
-      <div
-        className={`search-component search ${
-          searchClick ? "search--open" : ""
-        }`}
-      >
+      <div className={`search-component search ${searchClick ? "search--open" : ""}`}>
         <button
           id="btn-search-close"
           className="btn btn--search-close"
@@ -50,22 +61,14 @@ const BlogSearch = () => {
             <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
           </svg>
         </button>
-        <form className="search__form" action="">
-          <input
-            className="search__input"
-            name="search"
-            type="search"
-            placeholder="react"
-            autoComplete="off"
-            autoCorrect="off"
-            autoCapitalize="off"
-            spellCheck="false"
-            autoFocus
-          />
-          <span className="search__info">
-            Hit enter to search or ESC to close
-          </span>
-        </form>
+        <InstantSearch
+          indexName="Posts"
+          searchClient={searchClient}
+        >
+          <div className="poweredby"><PoweredBy /></div>
+          <CustomSearchBox searchClick={searchClick}/>
+          <Result />
+        </InstantSearch>
       </div>
     </StyledSearch>
   )
@@ -119,6 +122,32 @@ const StyledSearch = styled.div`
     align-items: center;
     text-align: center;
 
+    .poweredby{
+      position: absolute;
+      top: 3rem;
+      left: 3.5rem;
+      width: 6rem;
+      .ais-PoweredBy-text{
+        color: var(--bg);
+        display: block;
+        text-align: left;
+      }
+
+      svg{
+        width: 10rem;
+        ${media.phablet`width: 8rem`}
+        path{
+          &:nth-child(2), &:nth-child(4){
+            fill: var(--bg)
+          }
+          &:nth-child(3){
+            fill: var(--primary-color)
+          }
+        }
+      }
+      
+    }
+
     &::before,
     &::after {
       content: "";
@@ -151,24 +180,28 @@ const StyledSearch = styled.div`
       display: block;
     }
     .search__form {
-      margin: 15rem 0;
+      margin: 10rem 0 4rem 0;
+      ${media.tablet`margin: 12rem 0 2rem 0;`};
     }
+
     .search__input {
       font-family: inherit;
-      font-size: 5vw;
+      font-size: 3vw;
       line-height: 1;
       display: inline-block;
       box-sizing: border-box;
-      width: 75%;
-      padding: 0.05em 0;
+      width: 90%;
+      padding: 0.1em 0;
       color: var(--bg);
       border: none;
-      border-bottom: 2px solid var(--bg);
+      border-bottom: 1px solid var(--bg);
       background-color: transparent;
       pointer-events: auto;
+      ${media.phablet`font-size: 5.5vw; width: 75%;`};
+      font-family: ${theme.fonts.Inter};
       &::placeholder {
         color: var(--tertiary-color-moon) !important;
-        opacity: 0.5 !important; /* Firefox */
+        opacity: 0.5 !important;
       }
 
       &:focus {
@@ -212,7 +245,14 @@ const StyledSearch = styled.div`
       text-align: right;
       color: var(--bg);
       font-family: ${theme.fonts.Mono};
+      ${media.phablet`font-size: 1.2rem;`}
     }
+
+    .search__related {
+      width: 100%;
+      color: var(--bg);
+    }
+
 
     /* Transitions */
     &.search {
@@ -241,16 +281,22 @@ const StyledSearch = styled.div`
     &.search--open::after {
       transform: translate3d(0, 0, 0);
     }
-    .btn--search-close {
+    .btn--search-close, .poweredby {
         opacity: 0;
         transform: scale3d(0.8, 0.8, 1);
         transition: opacity 0.5s, transform 0.5s;
     }
 
-    &.search--open .btn--search-close {
+    &.search--open .btn--search-close, &.search--open .poweredby {
         opacity: 1;
         transform: scale3d(1, 1, 1);
     }
+
+    &.search--open .search__suggestion {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+
     .search__form {
         opacity: 0;
         transform: scale3d(0.8, 0.8, 1);
@@ -261,24 +307,6 @@ const StyledSearch = styled.div`
         transform: scale3d(1, 1, 1);
     }
 
-/* .search__suggestion {
-	opacity: 0;
-	transform: translate3d(0, -30px, 0);
-	transition: opacity 0.5s, transform 0.5s;
-}
-
-.search--open .search__suggestion {
-	opacity: 1;
-	transform: translate3d(0, 0, 0);
-}
-
-.search--open .search__suggestion:nth-child(2) {
-	transition-delay: 0.1s;
-}
-
-.search--open .search__suggestion:nth-child(3) {
-	transition-delay: 0.2s;
-} */
   }
 `
 

@@ -36,14 +36,16 @@ interface BlogCardProps{
 }
 const BlogCard = ({classname, data}: BlogCardProps) => {
     const excerpt = data.excerpt.slice(0, 350);
-    console.log(data.featuredImage?.node?.localFile?.childImageSharp?.gatsbyImageData);
+    // console.log(data.featuredImage);
     const Image = getImage(data.featuredImage?.node?.localFile?.childImageSharp?.gatsbyImageData)
     return (
         <StyledBlogCard className={classname}>
+           <Link to={`/blog/${data.slug}`}>
             <GatsbyImage
-                image={Image!}
-                alt={data.featuredImage?.node?.altText}
-             />
+                    image={Image!}
+                    alt={data.featuredImage?.node?.altText}
+                />
+           </Link>
             <div className="blog-sub-menu">
                 <ul className="blog-sub-menu__categories">
                     {data.categories.nodes.map((category: { name: string, slug: string }, i: number) => (

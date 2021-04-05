@@ -31,7 +31,7 @@ const BlogPage = () => {
                 localFile {
                     childImageSharp {
                     gatsbyImageData(placeholder: BLURRED, layout: CONSTRAINED, formats: [AUTO,WEBP])
-                    }
+                  }
                 }
               }
             }
@@ -42,6 +42,7 @@ const BlogPage = () => {
     }`);
 
     const posts = data.posts.edges;
+    console.log(posts);
 
     //state for the list
     const [list, setList] = React.useState([...posts.slice(0, 10)]);
