@@ -42,7 +42,7 @@ const BlogPage = () => {
     }`);
 
     const posts = data.posts.edges;
-    console.log(posts);
+    // console.log(posts);
 
     //state for the list
     const [list, setList] = React.useState([...posts.slice(0, 10)]);
@@ -94,7 +94,7 @@ const BlogPage = () => {
                         </button>
                     </FilledButton>
                 </div>
-            ) : null}
+            ) : <div className="empty-space"></div>}
         </StyledBlog>
     )
 }
@@ -136,6 +136,9 @@ export const DoubleLine = styled.hr`
 
 const StyledBlog = styled.section`
     margin-top: 5rem;
+    .empty-space{
+        margin-bottom: 10rem;
+    }
     .blog-title-and-search{
         display: flex;
         justify-content: space-between;

@@ -1,11 +1,11 @@
 import React from 'react'
 import styled from 'styled-components';
-import { GatsbyImage, getImage} from 'gatsby-plugin-image';
+import { GatsbyImage, getImage, StaticImage} from 'gatsby-plugin-image';
 import { theme } from '@src/styles';
 import { Link } from 'gatsby';
 import CustomLink from './CustomLink';
 import kebabCase from 'lodash.kebabcase';
-
+import { SEOImage } from '@src/_utils/SeoImage';
 
 interface BlogCardProps{
     data: {
@@ -37,14 +37,20 @@ interface BlogCardProps{
 const BlogCard = ({classname, data}: BlogCardProps) => {
     const excerpt = data.excerpt.slice(0, 350);
     // console.log(data.featuredImage);
-    const Image = getImage(data.featuredImage?.node?.localFile?.childImageSharp?.gatsbyImageData)
+    const Image = getImage(data.featuredImage?.node?.localFile?.childImageSharp?.gatsbyImageData);
+    // let placeholderImage;
+    // placeholderImage = SEOImage({title: data.title});
+    // if (!Image){
+    // }
     return (
         <StyledBlogCard className={classname}>
            <Link to={`/blog/${data.slug}`}>
-            <GatsbyImage
+            {
+                <GatsbyImage
                     image={Image!}
                     alt={data.featuredImage?.node?.altText}
                 />
+            }
            </Link>
             <div className="blog-sub-menu">
                 <ul className="blog-sub-menu__categories">
@@ -63,6 +69,10 @@ const BlogCard = ({classname, data}: BlogCardProps) => {
 }
 
 const StyledBlogCard = styled.article`
+    .gatsby-image-wrapper-constrained{
+        display: block;
+    }
+
     .blog-title{
         font-size: 2.3rem;
         font-family: ${theme.fonts.Inter};
@@ -81,7 +91,7 @@ const StyledBlogCard = styled.article`
         width: 100%;
         justify-content: space-between;
         align-items: center;
-        padding-top: 0.5rem;
+        padding-top: 1rem;
 
         &__categories{
             display: flex;
