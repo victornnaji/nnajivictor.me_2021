@@ -7,7 +7,7 @@ const BlogPostContainer = styled.article`
     width: 100%;
     max-width: 1000px;
     min-height: 100vh;
-    padding: 200px 100px;
+    padding: 150px 100px;
     font-family: ${theme.fonts.Lato};
 
     code {
@@ -114,5 +114,35 @@ const BlogPostContainer = styled.article`
         content: 'php';
     }
 `;
+
+
+export const BlogPostHeader = styled.header`
+    margin-bottom: 5rem;
+    h1{
+        font-weight: 600;
+        margin: 0 0 1.6rem 0;
+
+        &.medium-title{
+            font-size: 5rem;
+            line-height: 1.1;
+            margin: 0;
+            ${media.desktop`font-size: 5rem;`}
+            ${media.tablet`font-size: 4rem`};
+            font-family: ${theme.fonts.Inter};
+        }
+    }
+
+    h2.subtitle{
+        margin: 1.5rem 0 1rem 0;
+        font-size: 1.5rem;
+        font-family: ${theme.fonts.Mono};
+        line-height: 1.5;
+
+        a{
+            margin-right: 10px;
+            text-transform: capitalize;
+        }
+    }
+`
 
 export default BlogPostContainer

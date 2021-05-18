@@ -2,32 +2,49 @@
 title: Testing Mdx plugin
 slug: testing-mdx-plugin
 date: 2019-01-29
+excerpt: 'Learn how to test for react mdx in this beautiful post filled with tryouts'
+tags: 
+  - react
+  - Frontend
 ---
-
-import Heading from "../../components/Heading"
-import CustomLink from "../../components/CustomLink"
-
-<ReactComponentHolder>
-  <Heading content="Heading">Heading Test</Heading>
-</ReactComponentHolder>
-
-<ReactComponentHolder>
-   <div className="left-bottom-nav">
-      <FilledButton>
-        <CustomLink page={`/case-study/hello`} >
-            <FilledButtonText text="Prev Case Study" />
-        </CustomLink>
-      </FilledButton>
-  </div>
-</ReactComponentHolder>
-
-
 
 There are two primary ways to style React Components - Inline styling and using className with regular CSS. 
 Using HTML, you can style your tags inline using this syntax
 ```html
 	<div style="background-color: red; padding-left: 20px">Hello </div>
 ```
+
+<Alerts type="alert">
+
+__Note:__ This is a note.
+```
+async function lazy() {  // ...}
+
+function hello() {  Math.random() > .5 ? "Hello" : "Bonjour"}
+
+```
+
+The `revert` order is so out of place
+
+</Alerts>
+<Alerts type="success">
+
+__Note:__ This is a note.
+```
+async function lazy() {  // ...}
+
+function hello() {  Math.random() > .5 ? "Hello" : "Bonjour"}
+
+```
+
+The `revert` order is so out of place
+
+</Alerts>
+
+<Alerts type="info">
+  N.B: This will not go well
+</Alerts>
+
 This isn't necessarily the way to do it in React, instead you pass an object of styles as props. Like this 
 ```jsx
 	const stylesObj = {

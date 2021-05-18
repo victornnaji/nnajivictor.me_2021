@@ -70,7 +70,13 @@ module.exports = {
         apiKey: process.env.ALGOLIA_ADMIN_KEY,
         queries: require("./src/_utils/algolia-queries")
       },
-    }
+    },
+    {
+      resolve: "gatsby-plugin-mailchimp",
+      options: {
+        endpoint: process.env.MAILCHIMP_ENDPOINT,
+      },
+    },
     // {
     //   resolve: 'gatsby-plugin-graphql-codegen',
     //   options: {
