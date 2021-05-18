@@ -6,11 +6,14 @@ const PostPage = ({data, pageContext: post}: any) => {
 
     const {title, excerpt} = post.node
     console.log(data);
-    SEOImage({title, tagline: excerpt});
+    console.log(post);
+    // SEOImage({title, tagline: excerpt});
 
     return (
         <div>
-            This is a page
+          post title: {title}
+            <div>This is a page</div>
+            another title: {data.wpPost.title}
         </div>
     )
 }

@@ -22,6 +22,13 @@ module.exports = {
         path: `${__dirname}/src/images`,
       },
     },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `playground`,
+        path: `${__dirname}/src/pages/playground`,
+      },
+    },
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     `gatsby-plugin-image`,
@@ -46,6 +53,14 @@ module.exports = {
         url:
           process.env.WPGRAPHQL_URL ||
           `http://nnajivictormev2.local/graphql`,
+      },
+    },
+    {
+      resolve: `gatsby-plugin-mdx`,
+      options: {
+        defaultLayouts: {
+          default: require.resolve('./src/components/PlayGroundTemplate.tsx'),
+        },
       },
     },
     {

@@ -1,0 +1,170 @@
+---
+title: Testing Mdx plugin
+slug: testing-mdx-plugin
+date: 2019-01-29
+---
+
+import Heading from "../../components/Heading"
+import CustomLink from "../../components/CustomLink"
+
+<ReactComponentHolder>
+  <Heading content="Heading">Heading Test</Heading>
+</ReactComponentHolder>
+
+<ReactComponentHolder>
+   <div className="left-bottom-nav">
+      <FilledButton>
+        <CustomLink page={`/case-study/hello`} >
+            <FilledButtonText text="Prev Case Study" />
+        </CustomLink>
+      </FilledButton>
+  </div>
+</ReactComponentHolder>
+
+
+
+There are two primary ways to style React Components - Inline styling and using className with regular CSS. 
+Using HTML, you can style your tags inline using this syntax
+```html
+	<div style="background-color: red; padding-left: 20px">Hello </div>
+```
+This isn't necessarily the way to do it in React, instead you pass an object of styles as props. Like this 
+```jsx
+	const stylesObj = {
+		backgroundColor: 'red',
+		paddingLeft: '20px',
+	}
+	<Text style={stylesObj}>Hi</Text>
+```
+This can be further be simplified as 
+```jsx
+    import React from 'react';
+	<Text style={{backgroundColor: 'red', paddingLeft: '20px'}}>Hi</Text>
+```
+**N.B:** The classes are camelCased in React instead of the regular css class names we are used to.
+A better approach to styling React components is by using class names as you would with a regular html styling because it helps to decongest the HTML file and tag, in this case - JSX.
+```css
+	.Text_container{
+		background-color: red;
+		padding: 10px 15px;
+	}
+	Text_content{
+		font-size: 17px;
+		font-weight: 500;
+	}
+```
+and on the component file, can be used like this
+```jsx
+	import React from 'react'
+	import './Text.css' //relative to the location of the file
+	const Text = (props) => {
+		return (
+			<div className="Text_container">
+				<div className="Text_content">{props}</div>
+			</div>
+		)
+	}
+```
+**N.B:** Because `class` is already a javascript keyword, className is used to represent the html class attribute. Most beginners would find this conflicting at first but trust React to cry and throw a console error when that happens. 
+## Creating a custom component that can accept style props. 
+Let's customize our **Text** component to accept style props. This means that our reusable text component can now be extended to accept different styling. 
+```jsx
+	import React from 'react'
+	function Text(props){
+		return <div {...props} />
+	}
+```
+This destructuring  `{...props}` means that the component can accept and apply as many props as it can. classNames, tags, etc.
+What if our Text component should have a general styling that is unique to all Text components. For instance `font family` .
+This can be done like this. 
+```css
+	.Text-container{
+		font-family: 'roboto, sans-serif';
+	}
+```
+```jsx
+	import React from 'react'
+	import "./Text.css'
+	function Text(props){
+		return <div className="Text-container" {...props} />
+	}
+    export default Text
+```
+Usuage of our Text component can be 
+```jsx
+	import React from 'react'
+	import Text from './Text'
+	function App(){
+		return (
+			<Text className="text-blue"> Hello </Text>
+		)
+	}
+```
+This looks like it would run fine, however, our `className="text-blue"` will override the `className="Text-container"` in the Text component file because "javascript". Our `className="Text-container"` comes right before the `{...props}` and since the `{...props}` comes with its own `className` ,  javascript will override the prior `className` because of naming conflict. 
+If you rearrange the position of the props and the `className`, this means that the incoming `className` will be overriden following the same naming conflict issue.
+
+### Solution - Destructuring
+
+Read: [destructuring-assignment](https://javascript.info/destructuring-assignment#the-rest)
+
+We can extract the className from the incoming props and then combine them to achieve the styling we so want. 
+```jsx
+	import React from 'react'
+	import "./Text.css'
+	function Text({className = '', ...restOfProps}){
+		return <div className={`box ${className}`} {...restOfProps} />
+	}
+    export default Text
+```
+What the <em>code</em> above is simply doing is 
+ 1. extracting the className from the props and then destructuring the rest of the props using the spread syntax. 
+ 2. Giving the className a fall back value of empty`('')` in situations where there is no external className coming into the component. 
+ 3. using template literal to include the className into our component's `className`
+## Taking care of the style implementation
+What if we accept a simple-named props instead of classNames for example, `font="big"`, and then implement the styling with respect to the props given, this makes the component simpler and easier to use, removing the bulk of the work from the component's user. 
+```jsx
+	import React from 'react'
+	import Text from './Text'
+	function App(){
+		return (
+			<div className="container">
+				<Text font="big"> Hello </Text>
+				<Text font="small"> Hello </Text>
+			</div>
+		)
+	}
+```
+Implementing this can be 
+```css
+	.text-big{
+		font-size: 40px;
+	}
+	.text-medium{
+		font-size: 25px;
+	}
+	.text-small{
+		font-size: 16px;
+	}
+```
+```jsx
+	import React from 'react'
+	import "./Text.css'
+	function Text({className = '', font, ...restOfProps}){
+		const fontSize = font ? `box-${font}`;
+		return <div className={`box ${className} ${fontSize} `} {...restOfProps} />
+	}
+    export default Text
+```
+
+```json
+{
+  "scripts": {
+    "build:rss": "babel-node ./build-helpers/generate-rss-feed.js",
+    "build:sitemap": "babel-node ./build-helpers/generate-sitemap.js",
+    "build:og-images": "babel-node ./build-helpers/generate-og-images.js",
+    "prebuild": "yarn build:og-images && yarn build:sitemap && yarn build:rss",
+    "build": "next build"
+  }
+}
+```
+
