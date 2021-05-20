@@ -42,7 +42,7 @@ The `revert` order is so out of place
 </Alerts>
 
 <Alerts type="info">
-  N.B: This will not go well
+  N.B: This will not go well. The <em>code</em> is displaced out of proportion
 </Alerts>
 
 This isn't necessarily the way to do it in React, instead you pass an object of styles as props. Like this 
@@ -137,6 +137,16 @@ What the <em>code</em> above is simply doing is
  1. extracting the className from the props and then destructuring the rest of the props using the spread syntax. 
  2. Giving the className a fall back value of empty`('')` in situations where there is no external className coming into the component. 
  3. using template literal to include the className into our component's `className`
+
+
+ And here we get the unorderd list to look like this -
+
+ - extracting the className from the props and then destructuring the rest of the props using the spread syntax. 
+ - Giving the className a fall back value of empty`('')` in situations where there is no external className coming into the component. 
+ - using template literal to include the className into our component's `className`
+
+so we are done here 
+
 ## Taking care of the style implementation
 What if we accept a simple-named props instead of classNames for example, `font="big"`, and then implement the styling with respect to the props given, this makes the component simpler and easier to use, removing the bulk of the work from the component's user. 
 ```jsx

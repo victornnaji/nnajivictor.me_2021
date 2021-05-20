@@ -92,7 +92,7 @@ const NewsLetterContent = styled.div`
    border-radius: .5rem;
    padding: 2rem;
    font-size: 1.6rem;
-   max-width: 800px;
+   max-width: 90rem;
    margin: 0 auto;
    font-family: ${theme.fonts.Mono};
 

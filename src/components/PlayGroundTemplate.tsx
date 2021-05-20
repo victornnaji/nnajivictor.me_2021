@@ -1,12 +1,12 @@
 import React from 'react'
 import { MDXProvider } from '@mdx-js/react';
 import CodeBlock from './BlogComponents/CodeBlock';
-import BlogPostContainer, { BlogPostHeader } from '@src/styles/BlogPostContainer';
+import BlogPostContainer, { BlogPostContent, BlogPostHeader } from '@src/styles/BlogPostContainer';
 import ReactComponentHolder from './BlogComponents/ReactComponent';
 import Em from './BlogComponents/Em';
 import Paragraph from './BlogComponents/Paragraph';
 import Link from './BlogComponents/Link';
-import { OrderedList } from './BlogComponents/List';
+import { OrderedList, UnorderedList } from './BlogComponents/List';
 import GoogleAds from './BlogComponents/GoogleAds';
 import BreadCrumbs from './BlogComponents/BreadCrumbs';
 import NewsLetter from './BlogComponents/NewsLetter';
@@ -21,6 +21,7 @@ const components = {
     p: Paragraph,
     a: Link,
     ol: OrderedList,
+    ul: UnorderedList,
     Alerts
 }
 
@@ -43,6 +44,7 @@ const PlayGroundTemplate: React.FC<Props> = ({children, pageContext}) => {
         <MDXProvider components={components}>
             <BlogPostContainer>
                 <GoogleAds />
+                <BlogPostContent className="wrapper">
                 <BlogPostHeader>
                     <BreadCrumbs link="/playground"> All Playgrounds </BreadCrumbs>
                     <h1 className="medium-title">{title}</h1>
@@ -60,7 +62,8 @@ const PlayGroundTemplate: React.FC<Props> = ({children, pageContext}) => {
                         ))}
                     </h2>
                 </BlogPostHeader>
-                {children}
+                    {children}  
+                </BlogPostContent>
                 <NewsLetter />
             </BlogPostContainer>
         </MDXProvider>

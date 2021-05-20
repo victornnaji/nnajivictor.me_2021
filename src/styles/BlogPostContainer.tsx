@@ -5,17 +5,32 @@ import theme from "./theme";
 const BlogPostContainer = styled.article`
     margin: 0 auto;
     width: 100%;
-    max-width: 1000px;
     min-height: 100vh;
-    padding: 150px 100px;
+    padding: 15rem 0;
+    .wrapper {
+        display: grid;
+        grid-template-columns: 1fr min(80ch, 100%) 1fr;
+
+        ${media.phablet`display: block`}
+    }
+    .wrapper > * {
+        grid-column: 2;
+    }
+    .full-bleed {
+        width: 90%;
+        margin: 4rem auto;
+        grid-column: 1 / -1;
+        ${media.tablet`width: 100%;`}
+    }
     font-family: ${theme.fonts.Lato};
 
     code {
         background-color: rgb(23, 42, 69);
         color: rgb(230, 241, 255);
-        font-size: 14px;
+        font-size: 1.5rem;
         border-radius: 3px;
         padding: 0.3em 0.5em;
+        margin-bottom: 1.5rem;
         font-family: ${theme.fonts.Mono};
     }
 
@@ -35,7 +50,7 @@ const BlogPostContainer = styled.article`
         border-radius: .3rem;
         margin: 2em 0;
         font-family: ${theme.fonts.Mono};
-        font-size: 1.5rem;
+        font-size: 1.7rem;
         position: relative;
         overflow: auto;
     }
@@ -115,6 +130,47 @@ const BlogPostContainer = styled.article`
     }
 `;
 
+export const BlogPostContent = styled.main`
+    font-size: 2rem;
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6{
+        font-weight: 600;
+        font-family: ${theme.fonts.Inter};
+        margin: 3.5rem 0 2rem 0;
+    }
+
+    h1{
+        font-size: 5rem;
+    }
+
+    h2{
+        font-size: 4rem;
+    }
+
+    h3{
+        font-size: 3rem;
+    }
+
+    h4{
+        font-size: 2rem
+    }
+
+    h5{
+        font-size: 1.5rem;
+    }
+
+    h6{
+        font-size: 1rem;
+    }
+
+    strong{
+        font-weight:600;
+    }
+`;
 
 export const BlogPostHeader = styled.header`
     margin-bottom: 5rem;
@@ -123,7 +179,7 @@ export const BlogPostHeader = styled.header`
         margin: 0 0 1.6rem 0;
 
         &.medium-title{
-            font-size: 5rem;
+            font-size: 5.5rem;
             line-height: 1.1;
             margin: 0;
             ${media.desktop`font-size: 5rem;`}
@@ -134,7 +190,7 @@ export const BlogPostHeader = styled.header`
 
     h2.subtitle{
         margin: 1.5rem 0 1rem 0;
-        font-size: 1.5rem;
+        font-size: 1.7rem;
         font-family: ${theme.fonts.Mono};
         line-height: 1.5;
 
