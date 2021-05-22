@@ -42,7 +42,6 @@ const BlogPage = () => {
     }`);
 
     const posts = data.posts.edges;
-    // console.log(posts);
 
     //state for the list
     const [list, setList] = React.useState([...posts.slice(0, 10)]);
@@ -78,7 +77,7 @@ const BlogPage = () => {
             <DoubleLine/>
             <div className="blog-title-and-search">
                 <h1 className="blog-title"><ArticleIcon /> <span>Articles</span></h1>
-                <BlogSearch />
+                <BlogSearch indexName="Posts"/>
             </div>
             <p className="blog-description"> A collection of all my thoughts and findings</p>
             <StyledBlogContent>

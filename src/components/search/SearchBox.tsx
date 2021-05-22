@@ -5,8 +5,10 @@ interface Props {
   currentRefinement: any,
   refine: any,
   searchClick: any;
+  indexName: string,
 }
-const SearchBox = ({currentRefinement, refine, searchClick}: Props) => {
+const SearchBox: React.FC<Props> = ({currentRefinement, refine, searchClick, indexName}) => {
+
   React.useEffect(() => {
     if(!searchClick){
       refine("");
@@ -18,7 +20,7 @@ const SearchBox = ({currentRefinement, refine, searchClick}: Props) => {
             className="search__input"
             name="search"
             type="search"
-            placeholder="Search blog..."
+            placeholder={`Search ${indexName.toLowerCase()} ...`}
             autoFocus
             value={currentRefinement}
             onChange={(event) => refine(event.currentTarget.value)}

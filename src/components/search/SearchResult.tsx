@@ -1,13 +1,13 @@
 import ArticleIcon from '@src/assets/Article';
 import { media } from '@src/styles';
-import { Link } from 'gatsby';
+import { Link, PageProps } from 'gatsby';
 import React from 'react'
 import { connectHits } from 'react-instantsearch-dom';
 import { connectStateResults } from 'react-instantsearch-dom';
 import styled from 'styled-components';
 import SearchSuggestions from './SearchSuggestions';
 
-const SearchResult = ({ hits }: any) => {
+const SearchResult = ({ hits }: { hits : any}) => {
     return (
         <div className="suggested-posts-holder">
            {hits.map((hit: any) => (
@@ -19,8 +19,21 @@ const SearchResult = ({ hits }: any) => {
         </div>
     )
 }
-
 const CustomHits = connectHits(SearchResult);
+
+const SearchPlaygroundResult = ({ hits }: any) => {
+    return (
+        <div className="suggested-posts-holder">
+           {hits.map((hit: any) => (
+                <Link to={`/playground/${hit.slug}`} key={hit.objectID} className="link suggested-posts">
+                    <div className="title" dangerouslySetInnerHTML={{__html: hit._highlightResult.title.value}}/>
+                    <div className="excerpt"  dangerouslySetInnerHTML={{__html: hit.excerpt}}/>
+                </Link>
+            ))} 
+        </div>
+    )
+}
+const CustomPlagroundHits = connectHits(SearchPlaygroundResult);
 
 const StateResults = connectStateResults(({ searchState, children, searchResults }) =>{
 
@@ -46,11 +59,15 @@ const StateResults = connectStateResults(({ searchState, children, searchResults
     }
 );
   
-const Result = () => {
+const Result = ({indexName}: {indexName: string}) => {
     return (
         <StyledResult>
             <StateResults>
-                <CustomHits />
+                {indexName === "Posts" ? (
+                    <CustomHits />
+                ) : (
+                    <CustomPlagroundHits />
+                )}
             </StateResults>
         </StyledResult>
     )
