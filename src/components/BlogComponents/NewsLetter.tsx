@@ -2,6 +2,7 @@ import React, { useState }  from 'react'
 import styled from 'styled-components';
 import addToMailchimp from "gatsby-plugin-mailchimp";
 import { media, theme } from '@src/styles';
+import { trackSignUpForNewsletter } from '@src/_utils/analytics';
 
 const NewsLetter = () => {
     const [email, setEmail] = useState<any>();
@@ -27,8 +28,9 @@ const NewsLetter = () => {
                 }
                 setDisabled(false)
                 } else {
-                setMessage("Thanks and welcome! You have successfully joined the Newsletter 🥳.")
-                setEmail("");
+                    setMessage("Thanks and welcome! You have successfully joined the Newsletter 🥳.")
+                    setEmail("");
+                    trackSignUpForNewsletter({id: 'nnajivictorme'})    
             }
         }
     };

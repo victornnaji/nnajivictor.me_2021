@@ -1,45 +1,16 @@
 import React from 'react'
 import Highlight, { defaultProps } from 'prism-react-renderer'
-import {LiveProvider, LiveEditor, LiveError, LivePreview} from 'react-live'
-import {mdx} from '@mdx-js/react'
 import theme from "prism-react-renderer/themes/nightOwl";
 
-const CodeBlock: React.FC = ({ children, className, live, render }: any) => {
+const CodeBlock: React.FC = ({ children, className }: any) => {
 
     className = className ? className : 'language-text';
     
     const language = className.replace(/language-/, '') || ""
 
-    if (live) {
-        return (
-          <div style={{marginTop: '40px', backgroundColor: 'black'}}>
-            <LiveProvider
-              code={children.trim()}
-              transformCode={code => '/** @jsx mdx */' + code}
-              scope={{mdx, React}}
-            >
-              <LivePreview />
-              <LiveEditor />
-              <LiveError />
-            </LiveProvider>
-          </div>
-        )
-      }
-    
-      if (render) {
-        return (
-          <div style={{marginTop: '40px', backgroundColor: 'black'}}>
-            <LiveProvider code={children}>
-              <LivePreview />
-              <LiveError />
-            </LiveProvider>
-          </div>
-        )
-      }
-
     return (
       <Highlight {...defaultProps} theme={theme} code={children.trim()} language={language}>
-        {({className, style, tokens, getLineProps, getTokenProps}) => (
+        {({className, tokens, getLineProps, getTokenProps}) => (
           <div className="gatsby-highlight" data-language={language}>
             <pre className={className}>
               {tokens.map((line, i) => (
@@ -52,7 +23,7 @@ const CodeBlock: React.FC = ({ children, className, live, render }: any) => {
             </pre>
           </div>
         )}
-    </Highlight>
+      </Highlight>
     )
 }
 

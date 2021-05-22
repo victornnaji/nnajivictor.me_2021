@@ -11,6 +11,10 @@ import GoogleAds from './BlogComponents/GoogleAds';
 import BreadCrumbs from './BlogComponents/BreadCrumbs';
 import NewsLetter from './BlogComponents/NewsLetter';
 import Alerts from './BlogComponents/Alerts';
+import Demo from './BlogComponents/Demo';
+import LiveCodeEditor from './BlogComponents/LiveCodeEditor';
+import { trackFinishedReadingPost } from '@src/_utils/analytics';
+import BlogImage from './BlogComponents/Image';
 
 
 const components = {
@@ -22,7 +26,10 @@ const components = {
     a: Link,
     ol: OrderedList,
     ul: UnorderedList,
-    Alerts
+    Alerts,
+    Demo,
+    LiveCodeEditor,
+    BlogImage
 }
 
 
@@ -39,7 +46,12 @@ interface Props{
 }
 
 const PlayGroundTemplate: React.FC<Props> = ({children, pageContext}) => {
-    const {excerpt, date, title, slug, tags} = pageContext.frontmatter
+    const {excerpt, date, title, slug, tags} = pageContext.frontmatter;
+    let hasBeenRead = false;
+    if(!hasBeenRead){
+        trackFinishedReadingPost({slug});
+        hasBeenRead = true;
+    }
     return (
         <MDXProvider components={components}>
             <BlogPostContainer>

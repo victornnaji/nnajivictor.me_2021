@@ -53,7 +53,6 @@ const StyledAlert = styled.aside<Props>`
     border-radius: 6px 6px 6px 3px;
     border-left: 3px solid;
     position: relative;
-    font-size: 1.6rem;
 
     ${({type}) => type === "info" && css`
         background-color: var(--alert-notice);
