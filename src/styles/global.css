@@ -74,6 +74,11 @@ body.light{
     --tertiary-color-moon-trans: rgba(219, 219, 219, 0.85);
     --tertiary-color-trans: rgba(209, 209, 209, 0.85);
     --link-inverted: #64ffda;
+    --btn-hover-color: rgba(91,58,204,0.2);
+    --alert-notice: rgba(91, 58, 204, 0.12);
+    --alert-alert: #ffb3001f;
+    --alert-success: hsla(160deg, 100%, 40%, 0.1);
+    --em-color: rgb(44, 11, 142);
 }
 
 body.dark{
@@ -86,6 +91,13 @@ body.dark{
     --tertiary-color-moon-trans: rgba(2, 12, 27, 0.85);
     --tertiary-color-trans: rgba(17, 35, 64, 0.85);
     --link-inverted: #4433ff;
+    --btn-hover-color: rgba(100,255,218,0.2);
+    --alert-notice: rgba(58, 88, 204, 0.39);
+    --alert-alert: #D9AB186B;
+    --alert-success: hsla(160, 100%, 40%, 0.25);
+    --em-color: #FF39A8;
+
+
 }
 
 a.link{

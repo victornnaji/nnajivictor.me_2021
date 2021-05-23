@@ -9,7 +9,7 @@ import { PoweredBy } from 'react-instantsearch-dom';
 import { Helmet } from "react-helmet";
 
 
-const BlogSearch = () => {
+const BlogSearch = ({indexName}: {indexName: string}) => {
   const [searchClick, setSearchClick] = React.useState(false)
   function handleSearchClick() {
     setSearchClick(!searchClick)
@@ -62,12 +62,12 @@ const BlogSearch = () => {
           </svg>
         </button>
         <InstantSearch
-          indexName="Posts"
+          indexName={indexName}
           searchClient={searchClient}
         >
           <div className="poweredby"><PoweredBy /></div>
-          <CustomSearchBox searchClick={searchClick}/>
-          <Result />
+          <CustomSearchBox searchClick={searchClick} indexName={indexName}/>
+          <Result indexName={indexName}/>
         </InstantSearch>
       </div>
     </StyledSearch>

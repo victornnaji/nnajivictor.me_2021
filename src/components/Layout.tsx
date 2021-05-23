@@ -45,7 +45,7 @@ const Layout : React.FC<PageProps> = ({ children, location })  => {
                         <html className="caseStudy"  lang="en" />
                       </Helmet>
                     ) : null}
-                    <Banner />
+                    {/* <Banner show={true}/> */}
                     <Header />
                     <MemoMenu />
                     {children}

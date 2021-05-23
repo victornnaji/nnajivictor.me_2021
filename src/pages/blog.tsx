@@ -42,7 +42,6 @@ const BlogPage = () => {
     }`);
 
     const posts = data.posts.edges;
-    console.log(posts);
 
     //state for the list
     const [list, setList] = React.useState([...posts.slice(0, 10)]);
@@ -78,7 +77,7 @@ const BlogPage = () => {
             <DoubleLine/>
             <div className="blog-title-and-search">
                 <h1 className="blog-title"><ArticleIcon /> <span>Articles</span></h1>
-                <BlogSearch />
+                <BlogSearch indexName="Posts"/>
             </div>
             <p className="blog-description"> A collection of all my thoughts and findings</p>
             <StyledBlogContent>
@@ -94,7 +93,7 @@ const BlogPage = () => {
                         </button>
                     </FilledButton>
                 </div>
-            ) : null}
+            ) : <div className="empty-space"></div>}
         </StyledBlog>
     )
 }
@@ -136,6 +135,9 @@ export const DoubleLine = styled.hr`
 
 const StyledBlog = styled.section`
     margin-top: 5rem;
+    .empty-space{
+        margin-bottom: 10rem;
+    }
     .blog-title-and-search{
         display: flex;
         justify-content: space-between;

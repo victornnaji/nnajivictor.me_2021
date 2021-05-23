@@ -4,9 +4,9 @@ import { css } from 'styled-components';
 import LatoRegularLatinExt from '../fonts/Lato/LatoRegular_latin.woff2';
 import LatoBoldLatinExt from '@src/fonts/Lato/LatoBold_latin_ext.woff2';
 
-//Headline
-import LeagueMonoRegular from '@src/fonts/Mono/LeagueMono-Regular.woff2';
-import LeagueMonoSemiBold from '@src/fonts/Mono/LeagueMono-SemiBold.woff2';
+//FiraCode
+import FiraCodeRegular from "@src/fonts/Fira_Code/FiraCode-Regular.woff2"
+import FiraCodeSemiBold from "@src/fonts/Fira_Code/FiraCode-SemiBold.woff2"
 
 
 const FontFaces = css`
@@ -32,18 +32,17 @@ const FontFaces = css`
     }
 
     @font-face {
-        font-family: 'League Mono';
-        src: url(${LeagueMonoRegular}) format('woff2');
-        font-weight: 300;
-        font-style: normal;
-        font-display: fallback;
-    }
-    @font-face {
-        font-family: 'League Mono';
-        src: url(${LeagueMonoSemiBold}) format('woff2');
+        font-family: 'Fira Code';
+        src: url(${FiraCodeRegular}) format('woff2');
         font-weight: 400;
         font-style: normal;
-        font-display: fallback;
+    }
+
+    @font-face {
+        font-family: 'Fira Code';
+        src: url(${FiraCodeSemiBold}) format('woff2');
+        font-weight: 600;
+        font-style: normal;
     }
 
     @font-face {
