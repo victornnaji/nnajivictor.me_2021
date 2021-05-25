@@ -4,7 +4,7 @@ export function SEOImage({title, tagline}: {title: string, tagline?: string}){
     return(
         getShareImage({
             title: title,
-            tagline: "Building intrinsic user interface boils down to the styling of these components. Here is how to style css components using inline styles and classname",
+            tagline: tagline,
             cloudName: 'draakmoik',
             imagePublicID: 'nnajivictor/og-image.png',
             titleFont: 'futura',

@@ -1,7 +1,7 @@
 module.exports = {
     siteTitle: 'Victor Nnaji | Software Engineer',
-    siteDescription: "Victor Nnaji is software engineer based in Lagos with over 2 years of experience within full-stack development. Nnaji Victor is very familiar with Microsoft .NET framework, SQL and No-SQL databases, Modern Client side frameworks like React, Gatsby, Tailwind",
-    siteKeywords: 'Nnaji Victor, nnaji, Nnaji, Victor Nnaji, decagon, nnajivictorr, software engineer, Nigerian Developer, React developer, full-stack developer, fullstack',
+    siteDescription: "Victor Nnaji is software engineer based in Lagos with over 3 years of experience within frontend development. Nnaji Victor is very familiar with HTML, CSS, JavaScript, WordPress and Modern Client side frameworks like React, Gatsby and Next",
+    siteKeywords: 'Nnaji Victor, Frontend Software Engineer, nnaji, Nnaji, Victor Nnaji, decagon, nnajivictorr, software engineer, Nigerian Developer, React developer, front-end developer, Victor, web developer',
     siteUrl: 'https://nnajivictor.me/',
     siteLanguage: 'en_US',
     name: 'Victor Nnaji.',
@@ -12,6 +12,7 @@ module.exports = {
     twitterHandle: '@nnajivictorr',
     googleAnalyticsID: 'UA-173571213-1',
     googleVerification: 'tEZuPANu4WaXwfRzfdS45YsgLY7sMvxH-m1zsKa7l8M',
+    image: 'images/vn_image.png',
     socialMedia: [
         {
           name: 'Website',
