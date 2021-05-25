@@ -52,7 +52,13 @@ module.exports = {
         // the only required plugin option for WordPress is the GraphQL url.
         url:
           process.env.WPGRAPHQL_URL ||
-          `http://46.101.76.41/graphql`,
+          `https://nnajivictorwp.flywheelsites.com/graphql`,
+          auth: {
+            htaccess: {
+              username: process.env.HTTPBASICAUTH_USERNAME || "flywheel",
+              password: process.env.HTTPBASICAUTH_PASSWORD || "didactic-rhyme",
+            }
+          }
       },
     },
     {
