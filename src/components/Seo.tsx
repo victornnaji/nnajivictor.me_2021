@@ -55,7 +55,7 @@ const Seo = ({
   const metaImageFull = metaImage.startsWith("http")
     ? metaImage
     : `${siteMeta.siteUrl}${metaImage}`
-  const metaTags = tags.join(",")
+  const metaTags = tags? tags.join(",") : ""
   const siteTitle = siteMeta.siteTitle
   const fullTitle = title ? `${title} | ${siteTitle}` : siteTitle
   const keywords = metaTags.length ? tags.join(",") : siteMeta.siteKeywords
