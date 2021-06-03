@@ -5,17 +5,15 @@ import { theme } from '@src/styles';
 import { Link } from 'gatsby';
 import CustomLink from './CustomLink';
 import kebabCase from 'lodash.kebabcase';
-import { SEOImage } from '@src/_utils/SeoImage';
 
 interface BlogCardProps{
     data: {
         image: string,
         title: string,
         excerpt: string,
-        tags?: [string],
         slug: string,
         date: string,
-        categories: {
+        tags: {
             nodes:  [{
                 name: string,
                 slug: string,
@@ -36,12 +34,7 @@ interface BlogCardProps{
 }
 const BlogCard = ({classname, data}: BlogCardProps) => {
     const excerpt = data.excerpt.slice(0, 350);
-    // console.log(data.featuredImage);
     const Image = getImage(data.featuredImage?.node?.localFile?.childImageSharp?.gatsbyImageData);
-    // let placeholderImage;
-    // placeholderImage = SEOImage({title: data.title});
-    // if (!Image){
-    // }
     return (
         <StyledBlogCard className={classname}>
            <Link to={`/blog/${data.slug}`}>
@@ -54,9 +47,9 @@ const BlogCard = ({classname, data}: BlogCardProps) => {
            </Link>
             <div className="blog-sub-menu">
                 <ul className="blog-sub-menu__categories">
-                    {data.categories.nodes.map((category: { name: string, slug: string }, i: number) => (
+                    {data.tags.nodes.map((tags: { name: string, slug: string }, i: number) => (
                         <li key={i}>
-                            <CustomLink page={`/blog/category/${kebabCase(category.slug)}/`} className="link">{category.name}</CustomLink>
+                            <CustomLink page={`/blog/category/${kebabCase(tags.slug)}/`} className="link">{tags.name}</CustomLink>
                         </li>
                     ))}
                 </ul>

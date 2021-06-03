@@ -19,7 +19,7 @@ const BlogPage = () => {
             title
             excerpt
             date,
-            categories {
+            tags{
               nodes {
                 name
                 slug

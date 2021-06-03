@@ -4,9 +4,9 @@ import { RenderWhenOnscreen } from './RenderWhenOnScreen';
 
 interface Props {
     src: string,
-    alt: string,
-    caption: string,
-    className: string,
+    alt?: string,
+    caption?: string,
+    className?: string,
 }
 const BlogImage = ({ src, alt = '', caption = '', className , ...delegated}: Props) => {
     

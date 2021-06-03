@@ -51,14 +51,7 @@ module.exports = {
       options: {
         // the only required plugin option for WordPress is the GraphQL url.
         url:
-          process.env.WPGRAPHQL_URL ||
-          `https://nnajivictorwp.flywheelsites.com/graphql`,
-          auth: {
-            htaccess: {
-              username: process.env.HTTPBASICAUTH_USERNAME || "flywheel",
-              password: process.env.HTTPBASICAUTH_PASSWORD || "didactic-rhyme",
-            }
-          }
+          process.env.WPGRAPHQL_URL,
       },
     },
     {
@@ -68,6 +61,21 @@ module.exports = {
           default: require.resolve('./src/components/PlayGroundTemplate.tsx'),
         },
       },
+    },
+    {
+      resolve: `gatsby-transformer-remark`,
+      options: {
+        plugins: [
+        {
+          resolve: "gatsby-remark-external-links",
+          options: {
+            class: 'link',
+            target: "_self",
+            rel: "nofollow noopener noreferrer"
+          }
+        },
+        ]
+      }
     },
     {
       resolve: `gatsby-plugin-algolia`,
@@ -83,12 +91,6 @@ module.exports = {
         endpoint: process.env.MAILCHIMP_ENDPOINT,
       },
     },
-    // {
-    //   resolve: 'gatsby-plugin-graphql-codegen',
-    //   options: {
-    //     fileName: `__generated__/graphql-types.d.ts`,
-    //   },
-    // },
       
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline

@@ -13,11 +13,11 @@ interface Props {
   image?: string
   imageAlt?: string
   lang?: string
-  meta: Meta[]
-  schemaOrg?: Record<string, unknown>
   title?: string
   type?: string
-  url: string
+  url: string,
+  date?: string,
+  section: string,
   tags: []
 }
 const Seo = ({
@@ -25,9 +25,9 @@ const Seo = ({
   image,
   imageAlt,
   lang,
-  meta = [],
-  schemaOrg,
   tags,
+  date,
+  section,
   title,
   type = "website",
   url,
@@ -60,23 +60,6 @@ const Seo = ({
   const fullTitle = title ? `${title} | ${siteTitle}` : siteTitle
   const keywords = metaTags.length ? tags.join(",") : siteMeta.siteKeywords
 
-//   const siteSchemaOrg = {
-//     "@context": "http://schema.org/",
-//     "@type": "Website",
-//     url,
-//     name: fullTitle,
-//     alternateName: siteTitle,
-//     copyrightHolder: siteMeta.name,
-//     copyrightYear: 2020,
-//     description: metaDescription,
-//     image: {
-//       "@type": "ImageObject",
-//       url: metaImageFull,
-//     },
-//     keywords,
-//     ...schemaOrg
-//   }
-
   const jsonLd = {
     "@context": `https://schema.org/`,
     "@type": "Website",
@@ -98,7 +81,7 @@ const Seo = ({
         height: 600,
     } : undefined,
     publisher: {
-        "@type": `Organization`,
+        "@type": `Person`,
         name: siteMeta.name,
         logo: {
             "@type": `ImageObject`,
@@ -112,22 +95,7 @@ const Seo = ({
         "@type": `WebPage`,
         "@id": siteMeta.siteUrl,
     },
-    ...schemaOrg
 }
-
-const getCircularReplacer = () => {
-    const seen = new WeakSet();
-    return (key: any, value: any) => {
-      if (typeof value === "object" && value !== null) {
-        if (seen.has(value)) {
-          return;
-        }
-        seen.add(value);
-      }
-      return value;
-    };
-  };
-
   return (
     <Helmet>
       <html lang={htmlLang} />
@@ -165,17 +133,16 @@ const getCircularReplacer = () => {
       <meta name="twitter:image" content={metaImageFull} />
       <meta name="twitter:image:alt" content={imageAlt} />
 
-      {/* Additional tags */}
-      {meta.map(metaInfo => (
-        <meta
-          key={`${metaInfo.name || metaInfo.property}${metaInfo.content}`}
-          {...metaInfo}
-        />
+      <meta name="og:article:published_time" content={date} />
+      <meta name="og:article:author" content={siteMeta.name} />
+      <meta name="og:article:section" content={section} />
+      {tags.map((tag, index) => (
+        <meta name="og:article:tag" content={tag} key={index}/>
       ))}
 
       {/* schema.org */}
       <script type="application/ld+json">
-        {JSON.stringify(jsonLd, getCircularReplacer)}
+        {JSON.stringify(jsonLd)}
       </script>
     </Helmet>
   )
