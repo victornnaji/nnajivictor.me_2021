@@ -8,7 +8,6 @@ import BlogPostContainer, {
 import ReactComponentHolder from "./BlogComponents/ReactComponent"
 import Em from "./BlogComponents/Em"
 import Paragraph from "./BlogComponents/Paragraph"
-import Link from "./BlogComponents/Link"
 import { OrderedList, UnorderedList } from "./BlogComponents/List"
 import GoogleAds from "./BlogComponents/GoogleAds"
 import BreadCrumbs from "./BlogComponents/BreadCrumbs"
@@ -21,6 +20,8 @@ import BlogImage from "./BlogComponents/Image"
 import Seo from "./Seo"
 import { get_url, get_date } from "@src/_utils"
 import { SEOImage } from "@src/_utils/SeoImage"
+import { Link } from "gatsby"
+import { kebabCase } from "lodash"
 
 const components = {
   pre: (props: React.HTMLAttributes<HTMLDivElement>) => <div {...props} />,
@@ -95,7 +96,7 @@ const PlayGroundTemplate: React.FC<Props> = ({ children, pageContext }) => {
               {tags &&
                 tags.length > 0 &&
                 tags.map((tag: string, i: number) => (
-                  <Link key={i} className="tag">
+                  <Link to={`/tag/${kebabCase(tag)}`} key={i} className="link tag">
                     #{tag}
                   </Link>
                 ))}

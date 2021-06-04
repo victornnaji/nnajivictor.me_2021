@@ -98,7 +98,7 @@ const BlogPage = () => {
     )
 }
 
-const StyledBlogContent = styled.div`
+export const StyledBlogContent = styled.div`
     display: grid;
     margin-top: 4rem;
     gap:.75rem;

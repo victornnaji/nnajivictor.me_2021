@@ -6,7 +6,7 @@ import { Link } from 'gatsby';
 import CustomLink from './CustomLink';
 import kebabCase from 'lodash.kebabcase';
 
-interface BlogCardProps{
+export interface BlogCardProps{
     data: {
         image: string,
         title: string,

@@ -18,7 +18,7 @@ interface Props {
   url: string,
   date?: string,
   section: string,
-  tags: []
+  tags: [] | string[]
 }
 const Seo = ({
   description,
@@ -136,7 +136,7 @@ const Seo = ({
       <meta name="og:article:published_time" content={date} />
       <meta name="og:article:author" content={siteMeta.name} />
       <meta name="og:article:section" content={section} />
-      {tags.map((tag, index) => (
+      {tags.map((tag : string, index: number) => (
         <meta name="og:article:tag" content={tag} key={index}/>
       ))}
 

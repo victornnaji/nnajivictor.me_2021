@@ -17,7 +17,6 @@ type PlaygroundProps = {
 }
 
 const PlaygroundCard = ({ data }: { data: PlaygroundProps }) => {
-  console.log(data.node)
   return (
     <StyledCard to={data.node.slug}>
       <h2 className="title">{data.node.frontmatter.title}</h2>
