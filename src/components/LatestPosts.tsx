@@ -4,6 +4,7 @@ import React from "react"
 import styled from "styled-components"
 import BlogCard from "./BlogCard"
 import { StyledBlogContent } from "@src/pages/blog"
+import { kebabCase } from "lodash"
 
 const LatestPosts = ({ data, tag }: { data: any; tag: any }) => {
   const extractedTag = tag[0]
@@ -13,7 +14,7 @@ const LatestPosts = ({ data, tag }: { data: any; tag: any }) => {
       <StyledLatestPosts>
         <h2 className="latest-post-title">Latest Articles in {extractedTag}</h2>
         <p className="cta-to-tag">
-          <Link className="link latest-post-link" to="/">
+          <Link className="link latest-post-link" to={`/tag/${kebabCase(extractedTag)}`}>
             View all {extractedTag} Articles
             <span>
               <svg

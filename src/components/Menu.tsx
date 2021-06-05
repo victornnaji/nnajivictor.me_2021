@@ -1,35 +1,40 @@
-import React from 'react'
-import { useStaticQuery, graphql} from "gatsby"
-import { useAnimating, useMenu, useSafeDispatch } from '@src/_hooks';
-import styled from 'styled-components'
-import {gsap} from 'gsap';
-import {theme, media} from '@src/styles'
-import MenuImage from './MenuImage';
-import { AnimatingContextInterface, MenuContextInterface } from '@src/_hooks/hooks.types';
-import CustomLink from './CustomLink';
+import React from "react"
+import { useStaticQuery, graphql } from "gatsby"
+import { useAnimating, useMenu, useSafeDispatch } from "@src/_hooks"
+import styled from "styled-components"
+import { gsap } from "gsap"
+import { theme, media } from "@src/styles"
+import MenuImage from "./MenuImage"
+import {
+  AnimatingContextInterface,
+  MenuContextInterface,
+} from "@src/_hooks/hooks.types"
+import CustomLink from "./CustomLink"
 
 type primaryMenuType = {
-  node:{
-    label: string,
-    path: string,
+  node: {
+    label: string
+    path: string
   }
 }
 
 type secondaryMenuType = {
-  node:{
-    path: string,
-    label: string,
+  node: {
+    path: string
+    label: string
     SecondaryExcerpt: {
-      excerpt: string,
+      excerpt: string
     }
-
   }
 }
 
 const Menu = () => {
   const data = useStaticQuery(graphql`
     {
-      primary: allWpMenuItem(filter: {locations: {eq: PRIMARY}}, sort: {order: ASC, fields: label}){
+      primary: allWpMenuItem(
+        filter: { locations: { eq: PRIMARY } }
+        sort: { order: ASC, fields: label }
+      ) {
         edges {
           node {
             path
@@ -37,7 +42,7 @@ const Menu = () => {
           }
         }
       }
-      secondary: allWpMenuItem(filter: {locations: {eq: SECONDARY}}) {
+      secondary: allWpMenuItem(filter: { locations: { eq: SECONDARY } }) {
         edges {
           node {
             path
@@ -51,270 +56,318 @@ const Menu = () => {
     }
   `)
 
-    const secondary_menu = data.secondary.edges;
-    const primary_menu = data.primary.edges;
+  const secondary_menu = data.secondary.edges
+  const primary_menu = data.primary.edges
 
-    const [open] = useMenu() as MenuContextInterface;
-    const [, setAnimating] = useAnimating() as AnimatingContextInterface;
-    const menuRef = React.useRef<HTMLInputElement>(null);
-    const [complete, setComplete] = React.useState(false);
-    const SafeSetComplete : (D: any) => void = useSafeDispatch(setComplete);
+  const [open] = useMenu() as MenuContextInterface
+  const [, setAnimating] = useAnimating() as AnimatingContextInterface
+  const menuRef = React.useRef<HTMLInputElement>(null)
+  const [complete, setComplete] = React.useState(false)
+  const SafeSetComplete: (D: any) => void = useSafeDispatch(setComplete)
 
-    const memoisedToggle = React.useCallback((action) => {
-        setAnimating(true);
-        
-        //Get the menu items container
-        const items = gsap.utils.toArray(".menu__item");
-        const itemsTotal = items.length;
+  const memoisedToggle = React.useCallback(
+    action => {
+      setAnimating(true)
 
-        if(action === 'open'){
-            gsap.set(menuRef.current, {autoAlpha: 1});
+      //Get the menu items container
+      const items = gsap.utils.toArray(".menu__item")
+      const itemsTotal = items.length
+
+      if (action === "open") {
+        gsap.set(menuRef.current, { autoAlpha: 1 })
+      }
+
+      if (menuRef && menuRef.current) {
+        menuRef.current.classList[action === "open" ? "add" : "remove"](
+          "menu--open"
+        )
+      }
+
+      function animationEnd(pos: number) {
+        if (pos === itemsTotal - 1 && complete) {
+          setAnimating(false)
+        }
+      }
+
+      items.forEach((el: any, pos: number) => {
+        const innerEl = el.querySelector(".menu__item-inner")
+        const config = { x: "", y: "" }
+        const configInner = { x: "", y: "" }
+        const direction = el.dataset.direction
+
+        if (direction === "bt") {
+          config.y = "101%"
+          configInner.y = "-101%"
+          configInner.x = "0%"
+        } else if (direction === "tb") {
+          config.y = "-101%"
+          configInner.y = "101%"
+          configInner.x = "0%"
+        } else if (direction === "lr") {
+          config.x = "-101%"
+          configInner.x = "101%"
+        } else if (direction === "rl") {
+          config.x = "101%"
+          configInner.x = "-101%"
+        } else {
+          config.x = "101%"
+          config.y = "101%"
+          configInner.x = "-101%"
+          configInner.y = "-101%"
         }
 
-        if(menuRef && menuRef.current){
-            menuRef.current.classList[action === 'open' ? 'add' : 'remove']('menu--open');
-        }
-
-        function animationEnd(pos : number){
-            if ( pos === itemsTotal-1 && complete) {
-                setAnimating(false); 
-            }
-          }; 
-        
-        items.forEach( (el: any, pos : number) => {
-          const innerEl = el.querySelector('.menu__item-inner');
-          const config = {x: '', y: ''};
-          const configInner = {x: '', y: ''};
-          const direction = el.dataset.direction;
-  
-          if (direction === "bt") {
-            config.y = "101%"
-            configInner.y = "-101%"
-            configInner.x = "0%"
-          } else if (direction === "tb") {
-            config.y = "-101%"
-            configInner.y = "101%"
-            configInner.x = "0%"
-          } else if (direction === "lr") {
-            config.x = "-101%"
-            configInner.x = "101%"
-          } else if (direction === "rl") {
-            config.x = "101%"
-            configInner.x = "-101%"
-          } else {
-            config.x = "101%"
-            config.y = "101%"
-            configInner.x = "-101%"
-            configInner.y = "-101%"
-          }
-  
-  
-          if ( action === 'open' ){
-            gsap.set(menuRef.current, {css: {zIndex: 20}})
-            gsap.set(el, config);
-            gsap.set(innerEl, configInner);
-            gsap.to([el,innerEl],{
-              ease: "Power4.easeOut",
-              x: '0%',
-              y: '0%',
-              duration: .9, 
-              onComplete: () => animationEnd(pos)
-          });
-        }
-        else{
-          gsap.to(menuRef.current, {css: {zIndex: -1}})
-          gsap.to(el,{
+        if (action === "open") {
+          gsap.set(menuRef.current, { css: { zIndex: 20 } })
+          gsap.set(el, config)
+          gsap.set(innerEl, configInner)
+          gsap.to([el, innerEl], {
+            ease: "Power4.easeOut",
+            x: "0%",
+            y: "0%",
+            duration: 0.9,
+            onComplete: () => animationEnd(pos),
+          })
+        } else {
+          gsap.to(menuRef.current, { css: { zIndex: -1 } })
+          gsap.to(el, {
             duration: 0.6,
             ease: "Power4.easeInOut",
             x: config.x || 0,
-            y: config.y || 0
-          });
+            y: config.y || 0,
+          })
           gsap.to(innerEl, {
             duration: 0.6,
             ease: "Power4.easeInOut",
             x: configInner.x || 0,
             y: configInner.y || 0,
-            onComplete: () => animationEnd(pos)
+            onComplete: () => animationEnd(pos),
           })
         }
-        });
+      })
 
-        // Individual Animations
-        const mainlink_title = gsap.utils.toArray('.mainmenu .mainlink__title');
-        const mainlink_social = gsap.utils.toArray('.mainlink_social .main_link_social-item');
-        const secondary_item = gsap.utils.toArray('.secondaryMenu .secondary-link__content');
-        const imgMenuLoader = '.img-menu .inner';
-        const imgMenu_img_mask = '.img-menu__content .img-menu__image--mask';
-        const imgMenu_img = '.img-menu__content img';
-        const imgMenuText = '.img-menu__content .img-menu__title--mask a'
-        const tl = gsap.timeline({
-            onComplete: () => {
-              SafeSetComplete(true);
-            },
-        });
-        
-        tl
-        .fromTo(mainlink_title,{
-            y: action === 'open' ? '50%' : 0,
-            opacity: action === 'open' ? 0 : 1,
-        },{
-            y: 1,
-            // startAt: action === 'open' ? {y: '50%', opacity: 0} : null,
-            ease: action === 'open' ? "ease" : "Power4.easeInOut",
-            stagger: action === 'open' ? 0.15 : 0.1,
-            opacity: action === 'open' ? 1 : 0,
-            autoAlpha: action === 'open' ? 1 : 0,
-        }, "start")
-        .fromTo(mainlink_social,  {
-            y: action === 'open' ? '50%' : 0,
-            opacity: action === 'open' ? 0 : 1,
-        },{
+      // Individual Animations
+      const mainlink_title = gsap.utils.toArray(".mainmenu .mainlink__title")
+      const mainlink_social = gsap.utils.toArray(
+        ".mainlink_social .main_link_social-item"
+      )
+      const secondary_item = gsap.utils.toArray(
+        ".secondaryMenu .secondary-link__content"
+      )
+      const imgMenuLoader = ".img-menu .inner"
+      const imgMenu_img_mask = ".img-menu__content .img-menu__image--mask"
+      const imgMenu_img = ".img-menu__content img"
+      const imgMenuText = ".img-menu__content .img-menu__title--mask a"
+      const tl = gsap.timeline({
+        onComplete: () => {
+          SafeSetComplete(true)
+        },
+      })
+
+      tl.fromTo(
+        mainlink_title,
+        {
+          y: action === "open" ? "50%" : 0,
+          opacity: action === "open" ? 0 : 1,
+        },
+        {
+          y: 1,
+          // startAt: action === 'open' ? {y: '50%', opacity: 0} : null,
+          ease: action === "open" ? "ease" : "Power4.easeInOut",
+          stagger: action === "open" ? 0.15 : 0.1,
+          opacity: action === "open" ? 1 : 0,
+          autoAlpha: action === "open" ? 1 : 0,
+        },
+        "start"
+      )
+        .fromTo(
+          mainlink_social,
+          {
+            y: action === "open" ? "50%" : 0,
+            opacity: action === "open" ? 0 : 1,
+          },
+          {
             duration: 0.5,
             y: 1,
             // startAt: action === 'open' ? {y: '50%', opacity: 0} : null,
-            ease: action === 'open' ? "ease" : "Power4.easeInOut",
-            stagger: action === 'open' ? 0.15 : 0.1,
-            opacity: action === 'open' ? 1 : 0,
-            autoAlpha: action === 'open' ? 1 : 0,
-        }, "start-=0.2")
-        .fromTo(secondary_item, {
-            y: action === 'open' ? '50%' : 0,
-            opacity: action === 'open' ? 0 : 1,
-        },{
+            ease: action === "open" ? "ease" : "Power4.easeInOut",
+            stagger: action === "open" ? 0.15 : 0.1,
+            opacity: action === "open" ? 1 : 0,
+            autoAlpha: action === "open" ? 1 : 0,
+          },
+          "start-=0.2"
+        )
+        .fromTo(
+          secondary_item,
+          {
+            y: action === "open" ? "50%" : 0,
+            opacity: action === "open" ? 0 : 1,
+          },
+          {
             y: 1,
-            ease: action === 'open' ? "ease" : "Power4.easeInOut",
-            stagger: action === 'open' ? 0.15 : 0.1,
-            opacity: action === 'open' ? 1 : 0,
-            autoAlpha: action === 'open' ? 1 : 0,
-        },  "start+=0.25")
-        .from(imgMenuLoader, {
-            scaleY: action === 'open' ? 0 : 1,
-            transformOrigin: action === 'open' ? 'bottom' : 'top',
+            ease: action === "open" ? "ease" : "Power4.easeInOut",
+            stagger: action === "open" ? 0.15 : 0.1,
+            opacity: action === "open" ? 1 : 0,
+            autoAlpha: action === "open" ? 1 : 0,
+          },
+          "start+=0.25"
+        )
+        .from(
+          imgMenuLoader,
+          {
+            scaleY: action === "open" ? 0 : 1,
+            transformOrigin: action === "open" ? "bottom" : "top",
             duration: 1.1,
-            ease: 'power2.out',
-        }, 0.3)
-        .addLabel('revealImage')
-        .from(imgMenu_img_mask, { 
-            yPercent: action === 'open' ? 120 : 0,
-            duration: action === 'open' ? 1.1 : 0,
-            ease: 'power2.out',
-        }, 'revealImage-=0.6')
-        .from(imgMenu_img, { 
-            yPercent: action === 'open' ? -50 : 0,
-            duration: action === 'open' ? 1 : 0,
-            ease: 'power2.out',
-        }, 'revealImage-=0.6')
-        .from(imgMenuText, { 
-            yPercent: action === 'open' ? 120 : 0,
-            duration: action === 'open' ? 1 : 0,
-            ease: 'power2.out',
-        }, 'revealImage-=0.4')
-    
+            ease: "power2.out",
+          },
+          0.3
+        )
+        .addLabel("revealImage")
+        .from(
+          imgMenu_img_mask,
+          {
+            yPercent: action === "open" ? 120 : 0,
+            duration: action === "open" ? 1.1 : 0,
+            ease: "power2.out",
+          },
+          "revealImage-=0.6"
+        )
+        .from(
+          imgMenu_img,
+          {
+            yPercent: action === "open" ? -50 : 0,
+            duration: action === "open" ? 1 : 0,
+            ease: "power2.out",
+          },
+          "revealImage-=0.6"
+        )
+        .from(
+          imgMenuText,
+          {
+            yPercent: action === "open" ? 120 : 0,
+            duration: action === "open" ? 1 : 0,
+            ease: "power2.out",
+          },
+          "revealImage-=0.4"
+        )
+    },
+    [setAnimating, complete, SafeSetComplete]
+  )
 
-    }, [setAnimating, complete, SafeSetComplete])
+  React.useEffect(() => {
+    if (open) {
+      memoisedToggle("open")
+    } else {
+      memoisedToggle("close")
+    }
+  }, [memoisedToggle, open])
 
-    React.useEffect(() => {
-        if (open) {
-            memoisedToggle("open")
-        } else {
-            memoisedToggle("close")
-        }
-    }, [memoisedToggle, open]);
+  return (
+    <StyledMenu role="navigation" className="menu" ref={menuRef}>
+      {/* Menu Item 1 */}
+      <MenuItem className="menu__item menu__item--1" data-direction="bt">
+        <div className="menu__item-inner">
+          <div className="mainmenu">
+            {primary_menu.map((main: primaryMenuType, i: number) => (
+              <div className="mainlink__inner" key={main.node.label + i}>
+                <p className="mainlink__title">
+                  <CustomLink
+                    page={main.node.path}
+                    className="mainmenu__item"
+                    activeClassName="active"
+                    aria-label={main.node.label}
+                  >
+                    {main.node.label}
+                  </CustomLink>
+                </p>
+              </div>
+            ))}
+            <StyledLabel className="label--topleft label--vert-mirror">
+              <div className="mainlink__inner">
+                <p className="mainlink__title">
+                  <a
+                    href="mailto:nnajivictor0@gmail.com"
+                    className="link"
+                    target="_blank"
+                    rel="nofollow noopener noreferrer"
+                  >
+                    hi@nnajivictor.me
+                  </a>
+                </p>
+              </div>
+            </StyledLabel>
+            <StyledLabel className="label--bottomright label--vert">
+              {/* <Social /> */}
+            </StyledLabel>
+          </div>
+        </div>
+      </MenuItem>
 
-    return (
-        <StyledMenu role="navigation" className="menu" ref={menuRef}>
-            {/* Menu Item 1 */}
-            <MenuItem className="menu__item menu__item--1" data-direction="bt">
-                <div className="menu__item-inner">
-                    <div className="mainmenu">
-                        {primary_menu.map((main: primaryMenuType, i:number) => (
-                            <div className="mainlink__inner" key={main.node.label+i}>
-                                <p className="mainlink__title">
-                                    <CustomLink page={main.node.path} className="mainmenu__item" activeClassName="active">
-                                        {main.node.label}
-                                    </CustomLink>
-                                </p>
-                            </div>
-                        ))}
-                        <StyledLabel className="label--topleft label--vert-mirror">
-                            <div className="mainlink__inner">
-                                <p className="mainlink__title">
-                                    <a href="mailto:nnajivictor0@gmail.com" className="link" target="_blank" rel="nofollow noopener noreferrer">
-                                        nnajivictor0@gmail.com
-                                    </a>
-                                </p>
-                            </div>
-                        </StyledLabel>
-                        <StyledLabel className="label--bottomright label--vert">
-                            {/* <Social /> */}
-                        </StyledLabel>
-                    </div>
+      {/* Menu Item 2 */}
+      <MenuItem className="menu__item menu__item--2" data-direction="lr">
+        <div className="menu__item-inner">
+          <MenuImage />
+        </div>
+      </MenuItem>
+
+      {/* Menu Item 3 */}
+      <MenuItem
+        className="menu__item menu__item--3"
+        data-direction={window.screen.width > 768 ? "bt" : "tb"}
+      >
+        <div className="menu__item-inner">
+          <div className="secondaryMenu">
+            {secondary_menu.map((item: secondaryMenuType, i: number) => (
+              <div className="secondary-link__inner" key={item + `${i}`}>
+                <div className="secondary-link__content">
+                  <div className="sec-item-link">
+                    <CustomLink
+                      page={item.node.path}
+                      className="secondarymenu__item"
+                      activeClassName="active"
+                    >
+                      {item.node.label}
+                    </CustomLink>
+                  </div>
+                  <div className="secondarymenu__tag">
+                    {item.node.SecondaryExcerpt.excerpt}
+                  </div>
                 </div>
-            </MenuItem>
+              </div>
+            ))}
+          </div>
+        </div>
+      </MenuItem>
 
-            {/* Menu Item 2 */}
-            <MenuItem className="menu__item menu__item--2" data-direction="lr">
-                <div className="menu__item-inner">
-                    <MenuImage />
-                </div>
-            </MenuItem>
+      {/* Menu Item 4 */}
+      <MenuItem className="menu__item menu__item--4" data-direction="rl">
+        <div className="menu__item-inner">hello4</div>
+      </MenuItem>
 
-            {/* Menu Item 3 */}
-            <MenuItem className="menu__item menu__item--3" data-direction={window.screen.width > 768 ? "bt" : "tb"}>
-                <div className="menu__item-inner">
-                    <div className="secondaryMenu">
-                        {secondary_menu.map((item : secondaryMenuType, i :number) => (
-                            <div className="secondary-link__inner" key={item+`${i}`}>
-                                <div className="secondary-link__content">
-                                    <div className="sec-item-link">
-                                        <CustomLink page={item.node.path} className="secondarymenu__item" activeClassName="active">
-                                            {item.node.label}
-                                        </CustomLink>
-                                    </div>
-                                    <div className="secondarymenu__tag">
-                                        {item.node.SecondaryExcerpt.excerpt}
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </MenuItem>
-
-            {/* Menu Item 4 */}
-            <MenuItem className="menu__item menu__item--4" data-direction="rl">
-                <div className="menu__item-inner">
-                    hello4
-                </div>
-            </MenuItem>
-
-            {/* Menu Item 5 */}
-            <MenuItem className="menu__item menu__item--5" data-direction="tb">
-                <div className="menu__item-inner">
-                    hello5
-                </div>
-            </MenuItem>
-        </StyledMenu>
-    )
+      {/* Menu Item 5 */}
+      <MenuItem className="menu__item menu__item--5" data-direction="tb">
+        <div className="menu__item-inner">hello5</div>
+      </MenuItem>
+    </StyledMenu>
+  )
 }
 
 const StyledMenu = styled.nav`
-    &.menu--open {
-      pointer-events: auto;
-      z-index: 20;
-    }
-    grid-column: 1/-1;
-    text-align: center;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
-    position: fixed;
-    display: none;
-    top: 0;
-    left: 0;
-    visibility: hidden;
-    display: grid;
-    ${media.tablet`
+  &.menu--open {
+    pointer-events: auto;
+    z-index: 20;
+  }
+  grid-column: 1/-1;
+  text-align: center;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  position: fixed;
+  display: none;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  display: grid;
+  ${media.tablet`
         grid-template-columns: 100%;
         grid-template-rows: 1fr 20% 1fr;
         grid-template-areas: 
@@ -331,7 +384,7 @@ const StyledMenu = styled.nav`
             "item3"
   `}
 
-  @media screen and (min-width: 53em){
+  @media screen and (min-width: 53em) {
     width: 100%;
     height: 100vh;
     overflow: hidden;
@@ -344,7 +397,7 @@ const StyledMenu = styled.nav`
       "item3 item2 item1"
       "item4 item5 item1";
   }
-`;
+`
 
 const MenuItem = styled.div`
   width: 100%;
@@ -402,16 +455,16 @@ const MenuItem = styled.div`
             `}
 
           &::after {
-            counter-increment: menuitem;
-            content: counters(menuitem, "", decimal-leading-zero);
-            position: absolute;
-            font-size: 2rem;
-            top: 0;
-            left: 0rem;
-            color: var(--link-color);
+          counter-increment: menuitem;
+          content: counters(menuitem, "", decimal-leading-zero);
+          position: absolute;
+          font-size: 2rem;
+          top: 0;
+          left: 0rem;
+          color: var(--link-color);
 
-             ${media.tablet`display: none`}
-         }
+          ${media.tablet`display: none`}
+        }
 
         &::before {
           content: "";
@@ -465,64 +518,63 @@ const MenuItem = styled.div`
       .secondary-link__inner {
         overflow: hidden;
 
-        .secondary-link__content{
-            font-weight: 900;
-            margin: 1.25em 0;
-            padding-left: 0.25em;
-            font-family: ${theme.fonts.Lato};
-            text-align: left;
-            ${media.tablet`padding-left: 0; margin: 1em 0;`}
-            position: relative;
-            ${media.tablet`text-align: center;`};
-            
+        .secondary-link__content {
+          font-weight: 900;
+          margin: 1.25em 0;
+          padding-left: 0.25em;
+          font-family: ${theme.fonts.Lato};
+          text-align: left;
+          ${media.tablet`padding-left: 0; margin: 1em 0;`}
+          position: relative;
+          ${media.tablet`text-align: center;`};
 
-            &::before{
-                content: '';
-                position: absolute;
-                top: 2rem;
-                left: 0;
-                width: 1.5rem;
-                height: 0.5rem;
-                background: var(--primary-color);
-                transform: scale3d(0,1,1);
-                transform-origin: 0% 50%;
-                transition: transform 0.3s;
+          &::before {
+            content: "";
+            position: absolute;
+            top: 2rem;
+            left: 0;
+            width: 1.5rem;
+            height: 0.5rem;
+            background: var(--primary-color);
+            transform: scale3d(0, 1, 1);
+            transform-origin: 0% 50%;
+            transition: transform 0.3s;
+          }
+
+          &:hover {
+            &::before {
+              transform: scale3d(1, 1, 1);
             }
 
-            &:hover{
-                &::before{
-                    transform: scale3d(1,1,1);
-                }
-
-                .secondarymenu__item{
-                    transform: translate3d(0.5em,0,0);
-                    opacity: 1;
-                }
-
-                .secondarymenu__tag{
-                    opacity: 1;
-                }
+            .secondarymenu__item {
+              transform: translate3d(0.5em, 0, 0);
+              opacity: 1;
             }
 
-            .secondarymenu__item{
-                color: var(--primary-color);
-                text-decoration: none;
-                font-size: 3rem;
-                ${media.tablet`font-size: 1.5rem;`}
-                text-transform: capitalize;
-                display: inline-block;
-                transition: transform 0.3s;
-                margin-right: 1.5rem;
-                opacity: .85;
-                ${media.tablet`margin-right: 0`};
+            .secondarymenu__tag {
+              opacity: 1;
             }
+          }
 
-            .secondarymenu__tag{
-                font-size: 1.3rem;
-                color: var(--link-color);
-                ${media.tablet`font-size: 1.2rem;`}
-                opacity: .85;
-            }
+          .secondarymenu__item {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 3rem;
+            ${media.tablet`font-size: 1.5rem;`}
+            text-transform: capitalize;
+            display: inline-block;
+            transition: transform 0.3s;
+            margin-right: 1.5rem;
+            opacity: 0.85;
+            ${media.tablet`margin-right: 0`};
+          }
+
+          .secondarymenu__tag {
+            font-size: 1.3rem;
+            color: var(--link-color);
+            ${media.tablet`font-size: 1.2rem;`}
+            opacity: .85;
+          }
         }
       }
     }
@@ -589,7 +641,7 @@ const StyledLabel = styled.div`
     top: 2rem;
     left: 2rem;
 
-    a{
+    a {
       position: relative;
       overflow: hidden;
       text-decoration: none;
@@ -631,6 +683,6 @@ const StyledLabel = styled.div`
   }
 `
 
-const MemoMenu = React.memo(Menu);
+const MemoMenu = React.memo(Menu)
 
 export default MemoMenu

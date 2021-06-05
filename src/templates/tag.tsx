@@ -10,6 +10,7 @@ import useLoadMore from "@src/_hooks/useLoadMore"
 import { kebabCase } from "lodash"
 import { DoubleLine } from "@src/pages/blog"
 import FilledButton, { FilledButtonText } from "@src/components/FilledButton"
+import { media } from "@src/styles"
 
 type TagProps = {
   pageContext: pageContextProps
@@ -86,7 +87,7 @@ const Tag = ({ data, pageContext }: TagProps) => {
   } = useLoadMore({ data: mdx })
 
   return (
-    <BlogPostContainer>
+    <EditedBlogPostContainer>
       <Seo
         title={tag}
         description={`View all tutorials and articles on ${tag}`}
@@ -96,9 +97,9 @@ const Tag = ({ data, pageContext }: TagProps) => {
         type="Tag Page"
       />
       <BlogPostContent className="wrapper">
-        <h1 className="tag-title" style={{ fontSize: "7rem" }}>
-          #{pageContext.tag}
-        </h1>
+        <StyledTagTitle>
+          <h1 className="tag-title">#{pageContext.tag}</h1>
+        </StyledTagTitle>
         <StyledTagContent>
           {wp && wp.length > 0 && (
             <>
@@ -239,22 +240,31 @@ const Tag = ({ data, pageContext }: TagProps) => {
           )}
         </StyledTagContent>
       </BlogPostContent>
-    </BlogPostContainer>
+    </EditedBlogPostContainer>
   )
 }
 
-const StyledTagContent = styled.div`
+const EditedBlogPostContainer = styled(BlogPostContainer)`
+  ${media.phablet`padding: 8rem 0;`}
+`
+
+const StyledTagTitle = styled.span`
   .tag-title {
     font-size: 7rem;
+    ${media.phablet`font-size: 5rem`};
   }
-
+`
+const StyledTagContent = styled.div`
+  ${media.phablet`margin-top: 3rem`}
   .title {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
+    ${media.phablet`flex-direction: column`};
 
     h2 {
       font-size: 3.8rem;
+      ${media.phablet`font-size: 3rem; margin: 1rem 0`};
     }
 
     span {
@@ -273,8 +283,8 @@ const StyledTagContent = styled.div`
 
       .subtitle {
         a:not(:first-of-type) {
-            margin-left: 1rem;
-            display: inline-block;
+          margin-left: 1rem;
+          display: inline-block;
         }
       }
 

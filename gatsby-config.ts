@@ -34,18 +34,18 @@ module.exports = {
     `gatsby-plugin-image`,
     'gatsby-plugin-dark-mode',
     `gatsby-plugin-transition-link`,
-    // {
-    //   resolve: `gatsby-plugin-manifest`,
-    //   options: {
-    //     name: `gatsby-starter-default`,
-    //     short_name: `starter`,
-    //     start_url: `/`,
-    //     background_color: `#663399`,
-    //     theme_color: `#663399`,
-    //     display: `minimal-ui`,
-    //     icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
-    //   },
-    // },
+    {
+      resolve: `gatsby-plugin-manifest`,
+      options: {
+        name: `Victor Nnaji`,
+        short_name: `VictorNnaji`,
+        start_url: `/`,
+        background_color: `#0a192f`,
+        theme_color: `#e6f1ff`,
+        display: `standalone`,
+        icon: `src/images/vn.png`, // This path is relative to the root of the site.
+      },
+    },
     {
       resolve: `gatsby-source-wordpress`,
       options: {
@@ -89,6 +89,12 @@ module.exports = {
       resolve: "gatsby-plugin-mailchimp",
       options: {
         endpoint: process.env.MAILCHIMP_ENDPOINT,
+      },
+    },
+    {
+      resolve: `gatsby-plugin-google-analytics`,
+      options: {
+        trackingId: config.googleAnalyticsID,
       },
     },
       

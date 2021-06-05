@@ -7,6 +7,9 @@ import { DoubleLine } from "../blog"
 import { graphql } from "gatsby"
 import FilledButton, { FilledButtonText } from "@src/components/FilledButton"
 import PlaygroundCard from "@src/components/PlaygroundCard"
+import useLoadMore from "@src/_hooks/useLoadMore"
+import Seo from "@src/components/Seo"
+import { get_url } from "@src/_utils"
 
 interface Props {
   data: {
@@ -48,36 +51,17 @@ export const query = graphql`
 
 const index = ({ data }: Props) => {
   const datas = data.playground.edges
-
-  const [list, setList] = React.useState([...datas.slice(0, 10)])
-
-  const [loadMore, setLoadMore] = React.useState(false)
-
-  const [hasMore, setHasMore] = React.useState(datas.length > 10)
-
-  const handleLoadMore = () => {
-    setLoadMore(true)
-  }
-
-  React.useEffect(() => {
-    if (loadMore && hasMore) {
-      const currentLength = list.length
-      const isMore = currentLength < datas.length
-      const nextResults = isMore
-        ? datas.slice(currentLength, currentLength + 8)
-        : []
-      setList([...list, ...nextResults])
-      setLoadMore(false)
-    }
-  }, [loadMore, hasMore])
-
-  React.useEffect(() => {
-    const isMore = list.length < datas.length
-    setHasMore(isMore)
-  }, [list])
+  const { list, hasMore, handleLoadMore } = useLoadMore({ data: datas })
 
   return (
     <StyledPlayground>
+      <Seo
+        url={get_url("playground")}
+        title="Tutorial"
+        tags = {['Frontend tutorial', 'React blog', "Web development", "wordpress", "React Tutorial", "Coding"]}
+        description="Browse through Victor Nnaji's tutorial posts to gain practical knowledge about React, gatsby, wordpress and other frontend topics"
+        type="Tutorial"
+      />
       <DoubleLine />
       <div className="blog-title-and-search">
         <h1 className="blog-title">
@@ -90,7 +74,7 @@ const index = ({ data }: Props) => {
       </p>
       <StyledPlaygroundContent>
         {list.map((data: PlaygroundProps) => {
-          return <PlaygroundCard data={data} key={data.node.id}/>
+          return <PlaygroundCard data={data} key={data.node.id} />
         })}
       </StyledPlaygroundContent>
       {hasMore ? (
