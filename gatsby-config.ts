@@ -3,6 +3,8 @@ require("dotenv").config({
   path: `.env.${process.env.NODE_ENV}`,
 });
 
+// const siteUrl = process.env.URL || `https://nnajivictor.me`
+
 module.exports = {
   siteMetadata: {
     title: config.siteTitle,
@@ -10,7 +12,7 @@ module.exports = {
     author: config.twitterHandle,
     siteUrl: config.siteUrl,
     name: config.name,
-    job:  config.siteJob,
+    job: config.siteJob,
     ...config,
   },
   plugins: [
@@ -34,6 +36,7 @@ module.exports = {
     `gatsby-plugin-image`,
     'gatsby-plugin-dark-mode',
     `gatsby-plugin-transition-link`,
+    'gatsby-plugin-robots-txt',
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
@@ -46,6 +49,63 @@ module.exports = {
         icon: `src/images/vn.png`, // This path is relative to the root of the site.
       },
     },
+    // {
+    //   resolve: `gatsby-plugin-advanced-sitemap`,
+    //   options: {
+    //     query: `
+    //     {
+    //       allWpTag {
+    //         edges {
+    //           node {
+    //             id
+    //             slug
+    //           }
+    //         }
+    //       }
+          
+    //       allWpPost {
+    //         edges {
+    //           node {
+    //             slug
+    //             id
+    //             date
+    //           }
+    //         }
+    //       }
+    //       allWpPage {
+    //         edges {
+    //           node {
+    //             slug
+    //             id
+    //             date
+    //           }
+    //         }
+    //       }
+    //     }
+    //     `,
+    //     mapping: {
+    //       allWpTag: {
+    //         sitemap: `tags`,
+    //       },
+    //       allWpPost: {
+    //         sitemap: `blog`,
+    //       },
+    //       allWpPage: {
+    //         sitemap: `page`
+    //       }
+    //     },
+    //     exclude: [
+    //       `/dev-404-page`,
+    //       `/404`,
+    //       `/404.html`,
+    //       `/offline-plugin-app-shell-fallback`,
+    //       `/my-excluded-page`,
+    //     ],
+    //     createLinkInHead: true,
+    //     addUncaughtPages: true,
+    //   }
+    // },
+    
     {
       resolve: `gatsby-source-wordpress`,
       options: {
@@ -66,14 +126,14 @@ module.exports = {
       resolve: `gatsby-transformer-remark`,
       options: {
         plugins: [
-        {
-          resolve: "gatsby-remark-external-links",
-          options: {
-            class: 'link',
-            target: "_self",
-            rel: "nofollow noopener noreferrer"
-          }
-        },
+          {
+            resolve: "gatsby-remark-external-links",
+            options: {
+              class: 'link',
+              target: "_self",
+              rel: "nofollow noopener noreferrer"
+            }
+          },
         ]
       }
     },
@@ -97,7 +157,7 @@ module.exports = {
         trackingId: config.googleAnalyticsID,
       },
     },
-      
+
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,
