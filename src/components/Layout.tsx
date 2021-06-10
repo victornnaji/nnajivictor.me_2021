@@ -11,16 +11,19 @@ import { gsap } from "gsap"
 import { Helmet } from "react-helmet"
 import PageLoading from "./PageLoading"
 import { PageProps, useStaticQuery, graphql } from "gatsby"
-import favicon from '@src/images/favicons/favicon.ico';
+import favicon from "@src/images/favicons/favicon.ico"
+import Seo from "./Seo"
+import { get_url } from "@src/_utils"
 
 const Layout: React.FC<PageProps> = ({ children, location }) => {
-
   const { site } = useStaticQuery(graphql`
     {
       site {
         siteMetadata {
           siteTitle
           description
+          siteKeywords
+          siteUrl
         }
       }
     }
@@ -56,11 +59,12 @@ const Layout: React.FC<PageProps> = ({ children, location }) => {
     <>
       <GlobalStyles />
       <SkipToContent href="#content">Skip to Content</SkipToContent>
-      <Helmet>
+      {/* <Helmet>
         <html lang="en" prefix="og: http://ogp.me/ns#" title={site.siteTitle}/>
         <link rel="shortcut icon" href={favicon} />
         <meta name="description" content={site.description} />
-      </Helmet>
+      </Helmet> */}
+      <Seo url={site.siteUrl} />
       {isLoading ? (
         <Loading />
       ) : (

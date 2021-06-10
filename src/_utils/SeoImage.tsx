@@ -12,6 +12,7 @@ export function SEOImage({title, tagline}: {title: string, tagline?: string}){
             textColor: 'e6f1ff',
             titleBottomOffset: 350,
             taglineTopOffset: 360,
+            titleFontSize: 56,
             taglineFontSize: 30,
             titleLeftOffset: 500,
             taglineLeftOffset: 500
