@@ -32,7 +32,7 @@ interface Props {
   url: string
   date?: string
   section?: string
-  tags: [] | string[]
+  tags?: any
 }
 const Seo = ({
   description,
@@ -69,10 +69,10 @@ const Seo = ({
   const metaImageFull = metaImage.startsWith("http")
     ? metaImage
     : `${siteMeta.siteUrl}${metaImage}`
-  const metaTags = tags ? tags.join(",") : ""
+  const metaTags = tags ? tags.join(",") : siteMeta.siteKeywords
   const siteTitle = siteMeta.siteTitle
   const fullTitle = title ? `${title} | ${siteTitle}` : siteTitle
-  const keywords = metaTags.length ? tags.join(",") : siteMeta.siteKeywords
+  const keywords = metaTags
 
   const jsonLd = {
     "@context": `https://schema.org/`,
@@ -146,14 +146,16 @@ const Seo = ({
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={metaDescription} />
       <meta property="og:image" content={metaImageFull} />
+      <meta property="og:image:url" content={metaImageFull} />
+      <meta property="og:image:secure_url" content={metaImageFull} />
       <meta property="og:image:alt" content={imageAlt} />
       <meta property="og:locale" content="en_US" />
       <meta name="og:article:published_time" content={date} />
       <meta name="og:article:author" content={siteMeta.name} />
       <meta name="og:article:section" content={section} />
-      {tags.map((tag: string, index: number) => (
-        <meta name="og:article:tag" content={tag} key={index} />
-      ))}
+      <meta name="og:article:tag" content={tags!}  />
+      {/* {tags.map((tag: string, index: number) => (
+      ))} */}
 
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:site" content={siteMeta.twitterHandle} />
@@ -161,8 +163,10 @@ const Seo = ({
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={metaDescription} />
       <meta name="twitter:image" content={metaImageFull} />
+      <meta name="twitter:image:url" content={metaImageFull} />
+      <meta name="twitter:image:secure_url" content={metaImageFull} />
       <meta name="twitter:image:alt" content={imageAlt} />
-      
+
       <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
     </Helmet>
   )
