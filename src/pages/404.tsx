@@ -1,11 +1,12 @@
 import Icon404 from "@src/components/404Icon"
+import Layout from "@src/components/Layout"
 import Seo from "@src/components/Seo"
 import { media, theme } from "@src/styles"
-import { Link } from "gatsby"
+import { Link, PageProps } from "gatsby"
 import React from "react"
 import styled from "styled-components"
 
-const NotFoundPage = () => {
+const NotFoundPage: React.FC<PageProps> = ({location}) => {
   const [isMounted, setIsMounted] = React.useState(false)
 
   React.useEffect(() => {
@@ -14,7 +15,7 @@ const NotFoundPage = () => {
   }, [])
 
   return (
-    <>
+    <Layout location={location}>
       <Seo tags={["404", "Not Found"]} title="404: Not found" url={"*"} />
       {isMounted && (
         <StyledMainContainer className="fillHeight">
@@ -27,7 +28,7 @@ const NotFoundPage = () => {
           <StyledHomeButton to="/">Go Home</StyledHomeButton>
         </StyledMainContainer>
       )}
-    </>
+    </Layout>
   )
 }
 

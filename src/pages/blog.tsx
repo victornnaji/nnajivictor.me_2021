@@ -2,15 +2,16 @@ import ArticleIcon from "@src/assets/Article"
 import { media, theme } from "@src/styles"
 import React from "react"
 import styled from "styled-components"
-import { useStaticQuery, graphql } from "gatsby"
+import { useStaticQuery, graphql, PageProps } from "gatsby"
 import BlogCard from "@src/components/BlogCard"
 import FilledButton, { FilledButtonText } from "@src/components/FilledButton"
 import BlogSearch from "@src/components/blogSearch"
 import useLoadMore from "@src/_hooks/useLoadMore"
 import Seo from "@src/components/Seo"
 import { get_url } from "@src/_utils"
+import Layout from "@src/components/Layout"
 
-const BlogPage = () => {
+const BlogPage: React.FC<PageProps> = ({location}) => {
   const data = useStaticQuery(graphql`
     {
       posts: allWpPost(sort: { order: DESC, fields: date }) {
@@ -52,55 +53,59 @@ const BlogPage = () => {
   const { list, hasMore, handleLoadMore } = useLoadMore({ data: posts })
 
   return (
-    <StyledBlog>
+    <>
       <Seo
         url={get_url("blog")}
         title="Blog"
-        tags = {['Frontend blog', 'React blog', "Web development", "wordpress"]}
+        tags={["Frontend blog", "React blog", "Web development", "wordpress"]}
         description="Browse through Victor Nnaji's blog posts to learn more about React, gatsby, wordpress and other frontend topics"
         type="Blog"
       />
-      <DoubleLine />
-      <div className="blog-title-and-search">
-        <h1 className="blog-title">
-          <ArticleIcon /> <span>Articles</span>
-        </h1>
-        <BlogSearch indexName="Posts" />
-      </div>
-      <p className="blog-description">
-        {" "}
-        A collection of all my thoughts and findings
-      </p>
-      <StyledBlogContent>
-        {list.map(article => (
-          <BlogCard
-            data={article.node}
-            key={article.node.databaseId}
-            classname="dynamic_blog-content"
-          />
-        ))}
-      </StyledBlogContent>
-      {hasMore ? (
-        <div
-          className="load-more"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            width: "100%",
-            marginTop: "2rem",
-            marginBottom: "5rem",
-          }}
-        >
-          <FilledButton>
-            <button onClick={handleLoadMore}>
-              <FilledButtonText text="Load More Articles" />
-            </button>
-          </FilledButton>
-        </div>
-      ) : (
-        <div className="empty-space"></div>
-      )}
-    </StyledBlog>
+      <Layout location={location}>
+        <StyledBlog>
+          <DoubleLine />
+          <div className="blog-title-and-search">
+            <h1 className="blog-title">
+              <ArticleIcon /> <span>Articles</span>
+            </h1>
+            <BlogSearch indexName="Posts" />
+          </div>
+          <p className="blog-description">
+            {" "}
+            A collection of all my thoughts and findings
+          </p>
+          <StyledBlogContent>
+            {list.map(article => (
+              <BlogCard
+                data={article.node}
+                key={article.node.databaseId}
+                classname="dynamic_blog-content"
+              />
+            ))}
+          </StyledBlogContent>
+          {hasMore ? (
+            <div
+              className="load-more"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                width: "100%",
+                marginTop: "2rem",
+                marginBottom: "5rem",
+              }}
+            >
+              <FilledButton>
+                <button onClick={handleLoadMore}>
+                  <FilledButtonText text="Load More Articles" />
+                </button>
+              </FilledButton>
+            </div>
+          ) : (
+            <div className="empty-space"></div>
+          )}
+        </StyledBlog>
+      </Layout>
+    </>
   )
 }
 

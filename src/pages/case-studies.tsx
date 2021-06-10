@@ -1,7 +1,7 @@
 import Heading from "@src/components/Heading"
 import React from "react"
 import styled from "styled-components"
-import { useStaticQuery, graphql } from "gatsby"
+import { useStaticQuery, graphql, PageProps } from "gatsby"
 import { FeaturedProps } from "@src/sections/Featured"
 import CustomLink from "@src/components/CustomLink"
 import { GatsbyImage } from "gatsby-plugin-image"
@@ -9,8 +9,9 @@ import { media, theme } from "@src/styles"
 import FilledButton, { FilledButtonText } from "@src/components/FilledButton"
 import Seo from "@src/components/Seo"
 import { get_url } from "@src/_utils"
+import Layout from "@src/components/Layout"
 
-const CaseStudies = () => {
+const CaseStudies : React.FC<PageProps> = ({location})=> {
   const data = useStaticQuery(graphql`
     {
       caseStudies: allWpCaseStudy {
@@ -43,55 +44,59 @@ const CaseStudies = () => {
   const caseStudies = data.caseStudies.edges
 
   return (
-    <StyledCaseStudies>
+    <>
       <Seo
         url={get_url("case-studies")}
         title="Case Studies"
         tags={["Work", "case study", "Web development"]}
         description="Browse through Victor Nnaji's featured works for clients or personal projects"
       />
-      <Heading content="Case Studies">All Case Studies</Heading>
-      <div className="case-study__subheading">
-        List of all detailed projects (personal / for clients)
-      </div>
-      <div className="case-studies__content">
-        {caseStudies.map((caseStudy: FeaturedProps, i: number) => {
-          const {
-            id,
-            title,
-            excerpt,
-            slug,
-            CaseStudiesGraphql,
-          } = caseStudy.node
-          const Image =
-            CaseStudiesGraphql.featuredImage.localFile.childImageSharp
-              .gatsbyImageData
-          return (
-            <StyledCaseStudyContent key={id}>
-              <div className="text-content">
-                <h3 className="title">{title}</h3>
-                <div
-                  className="content"
-                  dangerouslySetInnerHTML={{ __html: excerpt }}
-                />
-                <FilledButton>
-                  <CustomLink page={`/case-study/${slug}`}>
-                    <FilledButtonText text="View Case Study" />
-                  </CustomLink>
-                </FilledButton>
-              </div>
-              <div className="image-content">
-                <GatsbyImage
-                  className=""
-                  image={Image!}
-                  alt={CaseStudiesGraphql.featuredImage.altText}
-                />
-              </div>
-            </StyledCaseStudyContent>
-          )
-        })}
-      </div>
-    </StyledCaseStudies>
+      <Layout location={location}>
+        <StyledCaseStudies>
+          <Heading content="Case Studies">All Case Studies</Heading>
+          <div className="case-study__subheading">
+            List of all detailed projects (personal / for clients)
+          </div>
+          <div className="case-studies__content">
+            {caseStudies.map((caseStudy: FeaturedProps, i: number) => {
+              const {
+                id,
+                title,
+                excerpt,
+                slug,
+                CaseStudiesGraphql,
+              } = caseStudy.node
+              const Image =
+                CaseStudiesGraphql.featuredImage.localFile.childImageSharp
+                  .gatsbyImageData
+              return (
+                <StyledCaseStudyContent key={id}>
+                  <div className="text-content">
+                    <h3 className="title">{title}</h3>
+                    <div
+                      className="content"
+                      dangerouslySetInnerHTML={{ __html: excerpt }}
+                    />
+                    <FilledButton>
+                      <CustomLink page={`/case-study/${slug}`}>
+                        <FilledButtonText text="View Case Study" />
+                      </CustomLink>
+                    </FilledButton>
+                  </div>
+                  <div className="image-content">
+                    <GatsbyImage
+                      className=""
+                      image={Image!}
+                      alt={CaseStudiesGraphql.featuredImage.altText}
+                    />
+                  </div>
+                </StyledCaseStudyContent>
+              )
+            })}
+          </div>
+        </StyledCaseStudies>
+      </Layout>
+    </>
   )
 }
 
