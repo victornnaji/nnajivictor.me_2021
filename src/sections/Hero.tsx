@@ -67,7 +67,7 @@ const Hero : React.FC<Props> = ({data}) => {
             <div className="intro__content">
                 <h1 className="intro__name">
                     <span className="intro__title intro__greetings">
-                        <h3 className="intro__line">Hi, I'm</h3>
+                        <h2 className="intro__line">Hi, I'm</h2>
                     </span>
                     <span className="name-container">
                         <h1 className="intro__title intro__name-first">{firstName}</h1>
@@ -80,7 +80,7 @@ const Hero : React.FC<Props> = ({data}) => {
             </div>
             <div className="decor__circle"></div> 
             <hr className="hero__line"/>
-            <StyledScrollDown className="scrolldown" onClick={handleScrollClick} role="button">
+            <StyledScrollDown className="scrolldown" onClick={handleScrollClick} role="button" aria-label="scroll-down indicator">
                 <ScrollDown />
             </StyledScrollDown>
         </StyledHero>

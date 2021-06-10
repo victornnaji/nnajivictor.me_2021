@@ -87,6 +87,7 @@ const StyledGallery = styled.div`
     margin-bottom: 10rem;
     grid-template-columns: 1fr repeat(2, 25%);
     grid-template-rows: repeat(2, 1fr);
+    gap: 1rem;
     ${media.phablet`grid-template-columns: 1fr; grid-template-rows: 1fr auto;height: auto;`};
     grid-auto-rows: 16vw;
 

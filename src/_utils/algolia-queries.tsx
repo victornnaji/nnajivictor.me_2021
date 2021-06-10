@@ -12,14 +12,14 @@ const pageQuery = `{
             }
         }
     }
-}`;
+}`
 
 const playgroundQuery = `{
     playground: allMdx(sort: {fields: frontmatter___date, order: DESC}) {
       edges {
         node {
+          slug
           frontmatter {
-            slug
             title
             excerpt
           }
@@ -28,53 +28,61 @@ const playgroundQuery = `{
       }
     }
   }
-`;
+`
 
 interface Props {
-    node: {databaseId: number, slug: string, title: string, excerpt: string}
+  node: { databaseId: number; slug: string; title: string; excerpt: string }
 }
-function pageToAlgoliaRecord({node: {databaseId, slug, title, excerpt}}: Props){
-    return {
-        objectID: databaseId,
-        slug,
-        title,
-        excerpt
-    }
+function pageToAlgoliaRecord({
+  node: { databaseId, slug, title, excerpt },
+}: Props) {
+  return {
+    objectID: databaseId,
+    slug,
+    title,
+    excerpt,
+  }
 }
 
 interface PlaygroundProps {
-    node: {
-        frontmatter: {
-            slug: string,
-            title: string,
-            excerpt: string,
-        }, 
-        id: string
+  node: {
+    frontmatter: {
+      slug: string
+      title: string
+      excerpt: string
     }
+    id: string
+  }
 }
 
-function playgroundToAlgoliaRecord({node: {frontmatter: {slug, title, excerpt}, id}}: PlaygroundProps){
-    return {
-        objectID: id,
-        slug,
-        title,
-        excerpt
-    }
+function playgroundToAlgoliaRecord({
+  node: {
+    frontmatter: { slug, title, excerpt },
+    id,
+  },
+}: PlaygroundProps) {
+  return {
+    objectID: id,
+    slug,
+    title,
+    excerpt,
+  }
 }
 
 const queries = [
-    {
-      query: pageQuery,
-      transformer: ({ data } : any) => data.posts.edges.map(pageToAlgoliaRecord),
-      indexName,
-      settings: { attributesToSnippet: [`excerpt:20`] },
-    },
-    {
-      query: playgroundQuery,
-      transformer: ({ data } : any) => data.playground.edges.map(playgroundToAlgoliaRecord),
-      playgroundIndexName,
-      settings: { attributesToSnippet: [`excerpt:20`] },
-    },
+  {
+    query: pageQuery,
+    transformer: ({ data }: any) => data.posts.edges.map(pageToAlgoliaRecord),
+    indexName,
+    settings: { attributesToSnippet: [`excerpt:20`] },
+  },
+  {
+    query: playgroundQuery,
+    transformer: ({ data }: any) =>
+      data.playground.edges.map(playgroundToAlgoliaRecord),
+    playgroundIndexName,
+    settings: { attributesToSnippet: [`excerpt:20`] },
+  },
 ]
 
-  module.exports = queries
+module.exports = queries

@@ -130,7 +130,6 @@ const Featured = () => {
       );
   });
 
-  // console.log(isMobile);
   if(window.screen.width > 900){
     slides.forEach((slide: any, i) => {
       let imageWrappers = slide.querySelectorAll(".col__image-wrap");
@@ -174,13 +173,13 @@ const Featured = () => {
                                    </h3>
                                    <div className="col__content-wrap">
                                        <p className="col__content-txt" dangerouslySetInnerHTML={{ __html: excerpt }} />
-                                       <CustomLink page={`/case-study/${slug}`} className="slide-link">
+                                       <CustomLink page={`/case-study/${slug}`} className="slide-link" aria-label="slide-link">
                                            <span className="slide-link__circ"></span>
                                            <span className="slide-link__line"></span>
                                        </CustomLink>
                                    </div>
                                </div>
-                               <CustomLink page={`/case-study/${slug}`} className="slide__scroll-link">
+                               <CustomLink page={`/case-study/${slug}`} className="slide__scroll-link" aria-label="slide-link">
                                    <div className="slide__scroll-line"></div>
                                    <span className="slide__casestudy">View Case Study</span>
                                </CustomLink>

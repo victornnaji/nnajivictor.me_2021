@@ -49,7 +49,7 @@ const LiveCodeEditor: React.FC<Props> = ({id, code, inline}) => {
 
                 <div className="preview-wrapper">
                   <LivePreview />
-                  <LiveError />
+                  <div className="error"><LiveError /></div>
                 </div>
           </LiveProvider>
         </StyledLiveCodeEditor>
@@ -75,8 +75,13 @@ const StyledLiveCodeEditor = styled.section`
   
   .preview-wrapper{
     padding: 3rem;
+    position: relative;
     border-left: 1px solid var(--primary-color);
     background-color: rgba(209, 209, 209, 0.85);
+
+    .error{
+      color: #ff0033;
+    }
   }
 `;
 

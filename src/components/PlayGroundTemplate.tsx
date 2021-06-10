@@ -8,7 +8,6 @@ import BlogPostContainer, {
 import ReactComponentHolder from "./BlogComponents/ReactComponent"
 import Em from "./BlogComponents/Em"
 import Paragraph from "./BlogComponents/Paragraph"
-import Link from "./BlogComponents/Link"
 import { OrderedList, UnorderedList } from "./BlogComponents/List"
 import GoogleAds from "./BlogComponents/GoogleAds"
 import BreadCrumbs from "./BlogComponents/BreadCrumbs"
@@ -19,9 +18,10 @@ import LiveCodeEditor from "./BlogComponents/LiveCodeEditor"
 import { trackFinishedReadingPost } from "@src/_utils/analytics"
 import BlogImage from "./BlogComponents/Image"
 import Seo from "./Seo"
-import { get_url } from "@src/_utils"
+import { get_url, get_date } from "@src/_utils"
 import { SEOImage } from "@src/_utils/SeoImage"
-import { graphql, useStaticQuery } from "gatsby"
+import { Link } from "gatsby"
+import { kebabCase } from "lodash"
 
 const components = {
   pre: (props: React.HTMLAttributes<HTMLDivElement>) => <div {...props} />,
@@ -52,34 +52,18 @@ interface Props {
 }
 
 const PlayGroundTemplate: React.FC<Props> = ({ children, pageContext }) => {
-  const data = useStaticQuery(graphql`
-    {
-      site {
-        siteMetadata {
-          name
-        }
-      }
-    }
-  `)
-
   const {
     excerpt,
     date,
     title,
     slug,
     tags,
-    shortDescription,
   } = pageContext.frontmatter
 
   const url = get_url(`playground/${slug}`)
-
+  const dateIso = get_date(date);
   const seoImageUrl = SEOImage({ title, tagline: excerpt })
 
-  const dateIso = new Date(date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  })
 
   let hasBeenRead = false
   if (!hasBeenRead) {
@@ -96,33 +80,9 @@ const PlayGroundTemplate: React.FC<Props> = ({ children, pageContext }) => {
         image={seoImageUrl}
         imageAlt={title}
         tags={tags}
+        date={dateIso}
         type="tutorial"
-        meta={[
-          { property: "og:article:published_time", content: dateIso },
-          {
-            property: "og:article:author",
-            content: data.site.siteMetadata.name,
-          },
-          { property: "og:article:section", content: "Technology" },
-          ...(tags || []).map(tag => ({
-            property: "og:article:tag",
-            content: tag,
-          })),
-        ]}
-        schemaOrg={{
-          "@type": "BlogPosting",
-          headline: shortDescription,
-          articleBody: children,
-          author: {
-            "@type": "Person",
-            name: data.site.siteMetadata.name,
-          },
-          datePublished: dateIso,
-          publisher: {
-            "@type": "Person",
-            name: data.site.siteMetadata.name,
-          },
-        }}
+        section="Technology"
       />
       <BlogPostContainer>
         <GoogleAds />
@@ -136,7 +96,7 @@ const PlayGroundTemplate: React.FC<Props> = ({ children, pageContext }) => {
               {tags &&
                 tags.length > 0 &&
                 tags.map((tag: string, i: number) => (
-                  <Link key={i} className="tag">
+                  <Link to={`/tag/${kebabCase(tag)}`} key={i} className="link tag">
                     #{tag}
                   </Link>
                 ))}

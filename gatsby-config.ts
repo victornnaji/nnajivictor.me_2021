@@ -3,6 +3,8 @@ require("dotenv").config({
   path: `.env.${process.env.NODE_ENV}`,
 });
 
+// const siteUrl = process.env.URL || `https://nnajivictor.me`
+
 module.exports = {
   siteMetadata: {
     title: config.siteTitle,
@@ -10,7 +12,7 @@ module.exports = {
     author: config.twitterHandle,
     siteUrl: config.siteUrl,
     name: config.name,
-    job:  config.siteJob,
+    job: config.siteJob,
     ...config,
   },
   plugins: [
@@ -34,31 +36,25 @@ module.exports = {
     `gatsby-plugin-image`,
     'gatsby-plugin-dark-mode',
     `gatsby-plugin-transition-link`,
-    // {
-    //   resolve: `gatsby-plugin-manifest`,
-    //   options: {
-    //     name: `gatsby-starter-default`,
-    //     short_name: `starter`,
-    //     start_url: `/`,
-    //     background_color: `#663399`,
-    //     theme_color: `#663399`,
-    //     display: `minimal-ui`,
-    //     icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
-    //   },
-    // },
+    'gatsby-plugin-robots-txt',
+    {
+      resolve: `gatsby-plugin-manifest`,
+      options: {
+        name: `Victor Nnaji`,
+        short_name: `VictorNnaji`,
+        start_url: `/`,
+        background_color: `#0a192f`,
+        theme_color: `#e6f1ff`,
+        display: `standalone`,
+        icon: `src/images/vn.png`, // This path is relative to the root of the site.
+      },
+    },
     {
       resolve: `gatsby-source-wordpress`,
       options: {
         // the only required plugin option for WordPress is the GraphQL url.
         url:
-          process.env.WPGRAPHQL_URL ||
-          `https://nnajivictorwp.flywheelsites.com/graphql`,
-          auth: {
-            htaccess: {
-              username: process.env.HTTPBASICAUTH_USERNAME || "flywheel",
-              password: process.env.HTTPBASICAUTH_PASSWORD || "didactic-rhyme",
-            }
-          }
+          process.env.WPGRAPHQL_URL,
       },
     },
     {
@@ -68,6 +64,21 @@ module.exports = {
           default: require.resolve('./src/components/PlayGroundTemplate.tsx'),
         },
       },
+    },
+    {
+      resolve: `gatsby-transformer-remark`,
+      options: {
+        plugins: [
+          {
+            resolve: "gatsby-remark-external-links",
+            options: {
+              class: 'link',
+              target: "_self",
+              rel: "nofollow noopener noreferrer"
+            }
+          },
+        ]
+      }
     },
     {
       resolve: `gatsby-plugin-algolia`,
@@ -83,15 +94,15 @@ module.exports = {
         endpoint: process.env.MAILCHIMP_ENDPOINT,
       },
     },
-    // {
-    //   resolve: 'gatsby-plugin-graphql-codegen',
-    //   options: {
-    //     fileName: `__generated__/graphql-types.d.ts`,
-    //   },
-    // },
-      
+    {
+      resolve: `gatsby-plugin-google-analytics`,
+      options: {
+        trackingId: config.googleAnalyticsID,
+      },
+    },
+
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
-    // `gatsby-plugin-offline`,
+    `gatsby-plugin-offline`,
   ],
 }

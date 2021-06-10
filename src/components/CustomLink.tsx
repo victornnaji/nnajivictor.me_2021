@@ -9,7 +9,7 @@ interface Props {
   className?: string,
   activeClassName?: string,
 }
-const CustomLink : React.FC<Props> = ({page, children, className, activeClassName}) => {
+const CustomLink : React.FC<Props> = ({page, children, className, activeClassName, ...props}) => {
   const [,setLoading] = useLoader() as LoadingContextInterface;
   const [,setOpen] = useMenu() as MenuContextInterface;
     function exitAnimation(){
@@ -40,7 +40,7 @@ const CustomLink : React.FC<Props> = ({page, children, className, activeClassNam
     }
 
     return (
-        <TransitionLink to={page} 
+        <TransitionLink to={page}
           exit={{
               trigger: () => exitAnimation(),
           }}
@@ -49,8 +49,10 @@ const CustomLink : React.FC<Props> = ({page, children, className, activeClassNam
               delay: 1
             }
           }
+          partiallyActive={true}
           className={className}
           activeClassName={activeClassName}
+          {...props}
         >
             {children}
         </TransitionLink>

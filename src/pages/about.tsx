@@ -114,7 +114,7 @@ const About: React.FC = () => {
 
   const data = useStaticQuery(graphql`
     {
-      image: allFile(filter: { absolutePath: { regex: "/images/" } }) {
+      image: allFile(filter: { absolutePath: { regex: "/images/Nnaji/" } }) {
         edges {
           node {
             childImageSharp {
