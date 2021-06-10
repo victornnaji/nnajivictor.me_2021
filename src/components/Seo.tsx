@@ -46,6 +46,7 @@ const Seo = ({
   type = "website",
   url,
 }: Props) => {
+  
   const { site } = useStaticQuery(graphql`
     {
       site {

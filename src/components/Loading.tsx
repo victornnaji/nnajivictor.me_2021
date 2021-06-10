@@ -11,7 +11,7 @@ const Loading : React.FC = () => {
     const [,setLoading] = useLoader() as LoadingContextInterface;
 
     React.useEffect(() => {
-        setLoading(true);
+        setLoading(false);
         const mask = ".js-mask";
         const slices = gsap.utils.toArray(".js-mask__slice");
         const lines = gsap.utils.toArray(".js-mask-line");
