@@ -48,7 +48,7 @@ const Layout: React.FC<any> = ({ children, location }) => {
         <html lang="en" prefix="og: http://ogp.me/ns#"/>
         <link rel="shortcut icon" href={favicon} />
       </Helmet>
-      {isLoading ? (
+      {isLoading && isHome ? (
         <Loading />
       ) : (
         <div className="layout__inner">
