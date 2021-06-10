@@ -8673,6 +8673,13 @@ gatsby-plugin-image@^1.0.0:
     objectFitPolyfill "^2.3.0"
     prop-types "^15.7.2"
 
+gatsby-plugin-layout@^2.7.1:
+  version "2.7.1"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-layout/-/gatsby-plugin-layout-2.7.1.tgz#3407bae246127ebbb4a7878ef8ede2f16464f7ee"
+  integrity sha512-YEf686PMJxTbP/At32oMw1pRVJJ/vnN9AY7pX/puPkt1dTxtoH7cy1SVsmgqVv28cdmEyevk1IyYQDFklbDKJQ==
+  dependencies:
+    "@babel/runtime" "^7.14.0"
+
 gatsby-plugin-mailchimp@^5.2.2:
   version "5.2.2"
   resolved "https://registry.yarnpkg.com/gatsby-plugin-mailchimp/-/gatsby-plugin-mailchimp-5.2.2.tgz#bed94cb70b9d91267329a5e6a0220e821d8ff6e8"

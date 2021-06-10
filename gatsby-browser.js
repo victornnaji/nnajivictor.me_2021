@@ -11,7 +11,7 @@ export const wrapRootElement = ({ element }) => (
   </LoadingProvider>
 )
 
-export const wrapPageElement = ({ element, props }) => {
-  return <Layout {...props}>{element}</Layout>
-}
+// export const wrapPageElement = ({ element, props }) => {
+//   return <Layout {...props}>{element}</Layout>
+// }
   

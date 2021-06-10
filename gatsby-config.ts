@@ -38,6 +38,12 @@ module.exports = {
     `gatsby-plugin-transition-link`,
     'gatsby-plugin-robots-txt',
     {
+      resolve: `gatsby-plugin-layout`,
+      options: {
+        component: require.resolve(`./src/components/Layout.tsx`),
+      },
+    },
+    {
       resolve: `gatsby-plugin-manifest`,
       options: {
         name: `Victor Nnaji`,
