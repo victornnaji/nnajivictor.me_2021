@@ -10,10 +10,21 @@ import MemoMenu from "./Menu"
 import { gsap } from "gsap"
 import { Helmet } from "react-helmet"
 import PageLoading from "./PageLoading"
-import { PageProps } from "gatsby"
+import { PageProps, useStaticQuery, graphql } from "gatsby"
 import favicon from '@src/images/favicons/favicon.ico';
 
 const Layout: React.FC<PageProps> = ({ children, location }) => {
+
+  const { site } = useStaticQuery(graphql`
+    {
+      site {
+        siteMetadata {
+          siteTitle
+          description
+        }
+      }
+    }
+  `)
   const [isLoading] = useLoader() as LoadingContextInterface
   const isMobile = useMediaQuery()
 
@@ -46,8 +57,9 @@ const Layout: React.FC<PageProps> = ({ children, location }) => {
       <GlobalStyles />
       <SkipToContent href="#content">Skip to Content</SkipToContent>
       <Helmet>
-        <html lang="en" prefix="og: http://ogp.me/ns#" />
+        <html lang="en" prefix="og: http://ogp.me/ns#" title={site.siteTitle}/>
         <link rel="shortcut icon" href={favicon} />
+        <meta name="description" content={site.description} />
       </Helmet>
       {isLoading ? (
         <Loading />
