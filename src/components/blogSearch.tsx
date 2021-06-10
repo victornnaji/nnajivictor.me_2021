@@ -10,6 +10,7 @@ import { Helmet } from "react-helmet";
 
 
 const BlogSearch = ({indexName}: {indexName: string}) => {
+  const isBrowser = typeof window !== "undefined"
   const [searchClick, setSearchClick] = React.useState(false)
   function handleSearchClick() {
     setSearchClick(!searchClick)
@@ -20,11 +21,13 @@ const BlogSearch = ({indexName}: {indexName: string}) => {
     }
   }
 
-  document.addEventListener('keyup', (event) => {
-    if (event.isComposing || event.keyCode === 27) {
-        setSearchClick(false)
-    }
-  })
+  if (isBrowser){
+    document.addEventListener('keyup', (event) => {
+      if (event.isComposing || event.keyCode === 27) {
+          setSearchClick(false)
+      }
+    })
+  }
 
   const searchClient = algoliasearch(
     `${process.env.GATSBY_ALGOLIA_APP_ID}`,
