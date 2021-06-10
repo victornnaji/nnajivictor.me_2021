@@ -113,11 +113,9 @@ const Seo = ({
     },
   }
   return (
-    <Helmet title={fullTitle} meta={metaDescription}>
-      <html lang={htmlLang} />
+    <Helmet>
+      <html lang={htmlLang} title={fullTitle}/>
       <title>{fullTitle}</title>
-
-      {/* General Tags */}
       <meta name="description" content={metaDescription} />
       <meta name="keywords" content={keywords} />
       <meta name="image" content={metaImageFull} />
@@ -142,8 +140,6 @@ const Seo = ({
       <link rel="icon" type="image/png" sizes="96x96" href={favicon96x96} />
       <link rel="icon" type="image/png" sizes="16x16" href={favicon16x16} />
 
-      {/* OpenGraph tags */}
-      {/* OpenGraph tags */}
       <meta property="og:site_name" content={siteTitle} />
       <meta property="og:type" content={type} />
       <meta property="og:url" content={url} />
@@ -159,7 +155,6 @@ const Seo = ({
         <meta name="og:article:tag" content={tag} key={index} />
       ))}
 
-      {/* Twitter Card tags */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:site" content={siteMeta.twitterHandle} />
       <meta name="twitter:creator" content={siteMeta.twitterHandle} />
@@ -167,8 +162,7 @@ const Seo = ({
       <meta name="twitter:description" content={metaDescription} />
       <meta name="twitter:image" content={metaImageFull} />
       <meta name="twitter:image:alt" content={imageAlt} />
-
-      {/* schema.org */}
+      
       <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
     </Helmet>
   )
