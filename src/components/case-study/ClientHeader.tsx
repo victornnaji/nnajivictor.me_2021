@@ -49,6 +49,7 @@ const ClientHeader = ({clientDescription}: Props) => {
                   <a
                       href={`https://${clientDescription.website}`}
                       className="info-value link"
+                      target="_blank"
                   >
                       {clientDescription.website}
                   </a>

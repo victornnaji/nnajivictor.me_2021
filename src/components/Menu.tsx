@@ -10,6 +10,7 @@ import {
   MenuContextInterface,
 } from "@src/_hooks/hooks.types"
 import CustomLink from "./CustomLink"
+import Socials from "./Socials"
 
 type primaryMenuType = {
   node: {
@@ -229,7 +230,7 @@ const Menu = () => {
             duration: action === "open" ? 1.1 : 0,
             ease: "power2.out",
           },
-          "revealImage-=0.6"
+          "revealImage-=0.8"
         )
         .from(
           imgMenu_img,
@@ -285,7 +286,7 @@ const Menu = () => {
               <div className="mainlink__inner">
                 <p className="mainlink__title">
                   <a
-                    href="mailto:nnajivictor0@gmail.com"
+                    href="mailto:hi@nnajivictor.me"
                     className="link"
                     target="_blank"
                     rel="nofollow noopener noreferrer"
@@ -294,9 +295,6 @@ const Menu = () => {
                   </a>
                 </p>
               </div>
-            </StyledLabel>
-            <StyledLabel className="label--bottomright label--vert">
-              {/* <Social /> */}
             </StyledLabel>
           </div>
         </div>
@@ -340,12 +338,23 @@ const Menu = () => {
 
       {/* Menu Item 4 */}
       <MenuItem className="menu__item menu__item--4" data-direction="rl">
-        <div className="menu__item-inner">hello4</div>
+        <div className="menu__item-inner menu-four">
+          <div className="menu-four-container">
+            <CustomLink className="link" page="/privacy-policy">
+              Privacy Policy
+            </CustomLink>
+            <div className="copyright">
+              © 2021-present Victor Nnaji. All Rights Reserved.
+            </div>
+          </div>
+        </div>
       </MenuItem>
 
       {/* Menu Item 5 */}
       <MenuItem className="menu__item menu__item--5" data-direction="tb">
-        <div className="menu__item-inner">hello5</div>
+        <div className="menu__item-inner">
+          <Socials />
+        </div>
       </MenuItem>
     </StyledMenu>
   )
@@ -583,6 +592,21 @@ const MenuItem = styled.div`
     background: var(--tertiary-color);
     height: 100%;
     color: #fff;
+    &.menu-four {
+      align-items: flex-start;
+      justify-content: flex-end;
+      text-align: start;
+      padding: 3rem;
+      font-size: 1.5rem;
+      a{
+        margin-bottom: 1.2rem;
+        display: inline-block;
+      }
+
+      .copyright{
+        color: var(--primary-color);
+      }
+    }
   }
   &.menu__item--5 .menu__item-inner {
     background: var(--tertiary-color-moon);

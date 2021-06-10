@@ -4,6 +4,7 @@ import { OrderedList, UnorderedList } from "@src/components/BlogComponents/List"
 import { domToReact } from "html-react-parser"
 import Em from "./Em"
 import BlogImage from "./Image"
+import _ from "lodash"
 
 const replaceCode = (node: any) => {
   if (node.name === "pre") {
@@ -108,7 +109,9 @@ const getEmphasis = (node: any) => {
 
 const getLanguage = (node: any) => {
   if (node.children && node.children[0].name === "code") {
-    return node.children[0].attribs.class.split(":")[0]
+    if (!_.isEmpty(node.children[0].attribs)) {
+      return node.children[0].attribs.class.split(":")[0]
+    } 
   } else {
     return
   }

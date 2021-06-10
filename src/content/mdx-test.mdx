@@ -1,0 +1,76 @@
+---
+title: Folding the DOM
+slug: folding-the-dom
+date: 2019-01-29
+published: false
+excerpt: In this post, we'll explore a technique we can use to "fold" a DOM node, like folding a letter in real-life. On that journey, we'll learn a lot about 3D transforms and CSS animation techniques!
+tags: [react, DOM]
+---
+import {noInlineExample} from "@src/content/code/test.js";
+
+In my day-to-day life as a front-end developer, I generally treat CSS as a collection of 2D layers. Other than reordering them using z-index, I don't often _move_ things in 3D space.
+
+And yet, for years now, browsers have bundled in a surprisingly capable 3D CSS engine! Someone even built an experimental first-person shooter prototype using it 😮
+
+This effect could be useful in a number of scenarios:
+
+- As a preloader for images. They unfold once they're ready, and the folded copy could use a much-lower-res base64-encoded version!
+- As an on-mount animation when clicking to view an image, to add whimsical charm to an otherwise common feature.
+- For JS game development
+
+
+project, already years into research and development, and I expect it'll shape the future of web development in exciting and unpredictable ways. For today, though, I'd like to focus on one relatively small but incredibly cool part of this: _animated custom properties_.
+
+<BlogImage src="https://images.ctfassets.net/r6v5z5ozsdfh/1GqB1d1yJBsdKp6eCtnL1k/590e9963909c697a3c807634e1861008/Screenshot_2020-07-25_at_02.58.32.png" className="full-bleed" caption="the image is full bleed"/>
+
+## Animated custom properties
+
+There are two primary ways to style React Components - Inline styling and using className with regular CSS. 
+Using HTML, you can style your tags inline using this syntax
+
+```html
+	<div style="background-color: red; padding-left: 20px">Hello </div>
+```
+
+<Alerts type="alert">
+
+__Note:__ This is a note.
+```
+async function lazy() {  // ...}
+
+function hello() {  Math.random() > .5 ? "Hello" : "Bonjour"}
+
+```
+
+The `revert` order is so out of place
+
+</Alerts>
+<Alerts type="success">
+
+__Note:__ This is a note.
+```
+async function lazy() {  // ...}
+
+function hello() {  Math.random() > .5 ? "Hello" : "Bonjour"}
+
+```
+
+The `revert` order is so out of place
+
+ And here we get the unorderd list to look like this -
+
+ - extracting the className from the props and then destructuring the rest of the props using the spread syntax. 
+ - Giving the className a fall back value of empty`('')` in situations where there is no external className coming into the component. 
+ - using template literal to include the className into our component's `className`
+
+</Alerts>
+
+<Alerts type="info">
+  N.B: This will not go well. The <em>code</em> is displaced out of proportion
+</Alerts>
+
+<Demo>
+  <button>Hello Everone</button>
+</Demo>
+
+<LiveCodeEditor code={noInlineExample} id="folding-the-dom"/>

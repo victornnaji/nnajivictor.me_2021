@@ -2,77 +2,62 @@ import Heading from '@src/components/Heading';
 import { media } from '@src/styles';
 import React from 'react'
 import styled from 'styled-components'
-import {gsap} from 'gsap';
-import {ScrollTrigger} from 'gsap/ScrollTrigger';
-import { Link } from 'gatsby';
-import ScrollDown from '@src/assets/ScrollDown';
-import { Icon } from '@src/assets/icons';
+import LatestPosts from '@src/components/LatestPosts';
+import { useStaticQuery, graphql } from "gatsby"
+
 
 const Explore = () => {
-    React.useEffect(() => {
-        gsap.registerPlugin(ScrollTrigger);
 
-        const slides = gsap.utils.toArray('.explore-box');
-        slides.forEach((slide: any) => {
-            let tl = gsap.timeline({
-                scrollTrigger: {
-                  trigger: slide,
-                  start: "top bottom",
-                  end: 'top center+=10%',
-                  scrub: 1,
-                  markers: false // position of trigger meets the scroller position
+    const data = useStaticQuery(graphql`
+    {
+      wp: allWpTag(limit: 2000) {
+        edges {
+          node {
+            slug
+          }
+        }
+      }
+
+      latest: allWpPost(sort: {fields: date, order: DESC}, filter: {tags: {nodes: {elemMatch: {slug: {eq: "react"}}}}}) {
+        group(field: tags___nodes___name, limit: 4) {
+          edges {
+            node {
+              databaseId
+              slug
+              title
+              excerpt
+              date
+              tags {
+                nodes {
+                  name
+                  slug
                 }
-             })
+              }
+              featuredImage {
+                node {
+                  altText
+                  localFile {
+                    childImageSharp {
+                      gatsbyImageData(placeholder: BLURRED, layout: CONSTRAINED, formats: [AUTO, WEBP])
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  `)
 
-             tl.from(slide, {
-                ease: "power4",
-                y: "+=5vh",
-                duration: 2.5,
-                opacity: 0,
-              })
-                .from(
-                  slide.querySelectorAll(".explore-item"),
-                  {
-                    y: 200,
-                    duration: 2,
-                    ease: "power4",
-                    stagger: 0.1
-                  },
-                  0
-                )
-
-        })
-
-    }, []);
-
-    const exploreItems = [
-        {title: "Blog", link: '/blog'},
-        {title: "Series", link: '/series'},
-        {title: "Reviews", link: '/reviews'},
-        {title: "Playground", link: '/playground'},
-    ]
+const y = data.wp.edges;
+  console.log(y)
 
     return (
         <ExploredContainer>
           <Heading content="Explore">Explore</Heading>
           <StyledExplore>
-
-              {exploreItems.map((item, i) => (
-                  <div className="explore-box" key={i}>
-                  <div className="box__inner--mask">
-                      <div className="explore-item">
-                          <div className="explore-item__col">
-                              <div className="title">{item.title}</div>
-                              <Icon name="Folder"/>
-                          </div>
-                          <Link to={item.link} className="explore-link">
-                              <ScrollDown />
-                          </Link>
-                      </div>
-                  </div>
-                </div>
-              ))}
-             
+              <LatestPosts tag={["React"]} data={data.latest.group[0].edges}/>
           </StyledExplore>  
         </ExploredContainer>
     )
@@ -84,12 +69,13 @@ const ExploredContainer = styled.section`
 
 const StyledExplore = styled.section`
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(1, 1fr);
     grid-template-rows: auto;
     gap: 3rem;
     ${media.phablet`grid-template-columns: 1fr`};
+    margin-top: -10rem;
 
-    .box__inner--mask{
+    /* .box__inner--mask{
         overflow: hidden;
     }
 
@@ -150,7 +136,7 @@ const StyledExplore = styled.section`
                 }
             }
         }
-    }
+    } */
 `;
 
 export default Explore

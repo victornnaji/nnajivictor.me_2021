@@ -159,16 +159,16 @@ const StyledCaseStudyContent = styled.div`
       width: 80%;
       line-height: 2.8rem;
       ${media.desktop`height: 15rem; width: 100%`};
-      ${media.tablet`height: 100%`}
+      ${media.tablet`height: auto`}
       ${media.phablet`margin: 3rem 0`}
     }
   }
 
   .image-content {
+    max-height: 40rem;
     ${media.desktop`
-            height: 25rem;
         `}
-    ${media.tablet`height: 100%`}
+    ${media.tablet`height: 25rem`}
 
         .gatsby-image-wrapper {
       height: 100%;

@@ -7,6 +7,32 @@ const BlogPostContainer = styled.article`
   width: 100%;
   min-height: 100vh;
   padding: 15rem 0;
+
+  a {
+    color: var(--link-color);
+    text-decoration: none;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+  }
+  a::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    top: 100%;
+    left: 0;
+    pointer-events: none;
+    transform-origin: 100% 50%;
+    transform: scale3d(0, 1, 1);
+    transition: transform 0.3s;
+  }
+
+  a:hover::before {
+    transform-origin: 0% 50%;
+    transform: scale3d(1, 1, 1);
+  }
   .wrapper {
     display: grid;
     grid-template-columns: 1fr min(80ch, 100%) 1fr;

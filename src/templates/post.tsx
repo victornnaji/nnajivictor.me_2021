@@ -65,8 +65,13 @@ const PostPage = ({ data, pageContext: post }: PostProps) => {
   const seoImageUrl = SEOImage({ title, tagline: cleanExcerpt })
   const url = get_url(`blog/${slug}`)
   const dateIso = get_date(date)
-  const tag = tags.nodes.map((x: any) => x.name)
-  const latestPosts = data.latest.group[0].edges;
+  const tag = tags.nodes.map((x: any) => x.name);
+
+  const latest = data.latest.group;
+  let latestPosts = {};
+  if(latest.length  > 0 ){
+    latestPosts = data.latest?.group[0]?.edges;
+  }
 
   let hasBeenRead = false
   if (!hasBeenRead) {

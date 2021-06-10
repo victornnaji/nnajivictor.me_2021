@@ -56,8 +56,8 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
       }
 
       wp: allWpTag(limit: 2000) {
-        group(field: posts___nodes___tags___nodes) {
-          nodes {
+        edges {
+          node {
             slug
           }
         }
@@ -71,12 +71,12 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
   }
 
   const mdx_tags = result.data.mdx.group
-  const wp_tags = result.data.wp.group[0].nodes
+  const wp_tags = result.data.wp.edges
 
   const processedTags = [
     ...new Set([
       ...mdx_tags.map(x => x.fieldValue),
-      ...wp_tags.map(x => x.slug),
+      ...wp_tags.map(x => x.node.slug),
     ]),
   ]
 

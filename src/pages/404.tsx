@@ -22,7 +22,7 @@ const NotFoundPage = () => {
             <Icon404 />
           </StyledTitle>
           <StyledSubtitle>
-            You just hit a route that doesn&#39;t exist... the sadness.
+            You just hit a route that doesn&#39;t exist 😥.
           </StyledSubtitle>
           <StyledHomeButton to="/">Go Home</StyledHomeButton>
         </StyledMainContainer>
@@ -61,6 +61,7 @@ const StyledHomeButton = styled(Link)`
   font-size: 1.4rem;
   font-family: ${theme.fonts.Mono};
   line-height: 1;
+  font-weight: 600;
   text-decoration: none;
   cursor: pointer;
   transition: ${theme.transition};

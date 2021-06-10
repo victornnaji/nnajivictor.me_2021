@@ -130,7 +130,6 @@ const Featured = () => {
       );
   });
 
-  // console.log(isMobile);
   if(window.screen.width > 900){
     slides.forEach((slide: any, i) => {
       let imageWrappers = slide.querySelectorAll(".col__image-wrap");

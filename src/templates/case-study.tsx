@@ -62,38 +62,40 @@ const caseStudy = ({ data, pageContext: caseStudy }: CaseStudyProps) => {
         type="Work"
       />
       <StyledCaseStudy>
-        <div className="case-study__header">
-          <h1 className="case-study__header--heading">
-            {SplitWord(title, "case-study__inner")}
-          </h1>
-          <div className="case-study__header--text">
-            {SplitWord(description, "case-study__inner")}
+        <div className="top-content">
+          <div className="case-study__header">
+            <h1 className="case-study__header--heading">
+              {SplitWord(title, "case-study__inner")}
+            </h1>
+            <div className="case-study__header--text">
+              {SplitWord(description, "case-study__inner")}
+            </div>
+            <ClientHeader clientDescription={clientDescription} />
           </div>
-          <ClientHeader clientDescription={clientDescription} />
-        </div>
-        <div className="case-study__scroll">
-          <span className="scroll-text">Scroll Down</span>
-          <span className="scrolldown">
-            <ScrollDown />
-          </span>
-        </div>
-        <div className="case-study__main-image">
-          <GatsbyImage image={image!} alt={mainImage.altText} />
-        </div>
-        <div className="case-study__main-challenge">
-          <Heading content="challenges">Challenges</Heading>
-          <div
-            className="challenges-content"
-            dangerouslySetInnerHTML={{ __html: challenges }}
-          />
-        </div>
-        {gallery.length > 0 && <CaseStudyGallery gallery={gallery} />}
-        <div className="case-study__design-process">
-          <Heading content="Process">Design Process</Heading>
-          <div
-            className="design-process__content"
-            dangerouslySetInnerHTML={{ __html: designProcess }}
-          />
+          <div className="case-study__scroll">
+            <span className="scroll-text">Scroll Down</span>
+            <span className="scrolldown">
+              <ScrollDown />
+            </span>
+          </div>
+          <div className="case-study__main-image">
+            <GatsbyImage image={image!} alt={mainImage.altText} />
+          </div>
+          <div className="case-study__main-challenge">
+            <Heading content="challenges">Challenges</Heading>
+            <div
+              className="challenges-content"
+              dangerouslySetInnerHTML={{ __html: challenges }}
+            />
+          </div>
+          {gallery.length > 0 && <CaseStudyGallery gallery={gallery} />}
+          <div className="case-study__design-process">
+            <Heading content="Process">Design Process</Heading>
+            <div
+              className="design-process__content"
+              dangerouslySetInnerHTML={{ __html: designProcess }}
+            />
+          </div>
         </div>
         <BottomNav prevProps={prevProps} nextProps={nextProps} />
       </StyledCaseStudy>
@@ -114,6 +116,34 @@ const CaseStudyPage = styled.section`
 const StyledCaseStudy = styled.section`
   grid-column: 2/-2;
   font-family: ${theme.fonts.Lato};
+
+  .top-content {
+    a {
+      color: var(--link-color);
+      text-decoration: none;
+      display: inline-block;
+      position: relative;
+      cursor: pointer;
+    }
+    a::before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 1px;
+      background: currentColor;
+      top: 100%;
+      left: 0;
+      pointer-events: none;
+      transform-origin: 100% 50%;
+      transform: scale3d(0, 1, 1);
+      transition: transform 0.3s;
+    }
+
+    a:hover::before {
+      transform-origin: 0% 50%;
+      transform: scale3d(1, 1, 1);
+    }
+  }
 
   .case-study__header--heading,
   .case-study__header--text,
@@ -168,13 +198,18 @@ const StyledCaseStudy = styled.section`
   }
 
   .case-study__main-image {
-    margin-top: 10rem;
+    /* margin-top: 10rem; */
     height: 100vh;
 
     .gatsby-image-wrapper {
       height: 100%;
+
+      img {
+        object-fit: contain !important;
+      }
     }
-    ${media.phablet`margin-top: 5rem; height: 40rem;`}
+    ${media.tablet`margin-top: 5rem; height: 60rem;`}
+    ${media.phablet`height: 25rem;`}
   }
 
   .case-study__main-challenge {

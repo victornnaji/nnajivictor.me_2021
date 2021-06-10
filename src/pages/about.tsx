@@ -139,8 +139,6 @@ const About: React.FC = () => {
   const image = data.image.edges[0].node.childImageSharp.gatsbyImageData
   const skills = data.skills.edges[0].node.siteMetadata.skills
 
-  console.log(data);
-
   return (
     <StyledAboutPage>
       <div className="about__hero">

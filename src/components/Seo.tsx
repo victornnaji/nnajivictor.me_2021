@@ -113,7 +113,7 @@ const Seo = ({
     },
   }
   return (
-    <Helmet>
+    <Helmet title={fullTitle} meta={metaDescription}>
       <html lang={htmlLang} />
       <title>{fullTitle}</title>
 
