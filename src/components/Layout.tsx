@@ -10,29 +10,14 @@ import MemoMenu from "./Menu"
 import { gsap } from "gsap"
 import { Helmet } from "react-helmet"
 import PageLoading from "./PageLoading"
-import { PageProps, useStaticQuery, graphql } from "gatsby"
+import { useStaticQuery, graphql } from "gatsby"
 import favicon from "@src/images/favicons/favicon.ico"
-import Seo from "./Seo"
-import { get_url } from "@src/_utils"
 
-const Layout: React.FC<PageProps> = ({ children, location }) => {
-  const { site } = useStaticQuery(graphql`
-    {
-      site {
-        siteMetadata {
-          siteTitle
-          description
-          siteKeywords
-          siteUrl
-        }
-      }
-    }
-  `)
+const Layout: React.FC<any> = ({ children, location }) => {
   const [isLoading] = useLoader() as LoadingContextInterface
   const isMobile = useMediaQuery()
 
   const isHome = location.pathname === "/"
-  // const isBlog = /(\/blog)\/?(.*)?/g.test(location.pathname);
   const isCaseStudy = /(\/case-study)\/?(.*)?/g.test(location.pathname)
 
   React.useEffect(() => {
@@ -59,12 +44,10 @@ const Layout: React.FC<PageProps> = ({ children, location }) => {
     <>
       <GlobalStyles />
       <SkipToContent href="#content">Skip to Content</SkipToContent>
-      {/* <Helmet>
-        <html lang="en" prefix="og: http://ogp.me/ns#" title={site.siteTitle}/>
+      <Helmet>
+        <html lang="en" prefix="og: http://ogp.me/ns#"/>
         <link rel="shortcut icon" href={favicon} />
-        <meta name="description" content={site.description} />
-      </Helmet> */}
-      <Seo url={site.siteUrl} />
+      </Helmet>
       {isLoading ? (
         <Loading />
       ) : (

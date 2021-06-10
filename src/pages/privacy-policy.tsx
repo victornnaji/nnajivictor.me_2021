@@ -4,8 +4,9 @@ import BlogPostContainer, {
 } from "@src/styles/BlogPostContainer"
 import { get_url } from "@src/_utils"
 import React from "react"
-import { graphql } from "gatsby"
+import { graphql, PageProps } from "gatsby"
 import styled from "styled-components"
+import Layout from "@src/components/Layout"
 
 export const query = graphql`
   {
@@ -21,40 +22,40 @@ export const query = graphql`
 `
 
 type PrivacyPolicyProps = {
-  data: {
-    privacy: {
-      edges: [
-        {
-          node: {
-            title: string
-            content: string
-          }
+  privacy: {
+    edges: [
+      {
+        node: {
+          title: string
+          content: string
         }
-      ]
-    }
+      }
+    ]
   }
 }
 
-const Privacy = ({ data }: PrivacyPolicyProps) => {
+const Privacy: React.FC<PageProps<PrivacyPolicyProps>> = ({ data, location }) => {
   const { title, content } = data.privacy.edges[0].node
   return (
-    <BlogPostContainer>
-      <Seo
-        title={"privacy policy"}
-        description={"Privacy policy for nnajivictor.me"}
-        url={get_url("privacy-policy")}
-        tags={["privacy policy"]}
-        section={"Software Engineering, Web Development"}
-        type="Page"
-      />
-      <StyledBlogPostContent className="wrapper">
-        <h1 className="medium-title">{title}</h1>
-        <div
-          className="content"
-          dangerouslySetInnerHTML={{ __html: content }}
+    <Layout location={location}>
+      <BlogPostContainer>
+        <Seo
+          title={"privacy policy"}
+          description={"Privacy policy for nnajivictor.me"}
+          url={get_url("privacy-policy")}
+          tags={["privacy policy"]}
+          section={"Software Engineering, Web Development"}
+          type="Page"
         />
-      </StyledBlogPostContent>
-    </BlogPostContainer>
+        <StyledBlogPostContent className="wrapper">
+          <h1 className="medium-title">{title}</h1>
+          <div
+            className="content"
+            dangerouslySetInnerHTML={{ __html: content }}
+          />
+        </StyledBlogPostContent>
+      </BlogPostContainer>
+    </Layout>
   )
 }
 
